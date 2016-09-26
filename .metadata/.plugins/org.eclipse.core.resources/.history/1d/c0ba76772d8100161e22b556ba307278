@@ -1,0 +1,31 @@
+package ca.nicho.packet;
+
+import java.nio.ByteBuffer;
+
+import ca.nicho.entity.Entity;
+
+public class EntityPacket extends Packet {
+	
+	public int type;
+	public int x;
+	public int y;
+	
+	//Responsible for sending packets
+	public EntityPacket(Entity ent){
+		this.type = ent.sprite.type;
+		this.x = ent.locX;
+		this.y = ent.locY;
+	}
+	
+	public EntityPacket(byte data[]){
+		ByteBuffer buffer = ByteBuffer.wrap(data); //Store the packet data into a buffer for further reading
+		type = buffer.getInt();
+		
+	}
+	
+	@Override
+	public byte[] getPacketData() {
+		return data;
+	}
+
+}

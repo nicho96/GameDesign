@@ -1,0 +1,11 @@
+package ca.nicho;
+
+public class World {
+
+	public ArrayList<Entity> entities;
+	
+	public World(){
+		
+	}
+	
+}

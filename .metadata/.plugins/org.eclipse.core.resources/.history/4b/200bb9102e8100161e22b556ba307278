@@ -1,0 +1,18 @@
+package ca.nicho.entity;
+
+import ca.nicho.SpriteSheet.Sprite;
+
+public class Entity {
+	
+	public Sprite sprite;
+	public int locX;
+	public int locY;
+	public int id;
+	
+	public Entity(int x, int y, Sprite sprite){
+		this.sprite = sprite;
+		this.locX = x;
+		this.locY = y;
+	}
+	
+}

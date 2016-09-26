@@ -1,0 +1,5 @@
+package ca.nicho.client.tile;
+
+public class WoodTile {
+
+}

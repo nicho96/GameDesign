@@ -1,0 +1,17 @@
+package ca.nicho.client.packet;
+
+public class ConnectPacket extends Packet {
+
+	public int id;
+	
+	public ConnectPacket(int id) {
+		super(Packet.PACKET_CONNECT);
+		this.id = id;
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		ByteBuffer buffer = ByteBuffer.allocate(4);
+	}
+
+}

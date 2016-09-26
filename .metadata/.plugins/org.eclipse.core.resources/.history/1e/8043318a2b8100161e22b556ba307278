@@ -1,0 +1,6 @@
+Packets are bits of data representing an element in the game.
+Packets can be used to represent objects, entities, game information, text, etc.
+Packets will follow the following structure (in order of when they are received):
+
+	4 bytes: The type of packet sent from the server
+	

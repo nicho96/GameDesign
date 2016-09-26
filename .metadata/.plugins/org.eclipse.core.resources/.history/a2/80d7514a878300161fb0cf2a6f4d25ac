@@ -1,0 +1,33 @@
+package ca.nicho.client.packet;
+
+import java.nio.ByteBuffer;
+
+import ca.nicho.client.tile.Tile;
+
+public class TilePacket extends Packet{
+
+	public int pos;
+	public int type;
+	
+	/**
+	 * This packet should only be sent from server. It defines the position and type
+	 * of a tile on the map
+	 * @param t the Tile to be sent
+	 */
+	public TilePacket(Tile t){
+		super(Packet.PACKET_TILE);
+		x = t.locX;
+		y = t.locY;
+		type = t.sprite.type;
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		ByteBuffer buffer = ByteBuffer.allocate(12);
+		buffer.putInt(x);
+		buffer.putInt(y);
+		buffer.putInt(type);
+		return buffer.array();
+	}
+	
+}

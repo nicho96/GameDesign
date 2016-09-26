@@ -1,0 +1,7 @@
+package ca.nicho.packet;
+
+public abstract class Packet {
+	
+	
+	
+}

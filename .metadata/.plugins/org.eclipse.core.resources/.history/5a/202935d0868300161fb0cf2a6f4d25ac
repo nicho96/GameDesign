@@ -1,0 +1,15 @@
+package ca.nicho.client.packet;
+
+public class TilePacket extends Packet{
+
+	public TilePacket(Tile t){
+		super(Packet.PACKET_TILE);
+	}
+
+	@Override
+	public byte[] getPacketData() {
+
+		return 
+	}
+	
+}

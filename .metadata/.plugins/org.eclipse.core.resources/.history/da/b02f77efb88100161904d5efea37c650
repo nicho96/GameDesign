@@ -1,0 +1,19 @@
+package ca.nicho.client.entity;
+
+import ca.nicho.client.SpriteSheet;
+
+public class EntityBattleship extends Entity {
+
+	public EntityBattleship(int x, int y, int id) {
+		super(x, y, SpriteSheet.SPRITE_BATTLESHIP, id);
+	}
+
+	@Override
+	public boolean tick() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	
+}

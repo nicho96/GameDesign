@@ -1,0 +1,15 @@
+package ca.nicho.entity;
+
+public class Entity {
+	
+	public Sprite sprite;
+	public int locX;
+	public int locY;
+	
+	public Entity(int x, int y, Sprite sprite){
+		this.sprite = sprite;
+		this.locX = x;
+		this.locY = y;
+	}
+	
+}

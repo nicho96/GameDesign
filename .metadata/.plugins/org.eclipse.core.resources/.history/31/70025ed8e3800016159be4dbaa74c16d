@@ -1,0 +1,9 @@
+package ca.nicho.entity;
+
+public abstract class Entity {
+	
+	public Entity(){
+		
+	}
+	
+}

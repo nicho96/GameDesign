@@ -1,0 +1,218 @@
+package ca.nicho.client;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import ca.nicho.client.SpriteSheet.Sprite;
+import ca.nicho.client.entity.Entity;
+import ca.nicho.client.entity.EntityPlayer;
+import ca.nicho.client.tile.Tile;
+import ca.nicho.client.world.World;
+
+public class ClientStart extends JFrame {
+	
+	public static int tickDelta = 0; //This delta value will control player velocities, no matter the frame rate
+	public static boolean DEBUG = false;
+	
+	public static final int FRAME_WIDTH = 800;
+	public static final int FRAME_HEIGHT = 600;
+	
+	public static SpriteSheet sheet;
+	public static ClientGameSocket con;
+	
+	public static ControlListener listener;
+	
+	public Screen mainPanel;
+	
+	public static void main(String[] s){
+		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
+		Game.initWorld();
+		ClientStart window = new ClientStart();
+		window.setVisible(true);
+		con = new ClientGameSocket(window);
+	}
+	
+	public ClientStart(){
+		mainPanel = new Screen();
+		listener = new ControlListener();
+		this.addKeyListener(listener);
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.pack();
+	}
+	
+	private class Screen extends JPanel implements Runnable {
+		
+		public boolean running = true;
+
+		public int playerXRender;
+		public int playerYRender;
+		
+		public BufferedImage screen;
+		public int[] pixels;
+		
+		public Screen(){
+			this.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+			this.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+			screen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
+			pixels = ((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
+			playerXRender = (FRAME_WIDTH - SpriteSheet.SPRITE_PLAYER.width) / 2;
+			playerYRender = (FRAME_HEIGHT - SpriteSheet.SPRITE_PLAYER.height) / 2;
+			new Thread(this).start();
+		}
+		
+		
+		@Override
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			updateScreen();
+			g.drawImage(screen, 0, 0, null);
+			
+			if(DEBUG){
+				g.setColor(Color.white);
+				g.drawString("FPS: " + rate, 10, 20);
+				if(player != null)
+					g.drawString("LOCATION: " + player.locX + " " + player.locY, 10, 35);
+				for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
+					if(ent.getValue() == player){
+						g.setColor(Color.green);
+						g.drawString(ent.getKey() + "", playerXRender, playerYRender - 10);
+					}else{
+						int deltaX = (int)(ent.getValue().locX - player.locX);
+						int deltaY = (int)(ent.getValue().locY - player.locY);
+						int x = deltaX + playerXRender;
+						int y = deltaY + playerYRender;
+						g.setColor(Color.white);
+						g.drawString(ent.getKey() + "", x, y);
+					}
+				}
+			}
+		}
+		
+		public void drawEntity(Entity ent){
+			int ind = 0;
+			if(ent == null || ent.sprite == null)
+				return; //Prevent crashes if sprite is not loaded
+			if(ent == player)
+				drawPlayerSprite(); //Special case when drawing player sprite
+			else
+				drawSprite((int)ent.locX, (int)ent.locY, ent.sprite);
+		}
+		
+		public void drawTile(int pos, Tile tile){
+			if(tile.sprite != null){
+				int x = pos % World.MAP_WIDTH;
+				int y = pos / World.MAP_WIDTH;
+				drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, tile.sprite);
+			}
+		}
+		
+		public void drawSprite(int x1, int y1, Sprite sprite){
+			int ind = 0;
+			int deltaX = x1 - (int)player.locX;
+			int deltaY = y1 - (int)player.locY;
+			x1 = deltaX + playerXRender;
+			y1 = deltaY + playerYRender;
+			for(int i = 0; i < sprite.height; i++){
+				for(int o = 0; o < sprite.width; o++){
+					int x2 = x1 + o;
+					int y2 = y1 + i;
+					drawPixel(x2, y2, sprite.data[ind]);
+					ind ++;
+				}
+			}
+		}
+		
+		public void drawPlayerSprite(){
+			if(player != null){
+				int x1 = playerXRender;
+				int y1 = playerYRender;
+				int ind = 0;
+				for(int i = 0; i < player.sprite.height; i++){
+					for(int o = 0; o < player.sprite.width; o++){
+						int x2 = x1 + o;
+						int y2 = y1 + i;
+						drawPixel(x2, y2, player.sprite.data[ind]);
+						ind ++;
+					}
+				}
+			}
+		}
+		
+		public void drawPixel(int x, int y, int color){
+			
+			//Don't render pixel if it is the invisible color #FF00FF or off screen
+			if(color == SpriteSheet.INVISIBLE_COLOR || x >= FRAME_WIDTH || x < 0 || y >= FRAME_HEIGHT || y < 0){
+				return;
+			}
+			pixels[x + y * FRAME_WIDTH] = color;
+		}
+		
+		public EntityPlayer player;
+		
+		public void updateScreen(){
+			
+			//Initial check if player is null.
+			if(player == null)
+				player = Game.world.getPlayer();
+			//Second check. If it is still null, don't render
+			if(player == null)
+				return;
+		
+			//Clear screen, eventually render background here
+			for(int i = 0; i < pixels.length; i++)
+				pixels[i] = (int)(Math.random() * 10 * Math.random() * 10);
+			
+			if(Game.world != null){
+				//Render entities
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					drawEntity(set.getValue());
+				}
+				
+				//Render tiles
+				for(int pos = 0; pos < Game.world.map.length; pos++){
+					Tile tile = Game.world.map[pos];
+					if(tile != null){
+						drawTile(pos, tile);
+					}
+				}
+			}
+			
+		}
+		
+		public int rate;
+		
+		@Override
+		public void run(){
+			
+			long last = System.currentTimeMillis();
+			
+			while(running){
+				long current = System.currentTimeMillis();
+				tickDelta = (int)(current - last);
+				if(tickDelta >= 10){
+					rate = (int)(1000f / (current - last));
+					last = current;
+					
+					//Update game screen
+					if(listener != null){
+						listener.tick();
+					}
+					this.repaint();
+				}
+			}
+			
+		}
+		
+	}
+	
+}

@@ -1,0 +1,16 @@
+package ca.nicho.client.packet;
+
+public abstract class Packet {
+	
+	public static final int PACKET_ENTITY= 0;
+	
+	public int packetType;
+	public byte[] data;
+	
+	public Packet(int packetType){
+		this.packetType = packetType;
+	}
+	
+	public abstract byte[] getPacketData();
+	
+}

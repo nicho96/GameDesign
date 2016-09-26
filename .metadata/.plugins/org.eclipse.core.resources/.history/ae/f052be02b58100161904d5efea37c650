@@ -1,0 +1,28 @@
+package ca.nicho.client.entity;
+
+import ca.nicho.client.ClientStart;
+import ca.nicho.client.SpriteSheet;
+import ca.nicho.client.packet.EntityPacket;
+
+public class EntityPlayer extends Entity {
+
+	public boolean moved = true;
+	
+	public EntityPlayer(int x, int y, int id) {
+		super(x, y, SpriteSheet.SPRITE_PLAYER, id);
+	}
+
+	@Override
+	public boolean tick(){
+		return true;
+	}
+	
+	public void move(int deltaX, int deltaY){
+		if((deltaX != 0 || deltaY != 0) && ClientStart.con != null){
+			this.locX += deltaX;
+			this.locY += deltaY;
+			ClientStart.con.sendPacket(new EntityPacket(this));
+		}
+	}
+	
+}

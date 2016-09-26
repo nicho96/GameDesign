@@ -1,0 +1,15 @@
+package ca.nicho;
+
+
+import ca.nicho.entity.Entity;
+
+
+public class World {
+
+	public ArrayList<Entity> entities;
+	
+	public World(){
+		
+	}
+	
+}

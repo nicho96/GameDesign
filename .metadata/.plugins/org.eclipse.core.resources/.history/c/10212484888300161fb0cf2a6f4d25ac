@@ -1,0 +1,4 @@
+package ca.nicho.client.tile;
+
+import ca.nicho.client.SpriteSheet;
+

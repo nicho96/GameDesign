@@ -1,0 +1,15 @@
+package ca.nicho.client.tile;
+
+import ca.nicho.client.SpriteSheet.Sprite;
+
+public class Tile {
+
+	public int pos;
+	public Sprite sprite;
+	
+	public Tile(int pos, Sprite sprite){
+		this.pos;
+		this.sprite = sprite;
+	}
+	
+}

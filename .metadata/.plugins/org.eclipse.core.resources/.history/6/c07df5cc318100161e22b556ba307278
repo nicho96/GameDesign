@@ -1,0 +1,9 @@
+package ca.nicho.client.packet;
+
+public abstract class Packet {
+	
+	public byte[] data;
+	
+	public abstract byte[] getPacketData();
+	
+}

@@ -1,0 +1,5 @@
+package ca.nicho.server;
+
+public class Game {
+
+}

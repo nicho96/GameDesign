@@ -1,0 +1,7 @@
+package ca.nicho;
+
+public class Game {
+
+	public static World world;
+	
+}

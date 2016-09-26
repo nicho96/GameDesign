@@ -1,0 +1,20 @@
+package ca.nicho.packet;
+
+import ca.nicho.entity.Entity;
+
+public class EntityPacket extends Packet {
+	
+	public int type;
+	public int x;
+	public int y;
+	
+	public EntityPacket(Entity ent){
+		this.type = ent.sprite.type;
+	}
+	
+	@Override
+	public byte[] getPacketData() {
+		return data;
+	}
+
+}

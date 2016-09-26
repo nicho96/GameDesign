@@ -1,0 +1,15 @@
+package ca.nicho;
+
+import ca.nicho.world.World;
+
+public class Game {
+
+	public static World world;
+	
+	public static void initWorld(){
+		if(world == null){
+			world = new World();
+		}
+	}
+	
+}

@@ -1,0 +1,12 @@
+package ca.nicho.client.tile;
+
+public class Tile {
+
+	public int locX;
+	public int locY;
+	
+	public Tile(int x, int y, int id){
+		
+	}
+	
+}
