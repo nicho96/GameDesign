@@ -2,16 +2,16 @@ package ca.nicho.client.entity;
 
 import ca.nicho.client.ClientStart;
 import ca.nicho.client.Game;
-import ca.nicho.client.SpriteSheet;
+import ca.nicho.client.SpriteSheet.Sprite;
 import ca.nicho.client.packet.EntityPacket;
 
 public class EntityPlayer extends Entity {
 
 	public boolean moved = true;
-	public double velocity = 1000; //px/s
+	public double velocity = 200; //px/s
 	
-	public EntityPlayer(float x, float y, int id) {
-		super(x, y, SpriteSheet.SPRITE_PLAYER, id);
+	public EntityPlayer(float x, float y, Sprite sprite, int id) {
+		super(x, y, sprite, id);
 	}
 
 	@Override
@@ -23,8 +23,13 @@ public class EntityPlayer extends Entity {
 	
 	public static final double sqrt2 = Math.sqrt(2);
 	
+	/**
+	 * Moves the player to the appropriate location
+	 * @param deltaX -1 means left, +1 means right, 0 means no change
+	 * @param deltaY -1 mean up, +1 means down, 0 means no change
+	 */
 	public void move(double deltaX, double deltaY){
-		
+				
 		double vx = deltaX * ClientStart.tickDelta / 1000 * velocity;
 		double vy = deltaY * ClientStart.tickDelta / 1000 * velocity;
 				
@@ -44,6 +49,13 @@ public class EntityPlayer extends Entity {
 				ClientStart.con.sendPacket(new EntityPacket(this));
 				moved = true;
 			}
+		}
+	}
+	
+	@Override
+	public void collision(Entity ent){
+		if(ent instanceof EntityMissile){
+			this.isDead = true;
 		}
 	}
 	

@@ -3,6 +3,7 @@ package ca.nicho.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import ca.nicho.client.SpriteSheet.Sprite;
 import ca.nicho.client.entity.Entity;
 import ca.nicho.client.entity.EntityPlayer;
+import ca.nicho.client.store.StoreHandler;
 import ca.nicho.client.tile.Tile;
 import ca.nicho.client.world.World;
 
@@ -22,22 +24,41 @@ public class ClientStart extends JFrame {
 	public static int tickDelta = 0; //This delta value will control player velocities, no matter the frame rate
 	public static boolean DEBUG = false;
 	
-	public static final int FRAME_WIDTH = 800;
+	public static final int FRAME_WIDTH = 1000;
 	public static final int FRAME_HEIGHT = 600;
 	
+	public static String host_port = "";
+	
 	public static SpriteSheet sheet;
+	public static StoreHandler store;
+	public static ClientStart window;
 	public static ClientGameSocket con;
 	
 	public static ControlListener listener;
 	
 	public Screen mainPanel;
 	
+	public static String HOST = "localhost";
+	public static int PORT = 1024;
+	
+	public static Sprite CURRENT_BACKGROUND_SPRITE;
+	
 	public static void main(String[] s){
 		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
+		Tile.initTiles();
+		GamePadListener.init();
+		store = new StoreHandler();
+		/*Scanner sc = new Scanner(System.in);
+		System.out.print("Enter host: ");
+		HOST = sc.nextLine();
+		System.out.print("Enter port: ");
+		PORT = Integer.parseInt(sc.nextLine());
+		sc.close();*/
 		Game.initWorld();
-		ClientStart window = new ClientStart();
+		new Thread(Game.world).start();
+		window = new ClientStart();
 		window.setVisible(true);
-		con = new ClientGameSocket(window);
+		
 	}
 	
 	public ClientStart(){
@@ -47,6 +68,7 @@ public class ClientStart extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		this.pack();
 	}
 	
@@ -74,14 +96,29 @@ public class ClientStart extends JFrame {
 		@Override
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
-			updateScreen();
+			updateScreen(g);
+			g.setColor(Color.white);
+			g.setFont(new Font("Verdana", Font.BOLD, 25));
 			g.drawImage(screen, 0, 0, null);
+					
+			if(con == null){
+				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 10, 95);
+				return;
+			}
 			
 			if(DEBUG){
 				g.setColor(Color.white);
 				g.drawString("FPS: " + rate, 10, 20);
-				if(player != null)
+				if(player != null){
 					g.drawString("LOCATION: " + player.locX + " " + player.locY, 10, 35);
+					g.drawString("ENTITIES: " + Game.world.entities.size(), 10, 50);
+				}
+				if(Game.ships != null){
+					String ships = "";
+					for(int i : Game.ships)
+						ships += i + " ";
+					g.drawString("SHIPS: " + ships , 10, 65);
+				}
 				for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
 					if(ent.getValue() == player){
 						g.setColor(Color.green);
@@ -91,13 +128,21 @@ public class ClientStart extends JFrame {
 						int deltaY = (int)(ent.getValue().locY - player.locY);
 						int x = deltaX + playerXRender;
 						int y = deltaY + playerYRender;
-						g.setColor(Color.white);
+						if(Game.isIDPlayer(ent.getValue().id))
+							g.setColor(Color.blue);
+						else
+							g.setColor(Color.white);
+						
 						g.drawString(ent.getKey() + "", x, y);
 					}
 				}
 			}
 		}
 		
+		/**
+		 * Draw an entity to the screen
+		 * @param ent the entity to be drawn
+		 */
 		public void drawEntity(Entity ent){
 			int ind = 0;
 			if(ent == null || ent.sprite == null)
@@ -108,6 +153,11 @@ public class ClientStart extends JFrame {
 				drawSprite((int)ent.locX, (int)ent.locY, ent.sprite);
 		}
 		
+		/**
+		 * Draw a tile to the screen
+		 * @param pos the tile's position in the map array
+		 * @param tile the tile to be drawn
+		 */
 		public void drawTile(int pos, Tile tile){
 			if(tile.sprite != null){
 				int x = pos % World.MAP_WIDTH;
@@ -116,6 +166,12 @@ public class ClientStart extends JFrame {
 			}
 		}
 		
+		/**
+		 * Draw a sprite to the screen by position
+		 * @param x1
+		 * @param y1
+		 * @param sprite the sprite to be drawn
+		 */
 		public void drawSprite(int x1, int y1, Sprite sprite){
 			int ind = 0;
 			int deltaX = x1 - (int)player.locX;
@@ -132,6 +188,22 @@ public class ClientStart extends JFrame {
 			}
 		}
 		
+		public void drawGUISprite(int x1, int y1, Sprite sprite){
+			int ind = 0;
+			for(int i = 0; i < sprite.height; i++){
+				for(int o = 0; o < sprite.width; o++){
+					int x = x1 + o;
+					int y = y1 + i;
+					drawPixel(x, y, sprite.data[ind]);
+					ind ++;
+				}
+			}
+		}
+		
+		/**
+		 * Draw the player sprite. Needs a special method for this since it is
+		 * always centered in the screen
+		 */
 		public void drawPlayerSprite(){
 			if(player != null){
 				int x1 = playerXRender;
@@ -147,7 +219,13 @@ public class ClientStart extends JFrame {
 				}
 			}
 		}
-		
+				
+		/**
+		 * Draw a pixel to the screen based on x and y positions
+		 * @param x
+		 * @param y
+		 * @param color the color integer for this location
+		 */
 		public void drawPixel(int x, int y, int color){
 			
 			//Don't render pixel if it is the invisible color #FF00FF or off screen
@@ -157,20 +235,59 @@ public class ClientStart extends JFrame {
 			pixels[x + y * FRAME_WIDTH] = color;
 		}
 		
-		public EntityPlayer player;
+		public void updateOceanTile(){
+			if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_1){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_2;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_2){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_3;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_3){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_4;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_4 || CURRENT_BACKGROUND_SPRITE == null){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_1;
+			}
+		}
 		
-		public void updateScreen(){
+		public EntityPlayer player;
+		public int backTick = 0;
+		/**
+		 * Called whenever there is a frame update. It will handle all necessary rendering
+		 */
+		public void updateScreen(Graphics g){
+
+			//Update ocean tile if need be
+			if(backTick == 0){
+				updateOceanTile();
+			}
+			backTick = (backTick + 1) % 50; //Loop at every 50 ticks
 			
-			//Initial check if player is null.
-			if(player == null)
-				player = Game.world.getPlayer();
+			//Draw main menu
+			if(con == null){
+				//Draw background without player locations
+				for(int x = 0; x < FRAME_WIDTH / 50 + 1; x++){
+					for(int y = 0; y < FRAME_HEIGHT / 50 + 1; y++){
+						this.drawGUISprite(x * 50, y * 50, CURRENT_BACKGROUND_SPRITE);
+					}
+				}
+				
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2, 50, SpriteSheet.SPRITE_HOST);
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_ENTER.width) / 2, 150, SpriteSheet.SPRITE_ENTER);
+			}
+			
+			//Set the current player for this update
+			player = Game.world.getPlayer();
+			
 			//Second check. If it is still null, don't render
 			if(player == null)
 				return;
 		
-			//Clear screen, eventually render background here
-			for(int i = 0; i < pixels.length; i++)
-				pixels[i] = 0x6A1B9A;
+			
+			//Draw background tiles
+			for(int x = 0; x < FRAME_WIDTH / 50 + 1; x++){
+				for(int y = 0; y < FRAME_HEIGHT / 50 + 1; y++){
+					this.drawGUISprite(x * 50 - (int)player.locX % 50, y * 50 - (int)player.locY % 50, CURRENT_BACKGROUND_SPRITE);
+				}
+			}
+			
 			
 			if(Game.world != null){
 				//Render entities
@@ -187,6 +304,46 @@ public class ClientStart extends JFrame {
 				}
 			}
 			
+			//Load overlays last
+			if(!DEBUG)
+				drawGUISprite(10, 10, SpriteSheet.SPRITE_MAP_SMALL);
+			
+			//Draw the ships on the map
+			for(int i = 0; i < Game.ships.length; i++){
+				Entity e = Game.world.entities.get(Game.ships[i]);
+				if(e == player){
+					int x = i * 50 + 200;
+					this.drawGUISprite(x, 10, e.sprite);
+					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
+					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_GREEN);
+				}else{
+					int x = i * 50 + 200;
+					this.drawGUISprite(x, 10, e.sprite);
+					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
+					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_BLUE);	
+				}
+			}
+			
+			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
+				Entity e = set.getValue();
+				if(e.detected){
+					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_BLUE);	
+				}
+			}
+			
+			//Load store overlays
+			int storeIndex = 0;
+			for(Map.Entry<Entity, Integer> set : store.costs.entrySet()){
+				Entity e = set.getKey();
+				int leftX =  100 * storeIndex;
+				int leftY = 100;
+				int x = (100 - e.sprite.width) / 2 + leftX;
+				int y = (100 - e.sprite.height) / 2 + leftY;
+				this.drawGUISprite(x, y, e.sprite);
+				this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+				g.drawString(set.getValue() + "", leftX + 5, leftY + 5);
+				storeIndex ++;
+			}
 		}
 		
 		public int rate;
@@ -200,6 +357,10 @@ public class ClientStart extends JFrame {
 				long current = System.currentTimeMillis();
 				tickDelta = (int)(current - last);
 				if(tickDelta >= 10){
+					
+					//Poll the controller
+					GamePadListener.tick();
+					
 					rate = (int)(1000f / (current - last));
 					last = current;
 					

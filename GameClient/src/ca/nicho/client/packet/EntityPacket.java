@@ -37,6 +37,14 @@ public class EntityPacket extends Packet {
 		y = buffer.getFloat();
 	}
 	
+	public EntityPacket(int type, int id, float x, float y){
+		super(Packet.PACKET_ENTITY);
+		this.type = type;
+		this.id = id;
+		this.x = x;
+		this.y = y;
+	}
+	
 	@Override
 	public byte[] getPacketData() {
 		ByteBuffer buffer = ByteBuffer.allocate(16); // 3 * 4 byte primitives

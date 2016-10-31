@@ -1,47 +1,46 @@
 package ca.nicho.server.world;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import ca.nicho.client.SpriteSheet;
 import ca.nicho.client.entity.Entity;
-import ca.nicho.client.entity.EntityBattleship;
-import ca.nicho.client.entity.EntityEnemy;
+import ca.nicho.client.entity.EntityMissile;
 import ca.nicho.client.entity.EntityPlayer;
+import ca.nicho.client.entity.EntityRadar;
 import ca.nicho.client.packet.EntityPacket;
+import ca.nicho.client.packet.KillEntityPacket;
 import ca.nicho.client.packet.TilePacket;
 import ca.nicho.client.tile.Tile;
+import ca.nicho.client.world.World;
+import ca.nicho.server.ServerGame;
 import ca.nicho.server.ServerStart;
 
-public class ServerWorld {
+public class ServerWorld extends World{
 
 	public GameClock clock;
-	public int entId;
-	public ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer, Entity>();
-	
-	public static final int MAP_WIDTH = 50;
-	public static final int MAP_HEIGHT = 30;
-	public Tile[] map;
-	
+
 	public ServerWorld(){
-		map = new Tile[MAP_WIDTH * MAP_HEIGHT];
-		
+		super();
 		for(int y = 0; y < MAP_HEIGHT; y++){
 			for(int x = 0; x < MAP_WIDTH; x++){
-				if(y == 0 || y == 29 || x == 0 || x == 49) map[y * MAP_WIDTH + x] = Tile.TILE_STONE;
+				if(y == 0 || y == MAP_HEIGHT - 1 || x == 0 || x == MAP_WIDTH - 1) map[y * MAP_WIDTH + x] = Tile.TILE_STONE;
 			}
 		}
-		
-		//this.spawnEntity(new EntityEnemy(200, 200, 200));
-		this.spawnEntity(new EntityBattleship(200, 400, 300));
+
 		clock = new GameClock();
 	}
 	
+	/**
+	 * Start the game clock
+	 */
 	public void startClock(){
 		new Thread(clock).start();
 	}
 	
+	/**
+	 * Spawn an entity into the world
+	 * @param ent entity to be spawned
+	 */
 	public void spawnEntity(Entity ent){
 		entities.put(ent.id, ent);
 		//TODO change to not send all entity data to existing connections
@@ -66,9 +65,14 @@ public class ServerWorld {
 		}else{
 			ent = null;
 			switch(packet.type){
-				case SpriteSheet.ENTITY_PLAYER:
-					ent = new EntityPlayer(packet.x, packet.y, packet.id);
+				case SpriteSheet.ENTITY_PLAYER: //Not a valid packet anymore, use other ship entities who inherit from player
+					ent = new EntityPlayer(packet.x, packet.y, SpriteSheet.SPRITE_BATTLESHIP, packet.id);
 					break;
+				case SpriteSheet.ENTITY_MISSILE:
+					ent = new EntityMissile(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_RADAR:
+					ent = new EntityRadar(packet.x, packet.y, packet.id);
 			}
 			if(ent != null){
 				spawnEntity(ent);
@@ -80,26 +84,23 @@ public class ServerWorld {
 	}
 	
 	public void setTileByPos(int pos, Tile tile){
-		map[pos] = tile;
+		super.setTileByPos(pos, tile);
 		TilePacket packet = new TilePacket(pos, tile);
 		ServerStart.sendGlobalPacket(packet);
 	}
-	
-	public void setTileByCoord(int x, int y, Tile tile){
-		int pos = y * MAP_WIDTH + x;
-		setTileByPos(pos, tile);
-	}
-	
-	public void killEntity(int id){
-		entities.remove(id);
-	}
-	
+
 	private void tick(){
 		for(Map.Entry<Integer, Entity> ent : entities.entrySet()){
 			if(ent.getValue().tick()){
-				ServerStart.sendGlobalPacket(new EntityPacket(ent.getValue()));
+				if(ent.getValue().isDead){
+					ServerStart.sendGlobalPacket(new KillEntityPacket(ent.getKey()));
+					this.killEntity(ent.getKey());
+				}else{
+					ServerStart.sendGlobalPacket(new EntityPacket(ent.getValue()));
+				}
 			}
 		}
+		ServerGame.updatePoints();
 	}
 	
 	private class GameClock implements Runnable{

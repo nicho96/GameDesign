@@ -8,6 +8,8 @@ public abstract class Entity {
 	public float locX;
 	public float locY;
 	public int id;
+	public boolean isDead = false;
+	public boolean detected = false;
 	
 	public Entity(float x, float y, Sprite sprite, int id){
 		this.id = id;
@@ -21,5 +23,11 @@ public abstract class Entity {
 	 * @return true if there is a reason to update the clients with updated information about this entity
 	 */
 	public abstract boolean tick();
+	
+	public boolean clientTick(){
+		return false;
+	}
+	
+	public void collision(Entity ent){};
 	
 }

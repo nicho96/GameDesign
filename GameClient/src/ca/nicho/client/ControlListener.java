@@ -3,16 +3,40 @@ package ca.nicho.client;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import ca.nicho.client.packet.SpawnEntityPacket;
+
 public class ControlListener implements KeyListener {
 
 	private Key W = new Key();
 	private Key A = new Key();
 	private Key S = new Key();
 	private Key D = new Key();
+	private Key SPACE = new Key();
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
+		if(ClientStart.con == null){
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+				if(ClientStart.host_port.length() > 0)
+					ClientStart.host_port = ClientStart.host_port.substring(0, ClientStart.host_port.length() - 1);
+			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				String[] split = ClientStart.host_port.split(":");
+				if(split.length == 2){
+					ClientStart.HOST = split[0];
+					ClientStart.PORT = Integer.parseInt(split[1]);
+				}else if(split.length == 1){
+					ClientStart.HOST = split[0];
+					ClientStart.PORT = 1024; //Default port
+				}else{
+					ClientStart.HOST = "localhost"; //Default host
+					ClientStart.PORT = 1024; //Default port
+				}
+				ClientStart.con = new ClientGameSocket(ClientStart.window);
+			}
+			return;
+		}
+		
 		if(e.getKeyChar() == 'w'){
 			W.pressed = true;
 		}else if(e.getKeyChar() == 'a'){
@@ -22,6 +46,9 @@ public class ControlListener implements KeyListener {
 		}else if(e.getKeyChar() == 'd'){
 			D.pressed = true;
 		}
+		
+		
+		
 	}
 
 	@Override
@@ -57,8 +84,30 @@ public class ControlListener implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		
+		if(ClientStart.con == null){
+			char c = e.getKeyChar();
+			if(Character.isLetter(c) || Character.isDigit(c) || c == ':'){
+				ClientStart.host_port += c;
+			}
+			return;
+		}
+		
 		if(e.getKeyChar() == 't'){
 			ClientStart.DEBUG = !ClientStart.DEBUG;
+		}else if(e.getKeyChar() == ' '){
+			ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, SpriteSheet.ENTITY_RADAR));
+			//ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, SpriteSheet.ENTITY_MISSILE));
+		}else if(e.getKeyChar() == 'q'){
+			Game.current = (Game.current + 1) % Game.ships.length;
+		}else if(e.getKeyChar() == '1'){
+			Game.current = 0;
+		}else if(e.getKeyChar() == '2'){
+			Game.current = 1;
+		}else if(e.getKeyChar() == '3'){
+			Game.current = 2;
+		}else if(e.getKeyChar() == '4'){
+			Game.current = 3;
 		}
 	}
 	

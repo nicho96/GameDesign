@@ -6,11 +6,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
+import ca.nicho.client.Game;
 import ca.nicho.client.entity.Entity;
+import ca.nicho.client.entity.EntityBattleship;
+import ca.nicho.client.entity.EntityCargoShip;
+import ca.nicho.client.entity.EntityMedicShip;
 import ca.nicho.client.entity.EntityPlayer;
 import ca.nicho.client.packet.ConnectPacket;
 import ca.nicho.client.packet.EntityPacket;
 import ca.nicho.client.packet.Packet;
+import ca.nicho.client.packet.SpawnEntityPacket;
 import ca.nicho.client.packet.TilePacket;
 import ca.nicho.client.tile.Tile;
 
@@ -37,12 +42,19 @@ public class ServerGameSocket implements Runnable{
 	public void run() {
 		int id = Game.world.entId++;
 		System.out.println("Player joined - assigning entity ID " + id);
-		EntityPlayer player = new EntityPlayer((int)(Math.random() * 800), 200, id);
-		Game.world.spawnEntity(player); //Spawn the user into the world
+		EntityPlayer ship1 = new EntityMedicShip((int)(Math.random() * 800), 200, Game.world.entId++);
+		EntityPlayer ship2 = new EntityBattleship((int)(Math.random() * 800), 200,  Game.world.entId++);
+		EntityPlayer ship3 = new EntityCargoShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+		EntityPlayer ship4 = new EntityMedicShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+		Game.world.spawnEntity(ship1);
+		Game.world.spawnEntity(ship2);
+		Game.world.spawnEntity(ship3);
+		Game.world.spawnEntity(ship4);
+		//Spawn the user into the world
 		this.sendIntitalWorldState(); //Send the world
-		this.sendPacket(new EntityPacket(player)); //Send the player entity
+		this.sendPacket(new EntityPacket(ship1)); //Send the player entity
 		this.sendInitialEntities(); //Send the remaining entities
-		this.sendPacket(new ConnectPacket(id)); //Send final connection packet
+		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, ship4.id)); //Send final connection packet
 		while(true){
 			try{
 				readPacket();
@@ -73,6 +85,10 @@ public class ServerGameSocket implements Runnable{
 			case Packet.PACKET_CONNECT:
 				this.ready = true;
 				break;
+			case Packet.PACKET_SPAWN_ENTITY:
+				SpawnEntityPacket packet = new SpawnEntityPacket(data);
+				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y));
+				break;
 		}
 	}	
 	
@@ -91,7 +107,7 @@ public class ServerGameSocket implements Runnable{
 		}
 	}
 	
-	public void sendPacket(Packet packet){
+	public synchronized void sendPacket(Packet packet){
 		try{
 			out.writeInt(packet.packetType);
 			byte[] data = packet.getPacketData();
