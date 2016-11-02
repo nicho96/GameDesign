@@ -11,6 +11,7 @@ public class EntityPacket extends Packet {
 	public int id;
 	public float x;
 	public float y;
+	public byte owner;
 	
 	/**
 	 * Constructor used to create a packet for sending
@@ -22,6 +23,7 @@ public class EntityPacket extends Packet {
 		this.id = ent.id;
 		this.x = ent.locX;
 		this.y = ent.locY;
+		this.owner = ent.owner;
 	}
 	
 	/**
@@ -35,23 +37,26 @@ public class EntityPacket extends Packet {
 		id = buffer.getInt();
 		x = buffer.getFloat();
 		y = buffer.getFloat();
+		owner = buffer.get();
 	}
 	
-	public EntityPacket(int type, int id, float x, float y){
+	public EntityPacket(int type, int id, float x, float y, byte owner){
 		super(Packet.PACKET_ENTITY);
 		this.type = type;
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.owner = owner;
 	}
 	
 	@Override
 	public byte[] getPacketData() {
-		ByteBuffer buffer = ByteBuffer.allocate(16); // 3 * 4 byte primitives
+		ByteBuffer buffer = ByteBuffer.allocate(17); // 3 * 4 + 1 byte primitives
 		buffer.putInt(type);
 		buffer.putInt(id);
 		buffer.putFloat(x);
 		buffer.putFloat(y);
+		buffer.put(owner);
 		return buffer.array();
 	}
 

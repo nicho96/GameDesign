@@ -8,6 +8,7 @@ public class ConnectPacket extends Packet {
 	public int ship2ID;
 	public int ship3ID;
 	public int ship4ID;
+	public byte owner;
 	
 	/**
 	 * The packet sent from the server to the client to indicate
@@ -15,12 +16,13 @@ public class ConnectPacket extends Packet {
 	 * 
 	 * @param id the player entity id, the client can return any value
 	 */
-	public ConnectPacket(int ship1ID, int ship2ID, int ship3ID, int ship4ID) {
+	public ConnectPacket(int ship1ID, int ship2ID, int ship3ID, int ship4ID, byte owner) {
 		super(Packet.PACKET_CONNECT);
 		this.ship1ID = ship1ID;
 		this.ship2ID = ship2ID;
 		this.ship3ID = ship3ID;
 		this.ship4ID = ship4ID;
+		this.owner = owner;
 	}
 	
 	/**
@@ -36,15 +38,17 @@ public class ConnectPacket extends Packet {
 		this.ship2ID = buffer.getInt();
 		this.ship3ID = buffer.getInt();
 		this.ship4ID = buffer.getInt();
+		this.owner = buffer.get();
 	}
 
 	@Override
 	public byte[] getPacketData() {
-		ByteBuffer buffer = ByteBuffer.allocate(16);
+		ByteBuffer buffer = ByteBuffer.allocate(17);
 		buffer.putInt(ship1ID);
 		buffer.putInt(ship2ID);
 		buffer.putInt(ship3ID);
 		buffer.putInt(ship4ID);
+		buffer.put(owner);
 		return buffer.array();
 	}
 

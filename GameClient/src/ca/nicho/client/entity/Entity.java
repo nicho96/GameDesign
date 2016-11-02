@@ -1,6 +1,6 @@
 package ca.nicho.client.entity;
 
-import ca.nicho.client.SpriteSheet.Sprite;
+import ca.nicho.client.Sprite;
 
 public abstract class Entity {
 		
@@ -10,6 +10,7 @@ public abstract class Entity {
 	public int id;
 	public boolean isDead = false;
 	public boolean detected = false;
+	public byte owner = -1;
 	
 	public Entity(float x, float y, Sprite sprite, int id){
 		this.id = id;

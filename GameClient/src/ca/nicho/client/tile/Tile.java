@@ -1,7 +1,7 @@
 package ca.nicho.client.tile;
 
+import ca.nicho.client.Sprite;
 import ca.nicho.client.SpriteSheet;
-import ca.nicho.client.SpriteSheet.Sprite;
 
 public class Tile {
 

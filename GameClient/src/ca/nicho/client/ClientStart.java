@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ca.nicho.client.SpriteSheet.Sprite;
 import ca.nicho.client.entity.Entity;
 import ca.nicho.client.entity.EntityPlayer;
 import ca.nicho.client.store.StoreHandler;
@@ -47,7 +46,6 @@ public class ClientStart extends JFrame {
 		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
 		Tile.initTiles();
 		GamePadListener.init();
-		store = new StoreHandler();
 		/*Scanner sc = new Scanner(System.in);
 		System.out.print("Enter host: ");
 		HOST = sc.nextLine();
@@ -55,6 +53,7 @@ public class ClientStart extends JFrame {
 		PORT = Integer.parseInt(sc.nextLine());
 		sc.close();*/
 		Game.initWorld();
+		store = new StoreHandler();
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
@@ -133,7 +132,7 @@ public class ClientStart extends JFrame {
 						else
 							g.setColor(Color.white);
 						
-						g.drawString(ent.getKey() + "", x, y);
+						g.drawString(ent.getKey() + " " + ent.getValue().owner, x, y);
 					}
 				}
 			}
@@ -332,17 +331,20 @@ public class ClientStart extends JFrame {
 			}
 			
 			//Load store overlays
-			int storeIndex = 0;
-			for(Map.Entry<Entity, Integer> set : store.costs.entrySet()){
-				Entity e = set.getKey();
-				int leftX =  100 * storeIndex;
-				int leftY = 100;
-				int x = (100 - e.sprite.width) / 2 + leftX;
-				int y = (100 - e.sprite.height) / 2 + leftY;
-				this.drawGUISprite(x, y, e.sprite);
-				this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
-				g.drawString(set.getValue() + "", leftX + 5, leftY + 5);
-				storeIndex ++;
+			if(StoreHandler.isOpen){
+				int storeIndex = 0;
+				for(Map.Entry<Entity, Sprite> set : store.costs.entrySet()){
+					Entity e = set.getKey();
+					int leftX =  FRAME_WIDTH - 195 + 95 * (storeIndex % 2);
+					int leftY = (storeIndex / 2) * 95;
+					int x = (100 - e.sprite.width) / 2 + leftX;
+					int y = (100 - e.sprite.height) / 2 + leftY;
+					this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+					this.drawGUISprite(x, y, e.sprite);
+					this.drawGUISprite(leftX + 7, leftY + 7, set.getValue());
+					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical scsreen
+					storeIndex ++;
+				}
 			}
 		}
 		

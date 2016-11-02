@@ -38,6 +38,19 @@ public class SpriteSheet {
 	public static final int DOT_RED = 505;
 	public static final int DOT_BLUE = 506;
 	
+	//Reserve 990 - 999 for number sprites
+	public static final int NUM_0 = 990;
+	public static final int NUM_1 = 991;
+	public static final int NUM_2 = 992;
+	public static final int NUM_3 = 993;
+	public static final int NUM_4 = 994;
+	public static final int NUM_5 = 995;
+	public static final int NUM_6 = 996;
+	public static final int NUM_7 = 997;
+	public static final int NUM_8 = 998;
+	public static final int NUM_9 = 999;
+
+	
 	public static final int INVISIBLE_COLOR = 0xFFFF00FF;
 	
 	public static Sprite SPRITE_PLAYER;
@@ -67,6 +80,18 @@ public class SpriteSheet {
 	public static Sprite SPRITE_DOT_GREEN;
 	public static Sprite SPRITE_DOT_RED;
 	public static Sprite SPRITE_DOT_BLUE;
+	
+	//Numbers
+	public static Sprite SPRITE_0;
+	public static Sprite SPRITE_1;
+	public static Sprite SPRITE_2;
+	public static Sprite SPRITE_3;
+	public static Sprite SPRITE_4;
+	public static Sprite SPRITE_5;
+	public static Sprite SPRITE_6;
+	public static Sprite SPRITE_7;
+	public static Sprite SPRITE_8;
+	public static Sprite SPRITE_9;
 	
 	//This object style allows for a singleton object creation, meaning it will only be instantiated once
 	private static boolean isInitialized = false;
@@ -103,41 +128,20 @@ public class SpriteSheet {
 		SPRITE_DOT_GREEN = new Sprite("greendot", DOT_GREEN);
 		SPRITE_DOT_RED = new Sprite("reddot", DOT_RED);
 		SPRITE_DOT_BLUE = new Sprite("bluedot", DOT_BLUE);
-
+		
+		//Load numbers 
+		SPRITE_0 = new Sprite("0", NUM_0);
+		SPRITE_1 = new Sprite("1", NUM_1);
+		SPRITE_2 = new Sprite("2", NUM_2);
+		SPRITE_3 = new Sprite("3", NUM_3);
+		SPRITE_4 = new Sprite("4", NUM_4);
+		SPRITE_5 = new Sprite("5", NUM_5);
+		SPRITE_6 = new Sprite("6", NUM_6);
+		SPRITE_7 = new Sprite("7", NUM_7);
+		SPRITE_8 = new Sprite("8", NUM_8);
+		SPRITE_9 = new Sprite("9", NUM_9);
+		
 		System.out.println("SpriteSheet: Sprites have been loaded!");
 	}
-	
-	public class Sprite { 
-		public String name;
-		public int[] data;
-		public int width = 0;
-		public int height = 0;
-		public int type;
-		
-		public Sprite(String name, int type){
-			this.name = name;
-			this.type = type;
-			File f = new File("res/" + name + ".png");
-			if(f.exists()){
-				try {
-					BufferedImage sprite = ImageIO.read(f);
-					data = new int[sprite.getWidth() * sprite.getHeight()];
-					int ind = 0;
-					for(int i = 0; i < sprite.getHeight(); i++){
-						for(int o = 0; o < sprite.getWidth(); o++){
-							int pixel = sprite.getRGB(o, i);							
-							data[ind] = pixel;
-							ind++;
-						}
-					}
-					width = sprite.getWidth();
-					height = sprite.getHeight();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}else{
-				System.out.println("SpriteSheet: Sprite named " + name + " does not exist.");
-			}
-		}
-	}	
+
 }

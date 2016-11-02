@@ -1,5 +1,6 @@
 package ca.nicho.client.entity;
 
+import ca.nicho.client.Sprite;
 import ca.nicho.client.SpriteSheet;
 
 public class EntityBattleship extends EntityPlayer {

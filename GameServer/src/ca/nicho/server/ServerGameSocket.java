@@ -54,7 +54,8 @@ public class ServerGameSocket implements Runnable{
 		this.sendIntitalWorldState(); //Send the world
 		this.sendPacket(new EntityPacket(ship1)); //Send the player entity
 		this.sendInitialEntities(); //Send the remaining entities
-		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, ship4.id)); //Send final connection packet
+		byte owner = (byte) ((this == ServerStart.con1) ? 1 : 2);
+		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, ship4.id, owner)); //Send final connection packet
 		while(true){
 			try{
 				readPacket();
@@ -87,7 +88,7 @@ public class ServerGameSocket implements Runnable{
 				break;
 			case Packet.PACKET_SPAWN_ENTITY:
 				SpawnEntityPacket packet = new SpawnEntityPacket(data);
-				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y));
+				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y, packet.owner));
 				break;
 		}
 	}	

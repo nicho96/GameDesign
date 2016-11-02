@@ -2,7 +2,7 @@ package ca.nicho.client.entity;
 
 import ca.nicho.client.ClientStart;
 import ca.nicho.client.Game;
-import ca.nicho.client.SpriteSheet.Sprite;
+import ca.nicho.client.Sprite;
 import ca.nicho.client.packet.EntityPacket;
 
 public class EntityPlayer extends Entity {

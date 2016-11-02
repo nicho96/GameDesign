@@ -10,6 +10,8 @@ public class Game {
 	public static int[] ships;
 	public static int current;
 	
+	public static byte ownerID;
+	
 	public static World world;
 	
 	public static void initWorld(){

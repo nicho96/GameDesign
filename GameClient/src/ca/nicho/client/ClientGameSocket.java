@@ -14,7 +14,7 @@ import ca.nicho.client.packet.TilePacket;
 import ca.nicho.client.tile.Tile;
 
 public class ClientGameSocket implements Runnable {
-
+	
 	public DataInputStream in;
 	public DataOutputStream out;
 	
@@ -67,8 +67,9 @@ public class ClientGameSocket implements Runnable {
 				Game.ships[1] = packetCon.ship2ID;
 				Game.ships[2] = packetCon.ship3ID;
 				Game.ships[3] = packetCon.ship4ID;
-				System.out.println("Ship IDs: " + packetCon.ship1ID + " " + packetCon.ship2ID + " " + packetCon.ship3ID + " " + packetCon.ship4ID);
-				this.sendPacket(new ConnectPacket(0, 0, 0, 0)); //Returning the received ID is not necessary (yet)
+				Game.ownerID = packetCon.owner;
+				System.out.println("Owner ID: " + Game.ownerID + " - Ship IDs: " + packetCon.ship1ID + " " + packetCon.ship2ID + " " + packetCon.ship3ID + " " + packetCon.ship4ID);
+				this.sendPacket(new ConnectPacket(0, 0, 0, 0, packetCon.owner)); //Returning the received ID is not necessary (yet)
 				break;
 			case Packet.PACKET_TILE:
 				TilePacket packetTile = new TilePacket(data);

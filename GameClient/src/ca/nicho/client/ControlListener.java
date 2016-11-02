@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import ca.nicho.client.packet.SpawnEntityPacket;
+import ca.nicho.client.store.StoreHandler;
 
 public class ControlListener implements KeyListener {
 
@@ -96,7 +97,7 @@ public class ControlListener implements KeyListener {
 		if(e.getKeyChar() == 't'){
 			ClientStart.DEBUG = !ClientStart.DEBUG;
 		}else if(e.getKeyChar() == ' '){
-			ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, SpriteSheet.ENTITY_RADAR));
+			ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, SpriteSheet.ENTITY_RADAR, Game.ownerID));
 			//ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, SpriteSheet.ENTITY_MISSILE));
 		}else if(e.getKeyChar() == 'q'){
 			Game.current = (Game.current + 1) % Game.ships.length;
@@ -108,6 +109,8 @@ public class ControlListener implements KeyListener {
 			Game.current = 2;
 		}else if(e.getKeyChar() == '4'){
 			Game.current = 3;
+		}else if(e.getKeyChar() == 'm'){
+			StoreHandler.isOpen = !StoreHandler.isOpen;
 		}
 	}
 	
