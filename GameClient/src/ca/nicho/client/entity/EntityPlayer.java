@@ -8,7 +8,10 @@ import ca.nicho.client.packet.EntityPacket;
 public class EntityPlayer extends Entity {
 
 	public boolean moved = true;
-	public double velocity = 200; //px/s
+	public float speedFactor = 1;
+	public float velocity = 200; //px/s
+	
+	public Entity[] inventory;
 	
 	public EntityPlayer(float x, float y, Sprite sprite, int id) {
 		super(x, y, sprite, id);
@@ -34,8 +37,8 @@ public class EntityPlayer extends Entity {
 	 */
 	public void move(double deltaX, double deltaY){
 				
-		double vx = deltaX * ClientStart.tickDelta / 1000 * velocity;
-		double vy = deltaY * ClientStart.tickDelta / 1000 * velocity;
+		double vx = deltaX * ClientStart.tickDelta / 1000 * velocity * speedFactor;
+		double vy = deltaY * ClientStart.tickDelta / 1000 * velocity * speedFactor;
 				
 		if(vx != 0 && vy != 0){
 			vx /= sqrt2;

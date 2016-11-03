@@ -330,6 +330,16 @@ public class ClientStart extends JFrame {
 				}
 			}
 			
+			for(int i = 0; i < player.inventory.length; i++){
+				Entity e = player.inventory[i];
+				int guiX = FRAME_WIDTH - 100 - i * 95;
+				int guiY = FRAME_HEIGHT - 100;
+				drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
+				if(e != null){
+					drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
+				}
+			}
+			
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;

@@ -9,6 +9,7 @@ public class EntityMedicShip extends EntityPlayer{
 	
 	public EntityMedicShip(float x, float y, int ID){
 		super(x, y, sprites, ID);
+		this.inventory = new Entity[1];
 	}
 	
 }
