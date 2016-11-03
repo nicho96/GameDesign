@@ -33,7 +33,7 @@ public abstract class Entity {
 	
 	private int spriteTick = 1;
 	public boolean clientTick(){
-		if((spriteTick = (spriteTick + 1) % 10) == 0){
+		if((spriteTick = (spriteTick + 1) % 2) == 0){
 			current = (current + 1) % sprites.length;
 		}
 		
