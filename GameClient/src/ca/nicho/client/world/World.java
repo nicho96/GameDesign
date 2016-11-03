@@ -60,6 +60,7 @@ public class World implements Runnable{
 					ent = player;
 					break;
 				case SpriteSheet.ENTITY_ENEMY:
+					System.out.println(packet.id);
 					ent = new EntityEnemy(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_BATTLESHIP:

@@ -11,12 +11,12 @@ public class SpriteSheet {
 	
 	//Reserve 0-299 for entities
 	public static final int ENTITY_PLAYER = 0;
-	public static final int ENTITY_ENEMY = 4;
-	public static final int ENTITY_BATTLESHIP = 8;
-	public static final int ENTITY_MISSILE = 12;
-	public static final int ENTITY_MEDIC = 16;
-	public static final int ENTITY_CARGO = 20;
-	public static final int ENTITY_RADAR = 24;
+	public static final int ENTITY_ENEMY = 1;
+	public static final int ENTITY_BATTLESHIP = 2;
+	public static final int ENTITY_MISSILE = 3;
+	public static final int ENTITY_MEDIC = 4;
+	public static final int ENTITY_CARGO = 5;
+	public static final int ENTITY_RADAR = 6;
 	
 	//Reserve 300-399 for Tiles
 	public static final int TILE_WOOD = 300;
@@ -112,10 +112,10 @@ public class SpriteSheet {
 		SPRITE_BATTLESHIP = new Sprite("battleship", ENTITY_BATTLESHIP);
 		SPRITE_MISSILE = new Sprite("missile", ENTITY_MISSILE);
 
-		SPRITE_MEDIC_1 = new Sprite("medic1", ENTITY_MEDIC);
-		SPRITE_MEDIC_2 = new Sprite("medic2", ENTITY_MEDIC);
-		SPRITE_MEDIC_3 = new Sprite("medic3", ENTITY_MEDIC);
-		SPRITE_MEDIC_4 = new Sprite("medic4", ENTITY_MEDIC);
+		SPRITE_MEDIC_1 = new Sprite("medic_1", ENTITY_MEDIC);
+		SPRITE_MEDIC_2 = new Sprite("medic_2", ENTITY_MEDIC);
+		SPRITE_MEDIC_3 = new Sprite("medic_3", ENTITY_MEDIC);
+		SPRITE_MEDIC_4 = new Sprite("medic_4", ENTITY_MEDIC);
 		
 		SPRITE_CARGO = new Sprite("cargo", ENTITY_CARGO);
 		SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);

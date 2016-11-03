@@ -212,7 +212,7 @@ public class ClientStart extends JFrame {
 					for(int o = 0; o < player.sprites[player.current].width; o++){
 						int x2 = x1 + o;
 						int y2 = y1 + i;
-						drawPixel(x2, y2, player.sprites[0].data[ind]);
+						drawPixel(x2, y2, player.sprites[player.current].data[ind]);
 						ind ++;
 					}
 				}
