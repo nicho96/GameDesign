@@ -13,6 +13,10 @@ public class EntityPlayer extends Entity {
 	public EntityPlayer(float x, float y, Sprite sprite, int id) {
 		super(x, y, sprite, id);
 	}
+	
+	public EntityPlayer(float x, float y, Sprite[] sprites, int id) {
+		super(x, y, sprites, id);
+	}
 
 	@Override
 	public boolean tick(){

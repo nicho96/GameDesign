@@ -4,7 +4,8 @@ import ca.nicho.client.Sprite;
 
 public abstract class Entity {
 		
-	public Sprite sprite;
+	public int current = 0;
+	public Sprite[] sprites;
 	public float locX;
 	public float locY;
 	public int id;
@@ -13,8 +14,13 @@ public abstract class Entity {
 	public byte owner = -1;
 	
 	public Entity(float x, float y, Sprite sprite, int id){
+		this(x, y, new Sprite[1], id);
+		sprites[0] = sprite;
+	}
+	
+	public Entity(float x, float y, Sprite[] sprites, int id){
 		this.id = id;
-		this.sprite = sprite;
+		this.sprites = sprites;
 		this.locX = x;
 		this.locY = y;
 	}
@@ -25,7 +31,12 @@ public abstract class Entity {
 	 */
 	public abstract boolean tick();
 	
+	private int spriteTick = 1;
 	public boolean clientTick(){
+		if((spriteTick = (spriteTick + 1) % 10) == 0){
+			current = (current + 1) % sprites.length;
+		}
+		
 		return false;
 	}
 	

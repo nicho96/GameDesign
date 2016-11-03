@@ -1,5 +1,7 @@
 package ca.nicho.client.tile;
 
+import java.util.HashMap;
+
 import ca.nicho.client.Sprite;
 import ca.nicho.client.SpriteSheet;
 
@@ -17,19 +19,22 @@ public class Tile {
 		this.sprite = sprite;
 	}
 	
+	public String toString(){
+		return sprite.name;
+	}
+	
+	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
+	
 	public static void initTiles(){
 		TILE_WOOD = new Tile(SpriteSheet.SPRITE_WOOD);
 		TILE_STONE = new Tile(SpriteSheet.SPRITE_STONE);
+		
+		tiles.put(SpriteSheet.TILE_WOOD, TILE_WOOD);
+		tiles.put(SpriteSheet.TILE_STONE, TILE_STONE);
 	}
 	
 	public static Tile getTileByID(int ID){
-		switch(ID){
-			case SpriteSheet.TILE_WOOD:
-				return TILE_WOOD;
-			case SpriteSheet.TILE_STONE:
-				return TILE_STONE;
-		}
-		return null;
+		return tiles.get(ID);
 	}
 	
 }

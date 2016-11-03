@@ -19,7 +19,7 @@ public class EntityPacket extends Packet {
 	 */
 	public EntityPacket(Entity ent){
 		super(Packet.PACKET_ENTITY);
-		this.type = ent.sprite.type;
+		this.type = ent.sprites[ent.current].type;
 		this.id = ent.id;
 		this.x = ent.locX;
 		this.y = ent.locY;

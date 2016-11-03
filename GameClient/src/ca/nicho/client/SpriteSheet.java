@@ -27,6 +27,7 @@ public class SpriteSheet {
 	public static final int GUI_HOST = 201;
 	public static final int GUI_ENTER = 202;
 	public static final int GUI_SLOT = 203;
+	public static final int GUI_EPIC_THING = 204;
 	
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -69,6 +70,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_HOST;
 	public static Sprite SPRITE_ENTER;
 	public static Sprite SPRITE_SLOT;
+	public static Sprite SPRITE_EPIC_THING;
 	
 	//Ocean
 	public static Sprite SPRITE_OCEAN_1;
@@ -118,6 +120,7 @@ public class SpriteSheet {
 		SPRITE_HOST = new Sprite("host", GUI_HOST);
 		SPRITE_ENTER = new Sprite("enter", GUI_ENTER);
 		SPRITE_SLOT = new Sprite("slot", GUI_SLOT);
+		SPRITE_EPIC_THING = new Sprite("epic_thing", GUI_EPIC_THING);
 		
 		//Load ocean tiles
 		SPRITE_OCEAN_1 = new Sprite("ocean1", BACK_OCEAN_1);

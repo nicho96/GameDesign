@@ -1,6 +1,11 @@
 package ca.nicho.client.world;
 
 import java.awt.Rectangle;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -140,9 +145,9 @@ public class World implements Runnable{
 	 */
 	public boolean checkCollision(Entity ent, double posX, double posY){
 		return getTileAtLocation(posX, posY) != null ||
-				getTileAtLocation(posX, posY + ent.sprite.height) != null ||
-				getTileAtLocation(posX +  ent.sprite.width, posY) != null ||
-				getTileAtLocation(posX + ent.sprite.width, posY + ent.sprite.height) != null;
+				getTileAtLocation(posX, posY + ent.sprites[ent.current].height) != null ||
+				getTileAtLocation(posX +  ent.sprites[ent.current].width, posY) != null ||
+				getTileAtLocation(posX + ent.sprites[ent.current].width, posY + ent.sprites[ent.current].height) != null;
 	}
 	
 	/**
@@ -155,13 +160,45 @@ public class World implements Runnable{
 			if(e1 == e2)
 				continue;
 			//May want to consider changing to a stand-alone algorithm, this is for convenience
-			Rectangle r1 = new Rectangle((int)e1.locX, (int)e1.locY, (int)e1.sprite.width, (int)e1.sprite.height);
-			Rectangle r2 = new Rectangle((int)e2.locX, (int)e2.locY, (int)e2.sprite.width, (int)e2.sprite.height);
+			Rectangle r1 = new Rectangle((int)e1.locX, (int)e1.locY, (int)e1.sprites[e1.current].width, (int)e1.sprites[e1.current].height);
+			Rectangle r2 = new Rectangle((int)e2.locX, (int)e2.locY, (int)e2.sprites[e2.current].width, (int)e2.sprites[e2.current].height);
 			if(r1.intersects(r2)){
 				e1.collision(e2);
 				e2.collision(e1);
 			}
 		}
+	}
+	
+	public void load(String name){
+		
+		File f = new File("level/" + name);
+		
+		try {
+			DataInputStream in = new DataInputStream(new FileInputStream(f));
+			
+			int width = in.readInt();
+			int height = in.readInt();
+			
+			System.out.println(width);
+			System.out.println(height);
+			
+			map = new Tile[width * height];
+			
+			for(int x = 0; x < width; x++){
+				for(int y = 0; y < height; y++){
+					int type = in.readInt();
+					map[x + y * width] = Tile.getTileByID(type);
+				}
+			}
+			
+			in.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**

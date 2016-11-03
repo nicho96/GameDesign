@@ -144,12 +144,12 @@ public class ClientStart extends JFrame {
 		 */
 		public void drawEntity(Entity ent){
 			int ind = 0;
-			if(ent == null || ent.sprite == null)
+			if(ent == null || ent.sprites[ent.current] == null)
 				return; //Prevent crashes if sprite is not loaded
 			if(ent == player)
 				drawPlayerSprite(); //Special case when drawing player sprite
 			else
-				drawSprite((int)ent.locX, (int)ent.locY, ent.sprite);
+				drawSprite((int)ent.locX, (int)ent.locY, ent.sprites[ent.current]);
 		}
 		
 		/**
@@ -208,11 +208,11 @@ public class ClientStart extends JFrame {
 				int x1 = playerXRender;
 				int y1 = playerYRender;
 				int ind = 0;
-				for(int i = 0; i < player.sprite.height; i++){
-					for(int o = 0; o < player.sprite.width; o++){
+				for(int i = 0; i < player.sprites[player.current].height; i++){
+					for(int o = 0; o < player.sprites[player.current].width; o++){
 						int x2 = x1 + o;
 						int y2 = y1 + i;
-						drawPixel(x2, y2, player.sprite.data[ind]);
+						drawPixel(x2, y2, player.sprites[0].data[ind]);
 						ind ++;
 					}
 				}
@@ -312,12 +312,12 @@ public class ClientStart extends JFrame {
 				Entity e = Game.world.entities.get(Game.ships[i]);
 				if(e == player){
 					int x = i * 50 + 200;
-					this.drawGUISprite(x, 10, e.sprite);
+					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
 					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_GREEN);
 				}else{
 					int x = i * 50 + 200;
-					this.drawGUISprite(x, 10, e.sprite);
+					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
 					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_BLUE);	
 				}
@@ -337,10 +337,10 @@ public class ClientStart extends JFrame {
 					Entity e = set.getKey();
 					int leftX =  FRAME_WIDTH - 195 + 95 * (storeIndex % 2);
 					int leftY = (storeIndex / 2) * 95;
-					int x = (100 - e.sprite.width) / 2 + leftX;
-					int y = (100 - e.sprite.height) / 2 + leftY;
+					int x = (100 - e.sprites[e.current].width) / 2 + leftX;
+					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
 					this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
-					this.drawGUISprite(x, y, e.sprite);
+					this.drawGUISprite(x, y, e.sprites[e.current]);
 					this.drawGUISprite(leftX + 7, leftY + 7, set.getValue());
 					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical scsreen
 					storeIndex ++;
