@@ -9,25 +9,25 @@ import javax.imageio.ImageIO;
 
 public class SpriteSheet {
 	
-	//Reserve 0-99 for entities
+	//Reserve 0-299 for entities
 	public static final int ENTITY_PLAYER = 0;
-	public static final int ENTITY_ENEMY = 1;
-	public static final int ENTITY_BATTLESHIP = 2;
-	public static final int ENTITY_MISSILE = 3;
-	public static final int ENTITY_MEDIC = 4;
-	public static final int ENTITY_CARGO = 5;
-	public static final int ENTITY_RADAR = 6;
+	public static final int ENTITY_ENEMY = 4;
+	public static final int ENTITY_BATTLESHIP = 8;
+	public static final int ENTITY_MISSILE = 12;
+	public static final int ENTITY_MEDIC = 16;
+	public static final int ENTITY_CARGO = 20;
+	public static final int ENTITY_RADAR = 24;
 	
-	//Reserve 100-199 for Tiles
-	public static final int TILE_WOOD = 100;
-	public static final int TILE_STONE = 101;
+	//Reserve 300-399 for Tiles
+	public static final int TILE_WOOD = 300;
+	public static final int TILE_STONE = 301;
 	
-	//Reserve 200-299 for GUI elements (may need to extend in future
-	public static final int GUI_MAP = 200;
-	public static final int GUI_HOST = 201;
-	public static final int GUI_ENTER = 202;
-	public static final int GUI_SLOT = 203;
-	public static final int GUI_EPIC_THING = 204;
+	//Reserve 400-499 for GUI elements (may need to extend in future
+	public static final int GUI_MAP = 400;
+	public static final int GUI_HOST = 401;
+	public static final int GUI_ENTER = 402;
+	public static final int GUI_SLOT = 403;
+	public static final int GUI_EPIC_THING = 404;
 	
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -58,7 +58,10 @@ public class SpriteSheet {
 	public static Sprite SPRITE_ENEMY;
 	public static Sprite SPRITE_BATTLESHIP;
 	public static Sprite SPRITE_MISSILE;
-	public static Sprite SPRITE_MEDIC;
+	public static Sprite SPRITE_MEDIC_1;
+	public static Sprite SPRITE_MEDIC_2;
+	public static Sprite SPRITE_MEDIC_3;
+	public static Sprite SPRITE_MEDIC_4;
 	public static Sprite SPRITE_CARGO;
 	public static Sprite SPRITE_RADAR;
 	
@@ -108,7 +111,12 @@ public class SpriteSheet {
 		SPRITE_ENEMY = new Sprite("enemy", ENTITY_ENEMY);
 		SPRITE_BATTLESHIP = new Sprite("battleship", ENTITY_BATTLESHIP);
 		SPRITE_MISSILE = new Sprite("missile", ENTITY_MISSILE);
-		SPRITE_MEDIC = new Sprite("medic", ENTITY_MEDIC);
+
+		SPRITE_MEDIC_1 = new Sprite("medic1", ENTITY_MEDIC);
+		SPRITE_MEDIC_2 = new Sprite("medic2", ENTITY_MEDIC);
+		SPRITE_MEDIC_3 = new Sprite("medic3", ENTITY_MEDIC);
+		SPRITE_MEDIC_4 = new Sprite("medic4", ENTITY_MEDIC);
+		
 		SPRITE_CARGO = new Sprite("cargo", ENTITY_CARGO);
 		SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
 		
