@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 
 import ca.nicho.client.entity.Entity;
 import ca.nicho.client.entity.EntityPlayer;
+import ca.nicho.client.entity.EntityRadar;
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.client.tile.Tile;
 import ca.nicho.client.world.World;
@@ -23,8 +26,8 @@ public class ClientStart extends JFrame {
 	public static int tickDelta = 0; //This delta value will control player velocities, no matter the frame rate
 	public static boolean DEBUG = false;
 	
-	public static final int FRAME_WIDTH = 1000;
-	public static final int FRAME_HEIGHT = 600;
+	public static int FRAME_WIDTH = 1000;
+	public static int FRAME_HEIGHT = 600;
 	
 	public static String host_port = "";
 	
@@ -57,10 +60,15 @@ public class ClientStart extends JFrame {
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
-		
 	}
 	
+	public static GraphicsEnvironment gfxEnv;
+	public static GraphicsDevice gfxDev;
+	
 	public ClientStart(){
+		this.setUndecorated(true);
+		gfxEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		gfxDev = gfxEnv.getDefaultScreenDevice();
 		mainPanel = new Screen();
 		listener = new ControlListener();
 		this.addKeyListener(listener);
@@ -69,6 +77,8 @@ public class ClientStart extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.pack();
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		gfxDev.setFullScreenWindow(this);
 	}
 	
 	private class Screen extends JPanel implements Runnable {
@@ -81,26 +91,34 @@ public class ClientStart extends JFrame {
 		public BufferedImage screen;
 		public int[] pixels;
 		
+		public int stretchHeight;
+		public int stretchWidth;
+		public int xOff;
+		public int yOff;
+		
 		public Screen(){
+			FRAME_WIDTH = ((int)gfxEnv.getMaximumWindowBounds().getWidth()) / Tile.TILE_DIM * Tile.TILE_DIM; //Will round to nearest tile
+			FRAME_HEIGHT = ((int)gfxEnv.getMaximumWindowBounds().getHeight()) / Tile.TILE_DIM * Tile.TILE_DIM;
 			this.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 			this.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 			screen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
+			this.setBackground(Color.black);
 			pixels = ((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
 			playerXRender = (FRAME_WIDTH - SpriteSheet.SPRITE_PLAYER.width) / 2;
 			playerYRender = (FRAME_HEIGHT - SpriteSheet.SPRITE_PLAYER.height) / 2;
 			new Thread(this).start();
-		}
-		
+		}		
 		
 		@Override
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
 			updateScreen(g);
 			g.setColor(Color.white);
-			g.setFont(new Font("Verdana", Font.BOLD, 25));
+			
+			//g.drawImage(screen, xOff / 2, yOff / 2, stretchWidth + xOff, stretchHeight + yOff, null);	
 			g.drawImage(screen, 0, 0, null);
-					
 			if(con == null){
+				g.setFont(new Font("Verdana", Font.BOLD, 25));
 				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 10, 95);
 				return;
 			}
@@ -118,6 +136,7 @@ public class ClientStart extends JFrame {
 						ships += i + " ";
 					g.drawString("SHIPS: " + ships , 10, 65);
 				}
+				g.drawString("PLAYER ID: " + Game.ownerID, 10, 80);
 				for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
 					if(ent.getValue() == player){
 						g.setColor(Color.green);
@@ -133,6 +152,10 @@ public class ClientStart extends JFrame {
 							g.setColor(Color.white);
 						
 						g.drawString(ent.getKey() + " " + ent.getValue().owner, x, y);
+						
+						if(ent instanceof EntityRadar){
+							g.drawString(((EntityRadar)ent).count + "", x + 50, y);
+						}
 					}
 				}
 			}
@@ -326,7 +349,8 @@ public class ClientStart extends JFrame {
 			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
 				Entity e = set.getValue();
 				if(e.detected){
-					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_BLUE);	
+					System.out.println(e.id + " " + e.owner + " " + e.detected);
+					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_RED);	
 				}
 			}
 			
@@ -352,7 +376,7 @@ public class ClientStart extends JFrame {
 					this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
 					this.drawGUISprite(x, y, e.sprites[e.current]);
 					this.drawGUISprite(leftX + 7, leftY + 7, set.getValue());
-					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical scsreen
+					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical screen
 					storeIndex ++;
 				}
 			}
@@ -368,7 +392,7 @@ public class ClientStart extends JFrame {
 			while(running){
 				long current = System.currentTimeMillis();
 				tickDelta = (int)(current - last);
-				if(tickDelta >= 10){
+				if(tickDelta >= 0){
 					
 					//Poll the controller
 					GamePadListener.tick();
@@ -381,6 +405,12 @@ public class ClientStart extends JFrame {
 						listener.tick();
 					}
 					this.repaint();
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			

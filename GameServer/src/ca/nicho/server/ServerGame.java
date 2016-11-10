@@ -9,6 +9,17 @@ public class ServerGame extends Game {
 	public static int p1Points = 0;
 	public static int p2Points = 0;
 	
+	public int p1ship1 = -1;
+	public int p1ship2 = -1;
+	public int p1ship3 = -1;
+	public int p1ship4 = -1;
+
+	public int p2ship1 = -1;
+	public int p2ship2 = -1;
+	public int p2ship3 = -1;
+	public int p2ship4 = -1;
+
+	
 	public static void initWorld(){
 		if(Game.world == null)
 			Game.world = new ServerWorld();

@@ -39,13 +39,14 @@ public class ControlListener implements KeyListener {
 		}
 		
 		if(e.getKeyChar() == 'w'){
-			W.pressed = true;
-		}else if(e.getKeyChar() == 'a'){
+			W.pressed = true;}else if(e.getKeyChar() == 'a'){
 			A.pressed = true;
 		}else if(e.getKeyChar() == 's'){
 			S.pressed = true;
 		}else if(e.getKeyChar() == 'd'){
 			D.pressed = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			System.exit(1);
 		}
 		
 		
@@ -64,6 +65,7 @@ public class ControlListener implements KeyListener {
 			D.pressed = false;
 		}
 	}
+		
 	
 	public void tick(){
 		int deltaX = 0;
@@ -97,6 +99,7 @@ public class ControlListener implements KeyListener {
 		if(e.getKeyChar() == 't'){
 			ClientStart.DEBUG = !ClientStart.DEBUG;
 		}else if(e.getKeyChar() == ' '){
+			System.out.println(Game.ownerID);
 			ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, SpriteSheet.ENTITY_RADAR, Game.ownerID));
 			//ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, SpriteSheet.ENTITY_MISSILE));
 		}else if(e.getKeyChar() == 'q'){

@@ -81,6 +81,7 @@ public class World implements Runnable{
 				
 			}
 			if(ent != null){
+				System.out.println(packet.owner);
 				ent.owner = packet.owner;
 				spawnEntity(ent);
 			}else{

@@ -21,6 +21,7 @@ public class SpriteSheet {
 	//Reserve 300-399 for Tiles
 	public static final int TILE_WOOD = 300;
 	public static final int TILE_STONE = 301;
+	public static final int TILE_METAL = 302;
 	
 	//Reserve 400-499 for GUI elements (may need to extend in future
 	public static final int GUI_MAP = 400;
@@ -67,6 +68,7 @@ public class SpriteSheet {
 	
 	public static Sprite SPRITE_WOOD;
 	public static Sprite SPRITE_STONE;
+	public static Sprite SPRITE_METAL;
 	
 	//GUI
 	public static Sprite SPRITE_MAP_SMALL;
@@ -80,6 +82,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_OCEAN_2;
 	public static Sprite SPRITE_OCEAN_3;
 	public static Sprite SPRITE_OCEAN_4;
+	
+	//Blank
+	public static Sprite SPRITE_BLANK;
 	
 	//Dots
 	public static Sprite SPRITE_DOT_GREEN;
@@ -122,6 +127,7 @@ public class SpriteSheet {
 		
 		SPRITE_WOOD = new Sprite("wood", TILE_WOOD);
 		SPRITE_STONE = new Sprite("stone", TILE_STONE);
+		SPRITE_METAL = new Sprite("metal", TILE_METAL);
 		
 		//Load GUI elements
 		SPRITE_MAP_SMALL = new Sprite("map", GUI_MAP);
@@ -135,6 +141,9 @@ public class SpriteSheet {
 		SPRITE_OCEAN_2 = new Sprite("ocean2", BACK_OCEAN_2);
 		SPRITE_OCEAN_3 = new Sprite("ocean3", BACK_OCEAN_3);
 		SPRITE_OCEAN_4 = new Sprite("ocean4", BACK_OCEAN_4);
+		
+		//Blank tile (for level editor)
+		SPRITE_BLANK = new Sprite("blank", -1);
 		
 		SPRITE_DOT_GREEN = new Sprite("greendot", DOT_GREEN);
 		SPRITE_DOT_RED = new Sprite("reddot", DOT_RED);

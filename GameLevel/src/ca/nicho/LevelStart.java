@@ -198,7 +198,7 @@ public class LevelStart extends JFrame {
 					if(t != null)
 						this.drawTile(x + y * level.map.length, t);
 					else
-						this.drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, SpriteSheet.SPRITE_OCEAN_1);
+						this.drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, SpriteSheet.SPRITE_BLANK);
 				}
 			}
 			
@@ -301,13 +301,13 @@ public class LevelStart extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_UP){
-				LevelStart.locY -= 40;
+				LevelStart.locY -= Tile.TILE_DIM;
 			}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-				LevelStart.locY += 40;
+				LevelStart.locY += Tile.TILE_DIM;
 			}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-				LevelStart.locX -= 40;
+				LevelStart.locX -= Tile.TILE_DIM;
 			}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-				LevelStart.locX += 40;
+				LevelStart.locX += Tile.TILE_DIM;
 			}
 		}
 
