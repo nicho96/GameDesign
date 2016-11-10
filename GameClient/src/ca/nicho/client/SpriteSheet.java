@@ -77,6 +77,10 @@ public class SpriteSheet {
 	
 	//public static Sprite SPRITE_CARGO;
 	public static Sprite SPRITE_RADAR;
+	public static Sprite SPRITE_RADAR_1;
+	public static Sprite SPRITE_RADAR_2;
+	public static Sprite SPRITE_RADAR_3;
+	public static Sprite SPRITE_RADAR_4;
 	
 	public static Sprite SPRITE_WOOD;
 	public static Sprite SPRITE_STONE;
@@ -147,7 +151,10 @@ public class SpriteSheet {
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
 		
-		SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
+		SPRITE_RADAR_1 = new Sprite("radar1", ENTITY_RADAR);
+		SPRITE_RADAR_2 = new Sprite("radar2", ENTITY_RADAR);
+		SPRITE_RADAR_3 = new Sprite("radar3", ENTITY_RADAR);
+		SPRITE_RADAR_4 = new Sprite("radar4", ENTITY_RADAR);
 		
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
@@ -155,7 +162,7 @@ public class SpriteSheet {
 		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);
 		
 		SPRITE_WOOD = new Sprite("wood", TILE_WOOD);
-		//SPRITE_STONE = new Sprite("stone", TILE_STONE);
+		SPRITE_STONE = new Sprite("stone", TILE_STONE);
 		SPRITE_METAL = new Sprite("metal", TILE_METAL);
 		
 		//Load GUI elements
