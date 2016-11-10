@@ -63,13 +63,28 @@ public class SpriteSheet {
 	public static Sprite SPRITE_MEDIC_2;
 	public static Sprite SPRITE_MEDIC_3;
 	public static Sprite SPRITE_MEDIC_4;
-	public static Sprite SPRITE_CARGO;
+	public static Sprite SPRITE_CARGO_1;
+	public static Sprite SPRITE_CARGO_2;
+	public static Sprite SPRITE_CARGO_3;
+	public static Sprite SPRITE_CARGO_4;
+	public static Sprite SPRITE_CARGO_5;
+	
+
+	public static Sprite SPRITE_BATTLE_1;
+	public static Sprite SPRITE_BATTLE_2;
+	public static Sprite SPRITE_BATTLE_3;
+	public static Sprite SPRITE_BATTLE_4;
+	
+	//public static Sprite SPRITE_CARGO;
 	public static Sprite SPRITE_RADAR;
 	
 	public static Sprite SPRITE_WOOD;
 	public static Sprite SPRITE_STONE;
 	public static Sprite SPRITE_METAL;
-	
+	public static Sprite SPRITE_STONE_1;
+	public static Sprite SPRITE_STONE_2;
+	public static Sprite SPRITE_STONE_3;
+	public static Sprite SPRITE_STONE_4;
 	//GUI
 	public static Sprite SPRITE_MAP_SMALL;
 	public static Sprite SPRITE_HOST;
@@ -114,7 +129,6 @@ public class SpriteSheet {
 	private SpriteSheet(){
 		SPRITE_PLAYER = new Sprite("battleship", ENTITY_PLAYER);
 		SPRITE_ENEMY = new Sprite("enemy", ENTITY_ENEMY);
-		SPRITE_BATTLESHIP = new Sprite("battleship", ENTITY_BATTLESHIP);
 		SPRITE_MISSILE = new Sprite("missile", ENTITY_MISSILE);
 
 		SPRITE_MEDIC_1 = new Sprite("medic_1", ENTITY_MEDIC);
@@ -122,11 +136,26 @@ public class SpriteSheet {
 		SPRITE_MEDIC_3 = new Sprite("medic_3", ENTITY_MEDIC);
 		SPRITE_MEDIC_4 = new Sprite("medic_4", ENTITY_MEDIC);
 		
-		SPRITE_CARGO = new Sprite("cargo", ENTITY_CARGO);
+		SPRITE_CARGO_1 = new Sprite("cargo_1", ENTITY_CARGO);
+		SPRITE_CARGO_2 = new Sprite("cargo_2", ENTITY_CARGO);
+		SPRITE_CARGO_3 = new Sprite("cargo_3", ENTITY_CARGO);
+		SPRITE_CARGO_4 = new Sprite("cargo_4", ENTITY_CARGO);
+		SPRITE_CARGO_5 = new Sprite("cargo_5", ENTITY_CARGO);
+
+		SPRITE_BATTLE_1 = new Sprite("special1", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_2 = new Sprite("special2", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
+		
 		SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
 		
+		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
+		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
+		SPRITE_STONE_3 = new Sprite("rock3", TILE_STONE);
+		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);
+		
 		SPRITE_WOOD = new Sprite("wood", TILE_WOOD);
-		SPRITE_STONE = new Sprite("stone", TILE_STONE);
+		//SPRITE_STONE = new Sprite("stone", TILE_STONE);
 		SPRITE_METAL = new Sprite("metal", TILE_METAL);
 		
 		//Load GUI elements

@@ -13,6 +13,7 @@ public class EntityPlayer extends Entity {
 	
 	public Entity[] inventory;
 	
+	
 	public EntityPlayer(float x, float y, Sprite sprite, int id) {
 		super(x, y, sprite, id);
 	}
