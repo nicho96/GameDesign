@@ -151,15 +151,16 @@ public class SpriteSheet {
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
 		
-		SPRITE_RADAR_1 = new Sprite("radar1", ENTITY_RADAR);
-		SPRITE_RADAR_2 = new Sprite("radar2", ENTITY_RADAR);
-		SPRITE_RADAR_3 = new Sprite("radar3", ENTITY_RADAR);
-		SPRITE_RADAR_4 = new Sprite("radar4", ENTITY_RADAR);
+		//SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
+		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
+		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
+		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
+		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);/*
 		
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
 		SPRITE_STONE_3 = new Sprite("rock3", TILE_STONE);
-		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);
+		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);*/
 		
 		SPRITE_WOOD = new Sprite("wood", TILE_WOOD);
 		SPRITE_STONE = new Sprite("stone", TILE_STONE);

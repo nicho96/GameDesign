@@ -3,14 +3,16 @@ package ca.nicho.client.entity;
 import java.util.Map;
 
 import ca.nicho.client.Game;
+import ca.nicho.client.Sprite;
 import ca.nicho.client.SpriteSheet;
 
 public class EntityRadar extends Entity {
 
 	public int count = 0;
+	private static final Sprite[] sprites = {SpriteSheet.SPRITE_RADAR_1, SpriteSheet.SPRITE_RADAR_2, SpriteSheet.SPRITE_RADAR_3, SpriteSheet.SPRITE_RADAR_4};
 	
 	public EntityRadar(float x, float y, int ID){
-		super(x, y, SpriteSheet.SPRITE_RADAR, ID);
+		super(x, y, sprites, ID);
 	}
 
 	

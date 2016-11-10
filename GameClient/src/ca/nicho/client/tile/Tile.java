@@ -16,6 +16,7 @@ public class Tile {
 	
 	public static Tile TILE_ROCK;
 	
+	//private static final Sprite[] rockSprites = {SpriteSheet.SPRITE_STONE_1, SpriteSheet.SPRITE_STONE_2, SpriteSheet.SPRITE_STONE_3, SpriteSheet.SPRITE__4};
 	
 	public Sprite sprite;
 	
