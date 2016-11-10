@@ -19,7 +19,8 @@ public class Level {
 		map = new Tile[100][100];
 		for(int i = 0; i < map.length; i++){
 			for(int o = 0; o < map[0].length; o++){
-				//map[i][o] = Tile.TILE_STONE;
+				if(i == 0 || i == map.length - 1 || o == 0 || o == map[0].length)
+					map[i][o] = Tile.TILE_METAL;
 			}
 		}
 	}

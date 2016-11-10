@@ -7,6 +7,8 @@ import ca.nicho.client.SpriteSheet;
 
 public class EntityRadar extends Entity {
 
+	public int count = 0;
+	
 	public EntityRadar(float x, float y, int ID){
 		super(x, y, SpriteSheet.SPRITE_RADAR, ID);
 	}
@@ -24,19 +26,22 @@ public class EntityRadar extends Entity {
 		
 		tickCount = (tickCount + 1) % 10;
 		
-		if(tickCount != 0)
+		if(tickCount != 0 || this.owner != Game.ownerID)
 			return false;
 		
+		count = 0;
 		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
 			Entity e = set.getValue();
-			if(e != this){
+			if(e != this && e.owner != Game.ownerID){
 				float dx = e.locX - locX;
 				float dy = e.locY - locY;
 				double distance = Math.sqrt(dx*dx + dy*dy);
+				
 				if(distance < 200){
-					e.detected = false;
-				}else{
 					e.detected = true;
+					count += 1;
+				}else{
+					e.detected = false;
 				}
 			}
 		}

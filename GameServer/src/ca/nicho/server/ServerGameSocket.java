@@ -27,6 +27,10 @@ public class ServerGameSocket implements Runnable{
 	public DataOutputStream out;
 	
 	public ServerGameSocket(Socket socket){
+		this.setSocket(socket);
+	}
+	
+	public void setSocket(Socket socket){
 		this.socket = socket;
 		try {
 			this.in = new DataInputStream(socket.getInputStream());
@@ -35,36 +39,49 @@ public class ServerGameSocket implements Runnable{
 			//Remove from list of connections
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public void nullifyStreams(){
+		this.socket = null;
+		this.in = null;
+		this.out = null;
+		ready = false;
 	}
 
+	private EntityPlayer ship1 = null;
+	private EntityPlayer ship2 = null;
+	private EntityPlayer ship3 = null;
+	private EntityPlayer ship4 = null;
+	
 	@Override
 	public void run() {
-		int id = Game.world.entId++;
-		System.out.println("Player joined - assigning entity ID " + id);
-		EntityPlayer ship1 = new EntityMedicShip((int)(Math.random() * 800), 200, Game.world.entId++);
-		EntityPlayer ship2 = new EntityBattleship((int)(Math.random() * 800), 200,  Game.world.entId++);
-		EntityPlayer ship3 = new EntityCargoShip((int)(Math.random() * 800), 200,  Game.world.entId++);
-		EntityPlayer ship4 = new EntityMedicShip((int)(Math.random() * 800), 200,  Game.world.entId++);
-		Game.world.spawnEntity(ship1);
-		Game.world.spawnEntity(ship2);
-		Game.world.spawnEntity(ship3);
-		Game.world.spawnEntity(ship4);
+		byte owner = (byte) ((this == ServerStart.con1) ? 1 : 2);
+		//System.out.println("Player joined - assigning entity ID " + id);
+		if(ship1 == null){
+			ship1 = new EntityMedicShip((int)(Math.random() * 800), 200, Game.world.entId++);
+			ship1.owner = owner;
+			ship2 = new EntityBattleship((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship2.owner = owner;
+			ship3 = new EntityCargoShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship3.owner = owner;
+			ship4 = new EntityMedicShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship4.owner = owner;
+			Game.world.spawnEntity(ship1);
+			Game.world.spawnEntity(ship2);
+			Game.world.spawnEntity(ship3);
+			Game.world.spawnEntity(ship4);
+		}
 		//Spawn the user into the world
 		this.sendIntitalWorldState(); //Send the world
-		this.sendPacket(new EntityPacket(ship1)); //Send the player entity
 		this.sendInitialEntities(); //Send the remaining entities
-		byte owner = (byte) ((this == ServerStart.con1) ? 1 : 2);
 		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, ship4.id, owner)); //Send final connection packet
 		while(true){
 			try{
-				readPacket();
+				if(socket != null)
+					readPacket();
 			}catch(IOException e){
 				System.out.println("ServerGameSocket: Client disconnected");
-				if(ServerStart.con1 == this)
-					ServerStart.con1 = null;
-				else if(ServerStart.con2 == this)
-					ServerStart.con2 = null;
+				nullifyStreams();
 				break;
 			}
 		}
@@ -109,6 +126,8 @@ public class ServerGameSocket implements Runnable{
 	}
 	
 	public synchronized void sendPacket(Packet packet){
+		if(socket == null)
+			return;
 		try{
 			out.writeInt(packet.packetType);
 			byte[] data = packet.getPacketData();

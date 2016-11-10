@@ -54,7 +54,7 @@ public class ServerWorld extends World{
 			ent = entities.get(packet.id);
 			ent.locX = packet.x;
 			ent.locY = packet.y;
-			
+			ent.owner = packet.owner;
 			if(ent != null){
 				ServerStart.sendGlobalPacket(new EntityPacket(ent));
 			}
@@ -72,6 +72,7 @@ public class ServerWorld extends World{
 					ent = new EntityRadar(packet.x, packet.y, packet.id);
 			}
 			if(ent != null){
+				ent.owner = packet.owner;
 				spawnEntity(ent);
 			}else{
 				System.out.println("World: Tried to spawn a null entity (packet malformed?)");
