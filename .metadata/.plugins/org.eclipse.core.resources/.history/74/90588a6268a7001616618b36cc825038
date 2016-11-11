@@ -1,0 +1,23 @@
+package ca.nicho.client.packet;
+
+import java.nio.ByteBuffer;
+
+public class PurchasePacket extends Packet {
+
+	public int amount;
+	
+	public PurchasePacket(int amount) {
+		super(Packet.PACKET_PURCHASE);
+		this.amount = amount;
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		ByteBuffer buffer = ByteBuffer.allocate(4);
+		buffer.putInt(amount);
+		return buffer.array();
+	}
+
+	
+	
+}

@@ -1,7 +1,0 @@
-package ca.nicho.client.packet;
-
-public class TilePacket extends Packet{
-
-	
-	
-}

@@ -3,8 +3,12 @@ package ca.nicho.client;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import ca.nicho.client.packet.SpawnEntityPacket;
 import ca.nicho.client.store.StoreHandler;
+import ca.nicho.client.store.StoreHandler.StoreItem;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.PurchasePacket;
+import ca.nicho.foundation.packet.SpawnEntityPacket;
 
 public class ControlListener implements KeyListener {
 
@@ -39,7 +43,8 @@ public class ControlListener implements KeyListener {
 		}
 		
 		if(e.getKeyChar() == 'w'){
-			W.pressed = true;}else if(e.getKeyChar() == 'a'){
+			W.pressed = true;
+		}else if(e.getKeyChar() == 'a'){
 			A.pressed = true;
 		}else if(e.getKeyChar() == 's'){
 			S.pressed = true;
@@ -47,6 +52,11 @@ public class ControlListener implements KeyListener {
 			D.pressed = true;
 		}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			if(StoreHandler.isOpen)
+				ClientStart.store.next();
+			else
+				Game.world.getPlayer().nextSlot();
 		}
 		
 		
@@ -80,7 +90,8 @@ public class ControlListener implements KeyListener {
 			deltaX = 1;
 		
 		if(Game.world.getPlayer() != null){
-			Game.world.getPlayer().move(deltaX, deltaY);
+			Game.world.getPlayer().move(deltaX, deltaY, ClientStart.tickDelta);
+			ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
 		}
 		
 	}
@@ -90,7 +101,7 @@ public class ControlListener implements KeyListener {
 		
 		if(ClientStart.con == null){
 			char c = e.getKeyChar();
-			if(Character.isLetter(c) || Character.isDigit(c) || c == ':'){
+			if(Character.isLetter(c) || Character.isDigit(c) || c == ':' || c == '.'){
 				ClientStart.host_port += c;
 			}
 			return;
@@ -99,9 +110,19 @@ public class ControlListener implements KeyListener {
 		if(e.getKeyChar() == 't'){
 			ClientStart.DEBUG = !ClientStart.DEBUG;
 		}else if(e.getKeyChar() == ' '){
-			System.out.println(Game.ownerID);
-			ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, SpriteSheet.ENTITY_RADAR, Game.ownerID));
-			//ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, SpriteSheet.ENTITY_MISSILE));
+			if(StoreHandler.isOpen){
+				StoreItem item = ClientStart.store.getCurrentStoreItem();
+				if(Game.points - item.cost > 0){
+					System.out.println(item.entity.sprites[0].type);
+					ClientStart.con.sendPacket(new PurchasePacket(item.cost));
+					Game.world.getPlayer().inventory[0] = item.entity;
+				}
+			}else{
+				if(Game.world.getPlayer().getCurrent() != null){
+					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
+					Game.world.getPlayer().clearCurrent();
+				}
+			}
 		}else if(e.getKeyChar() == 'q'){
 			Game.current = (Game.current + 1) % Game.ships.length;
 		}else if(e.getKeyChar() == '1'){

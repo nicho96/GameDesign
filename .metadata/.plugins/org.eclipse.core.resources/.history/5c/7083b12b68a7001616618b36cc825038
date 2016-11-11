@@ -1,0 +1,16 @@
+package ca.nicho.client.packet;
+
+public class PurchasePacket extends Packet {
+
+	public PurchasePacket() {
+		super(Packet.PACKET_PURCHASE);
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		return null;
+	}
+
+	
+	
+}

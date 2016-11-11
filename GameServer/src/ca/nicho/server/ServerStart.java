@@ -6,11 +6,11 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Scanner;
 
-import ca.nicho.client.Game;
-import ca.nicho.client.SpriteSheet;
-import ca.nicho.client.entity.Entity;
-import ca.nicho.client.packet.Packet;
-import ca.nicho.client.tile.Tile;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.packet.Packet;
+import ca.nicho.foundation.tile.Tile;
 import ca.nicho.server.world.ServerWorld;
 
 public class ServerStart {
@@ -39,7 +39,7 @@ public class ServerStart {
 			while(true){
 				Socket con = socket.accept();
 				if(con1 == null){ //New connection
-					ServerGameSocket gameCon = new ServerGameSocket(con);
+					ServerGameSocket gameCon = new ServerGameSocket(con, (byte)1);
 					new Thread(gameCon).start();
 					con1 = gameCon;
 					System.out.println("Player 1 Connected");
@@ -48,7 +48,7 @@ public class ServerStart {
 					new Thread(con1).start();
 					System.out.println("Player 1 Reconnected");
 				} else if (con2 == null){
-					ServerGameSocket gameCon = new ServerGameSocket(con);
+					ServerGameSocket gameCon = new ServerGameSocket(con, (byte)2);
 					new Thread(gameCon).start();
 					con2 = gameCon;
 					System.out.println("Player 2 Connected");

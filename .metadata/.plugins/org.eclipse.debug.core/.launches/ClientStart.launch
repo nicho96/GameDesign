@@ -8,4 +8,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="ca.nicho.client.ClientStart"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="GameClient"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.library.path=&quot;lib&quot;"/>
 </launchConfiguration>

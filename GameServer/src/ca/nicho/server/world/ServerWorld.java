@@ -2,16 +2,16 @@ package ca.nicho.server.world;
 
 import java.util.Map;
 
-import ca.nicho.client.SpriteSheet;
-import ca.nicho.client.entity.Entity;
-import ca.nicho.client.entity.EntityMissile;
-import ca.nicho.client.entity.EntityPlayer;
-import ca.nicho.client.entity.EntityRadar;
-import ca.nicho.client.packet.EntityPacket;
-import ca.nicho.client.packet.KillEntityPacket;
-import ca.nicho.client.packet.TilePacket;
-import ca.nicho.client.tile.Tile;
-import ca.nicho.client.world.World;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityMissile;
+import ca.nicho.foundation.entity.EntityPlayer;
+import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.KillEntityPacket;
+import ca.nicho.foundation.packet.TilePacket;
+import ca.nicho.foundation.tile.Tile;
+import ca.nicho.foundation.world.World;
 import ca.nicho.server.ServerGame;
 import ca.nicho.server.ServerStart;
 
@@ -23,6 +23,8 @@ public class ServerWorld extends World{
 		super();
 
 		this.load("level.lev");
+		
+		System.out.println("P1 Spawn: " + p1SpawnX + ", " + p1SpawnY + " - P2 Spawn: " + p2SpawnX + ", " + p2SpawnY);
 		
 		clock = new GameClock();
 	}

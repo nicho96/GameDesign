@@ -1,7 +1,0 @@
-package ca.nicho.packet;
-
-public abstract class Packet {
-	
-	public abstract byte[] getPacketData();
-	
-}

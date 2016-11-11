@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import ca.nicho.client.tile.Tile;
+import ca.nicho.foundation.tile.Tile;
 
 public class Level {
 

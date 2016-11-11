@@ -12,6 +12,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\Nicho\Desktop\GameDesign\GameLevel"/>
 			<item value="C:\Users\Nicho\Desktop\Gripp\Back\grippback"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

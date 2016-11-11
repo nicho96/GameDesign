@@ -1,6 +1,9 @@
 package ca.nicho.client;
 
-import ca.nicho.client.packet.SpawnEntityPacket;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.SpawnEntityPacket;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;
@@ -132,7 +135,8 @@ public class GamePadListener {
 			if(Game.world.getPlayer() != null){
 				float x = RIGHT_THUMB_X.getPollData();
 				float y = RIGHT_THUMB_Y.getPollData();
-				Game.world.getPlayer().move((Math.abs(x) > 0.2f) ? x : 0, (Math.abs(y) > 0.2f) ? y : 0);
+				Game.world.getPlayer().move((Math.abs(x) > 0.2f) ? x : 0, (Math.abs(y) > 0.2f) ? y : 0, ClientStart.tickDelta);
+				ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
 			}
 			
 		}

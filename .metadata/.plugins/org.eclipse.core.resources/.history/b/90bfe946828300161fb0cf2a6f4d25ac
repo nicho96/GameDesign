@@ -1,9 +1,0 @@
-package ca.nicho.client.packet;
-
-public class ConnectPacket extends Packet {
-
-	public ConnectPacket(int packetType) {
-		super(packetType);
-	}
-
-}

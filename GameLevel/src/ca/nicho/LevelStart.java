@@ -26,9 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import ca.nicho.client.GamePadListener;
-import ca.nicho.client.SpriteSheet;
-import ca.nicho.client.tile.Tile;
-import ca.nicho.client.world.World;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.tile.Tile;
+import ca.nicho.foundation.world.World;
 
 public class LevelStart extends JFrame {
 
@@ -233,7 +233,7 @@ public class LevelStart extends JFrame {
 		 * @param y1
 		 * @param sprite the sprite to be drawn
 		 */
-		public void drawSprite(int x1, int y1, ca.nicho.client.Sprite sprite){
+		public void drawSprite(int x1, int y1, ca.nicho.foundation.Sprite sprite){
 			int ind = 0;
 			int deltaX = x1 - locX;
 			int deltaY = y1 - locY;

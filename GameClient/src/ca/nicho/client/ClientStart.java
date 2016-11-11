@@ -14,12 +14,16 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ca.nicho.client.entity.Entity;
-import ca.nicho.client.entity.EntityPlayer;
-import ca.nicho.client.entity.EntityRadar;
 import ca.nicho.client.store.StoreHandler;
-import ca.nicho.client.tile.Tile;
-import ca.nicho.client.world.World;
+import ca.nicho.client.store.StoreHandler.StoreItem;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityPlayer;
+import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.tile.Tile;
+import ca.nicho.foundation.world.World;
 
 public class ClientStart extends JFrame {
 	
@@ -358,7 +362,10 @@ public class ClientStart extends JFrame {
 				Entity e = player.inventory[i];
 				int guiX = FRAME_WIDTH - 100 - i * 95;
 				int guiY = FRAME_HEIGHT - 100;
-				drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
+				if(player.position == i)
+					drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SELECTED);
+				else
+					drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
 				if(e != null){
 					drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
 				}
@@ -367,19 +374,24 @@ public class ClientStart extends JFrame {
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;
-				for(Map.Entry<Entity, Sprite> set : store.costs.entrySet()){
-					Entity e = set.getKey();
+				for(StoreItem item: store.costs){
+					Entity e = item.entity;
 					int leftX =  FRAME_WIDTH - 195 + 95 * (storeIndex % 2);
 					int leftY = (storeIndex / 2) * 95;
 					int x = (100 - e.sprites[e.current].width) / 2 + leftX;
 					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
-					this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+					if(store.position != storeIndex)
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+					else
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
 					this.drawGUISprite(x, y, e.sprites[e.current]);
-					this.drawGUISprite(leftX + 7, leftY + 7, set.getValue());
+					this.drawGUISprite(leftX + 7, leftY + 7, item.sprite);
 					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical screen
 					storeIndex ++;
 				}
 			}
+			
+			this.drawGUISprite(10, 120, new Sprite(Game.points));
 		}
 		
 		public int rate;

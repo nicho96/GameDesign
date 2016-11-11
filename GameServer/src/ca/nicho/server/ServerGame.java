@@ -1,7 +1,7 @@
 package ca.nicho.server;
 
-import ca.nicho.client.Game;
-import ca.nicho.client.packet.PointPacket;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.server.world.ServerWorld;
 
 public class ServerGame extends Game {

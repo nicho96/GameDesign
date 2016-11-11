@@ -6,18 +6,20 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-import ca.nicho.client.Game;
-import ca.nicho.client.entity.Entity;
-import ca.nicho.client.entity.EntityBattleship;
-import ca.nicho.client.entity.EntityCargoShip;
-import ca.nicho.client.entity.EntityMedicShip;
-import ca.nicho.client.entity.EntityPlayer;
-import ca.nicho.client.packet.ConnectPacket;
-import ca.nicho.client.packet.EntityPacket;
-import ca.nicho.client.packet.Packet;
-import ca.nicho.client.packet.SpawnEntityPacket;
-import ca.nicho.client.packet.TilePacket;
-import ca.nicho.client.tile.Tile;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityBattleship;
+import ca.nicho.foundation.entity.EntityCargoShip;
+import ca.nicho.foundation.entity.EntityMedicShip;
+import ca.nicho.foundation.entity.EntityPlayer;
+import ca.nicho.foundation.packet.ConnectPacket;
+import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.Packet;
+import ca.nicho.foundation.packet.PurchasePacket;
+import ca.nicho.foundation.packet.SpawnEntityPacket;
+import ca.nicho.foundation.packet.TilePacket;
+import ca.nicho.foundation.tile.Tile;
 
 public class ServerGameSocket implements Runnable{
 
@@ -25,8 +27,10 @@ public class ServerGameSocket implements Runnable{
 	public Socket socket;
 	public DataInputStream in;
 	public DataOutputStream out;
+	public byte player;
 	
-	public ServerGameSocket(Socket socket){
+	public ServerGameSocket(Socket socket, byte player){
+		this.player = player;
 		this.setSocket(socket);
 	}
 	
@@ -55,16 +59,18 @@ public class ServerGameSocket implements Runnable{
 	
 	@Override
 	public void run() {
-		byte owner = (byte) ((this == ServerStart.con1) ? 1 : 2);
+		byte owner = player;
 		//System.out.println("Player joined - assigning entity ID " + id);
 		if(ship1 == null){
-			ship1 = new EntityMedicShip((int)(Math.random() * 800), 200, Game.world.entId++);
+			int x = (player == 1) ? Game.world.p1SpawnX : Game.world.p2SpawnX;
+			int y = (player == 1) ? Game.world.p1SpawnY : Game.world.p2SpawnY;
+			ship1 = new EntityMedicShip(x - 100, y, Game.world.entId++);
 			ship1.owner = owner;
-			ship2 = new EntityBattleship((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship2 = new EntityBattleship(x + 100, y,  Game.world.entId++);
 			ship2.owner = owner;
-			ship3 = new EntityCargoShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship3 = new EntityCargoShip(x, y - 100,  Game.world.entId++);
 			ship3.owner = owner;
-			ship4 = new EntityMedicShip((int)(Math.random() * 800), 200,  Game.world.entId++);
+			ship4 = new EntityMedicShip(x, y + 100,  Game.world.entId++);
 			ship4.owner = owner;
 			Game.world.spawnEntity(ship1);
 			Game.world.spawnEntity(ship2);
@@ -106,6 +112,13 @@ public class ServerGameSocket implements Runnable{
 			case Packet.PACKET_SPAWN_ENTITY:
 				SpawnEntityPacket packet = new SpawnEntityPacket(data);
 				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y, packet.owner));
+				break;
+			case Packet.PACKET_PURCHASE:
+				PurchasePacket purchasePacket = new PurchasePacket(data);
+				if(this == ServerStart.con1)
+					ServerGame.p1Points -= purchasePacket.amount;
+				else if(this == ServerStart.con2)
+					ServerGame.p2Points -= purchasePacket.amount;
 				break;
 		}
 	}	

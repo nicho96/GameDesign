@@ -1,5 +1,0 @@
-package ca.nicho.client.entity;
-
-public class EntityBattlship extends Entity {
-
-}
