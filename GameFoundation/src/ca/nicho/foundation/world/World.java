@@ -243,6 +243,8 @@ public class World implements Runnable{
 			Entity e = set.getValue();
 			e.clientTick();
 		}
+		
+		Tile.update();
 	}
 	
 }

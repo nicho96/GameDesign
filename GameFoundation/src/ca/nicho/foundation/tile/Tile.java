@@ -1,6 +1,7 @@
 package ca.nicho.foundation.tile;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
@@ -20,14 +21,20 @@ public class Tile {
 	
 	//private static final Sprite[] rockSprites = {SpriteSheet.SPRITE_STONE_1, SpriteSheet.SPRITE_STONE_2, SpriteSheet.SPRITE_STONE_3, SpriteSheet.SPRITE__4};
 	
-	public Sprite sprite;
+	public Sprite[] sprites;
+	public int current = 0;
 	
 	public Tile(Sprite sprite){
-		this.sprite = sprite;
+		sprites = new Sprite[1];
+		this.sprites[0] = sprite;
+	}
+	
+	public Tile(Sprite[] sprites){
+		this.sprites = sprites;
 	}
 	
 	public String toString(){
-		return sprite.name;
+		return sprites[0].name;
 	}
 	
 	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
@@ -50,6 +57,21 @@ public class Tile {
 	
 	public static Tile getTileByID(int ID){
 		return tiles.get(ID);
+	}
+	
+	int updateTick = 0;
+	public void tick(){
+		updateTick++;
+		if(updateTick == 10){
+			updateTick = 0;
+			current = (current + 1) % sprites.length;
+		}
+	}
+	
+	public static void update(){
+		for(Map.Entry<Integer, Tile> set : Tile.tiles.entrySet()){
+			set.getValue().tick();
+		}
 	}
 	
 }

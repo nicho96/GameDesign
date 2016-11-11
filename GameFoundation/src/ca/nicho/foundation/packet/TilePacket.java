@@ -17,7 +17,7 @@ public class TilePacket extends Packet{
 	public TilePacket(int pos, Tile t){
 		super(Packet.PACKET_TILE);
 		this.pos = pos;
-		type = t.sprite.type;
+		type = t.sprites[0].type;
 	}
 	
 	/**
