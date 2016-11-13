@@ -220,10 +220,10 @@ public class LevelStart extends JFrame {
 		 * @param sprite the sprite to be drawn
 		 */
 		public void drawTile(int pos, Tile tile){
-			if(tile.sprite != null){
+			if(tile.sprites[0] != null){
 				int x = pos % World.MAP_WIDTH;
 				int y = pos / World.MAP_WIDTH;
-				drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, tile.sprite);
+				drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, tile.sprites[0]);
 			}
 		}
 		

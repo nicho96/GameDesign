@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.client.store.StoreHandler.StoreItem;
 import ca.nicho.foundation.Game;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.PurchasePacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
@@ -89,9 +91,15 @@ public class ControlListener implements KeyListener {
 		if(D.pressed)
 			deltaX = 1;
 		
-		if(Game.world.getPlayer() != null){
-			Game.world.getPlayer().move(deltaX, deltaY, ClientStart.tickDelta);
+		EntityPlayer player = Game.world.getPlayer();
+		if(player != null){
+			player.move(deltaX, deltaY, ClientStart.tickDelta);
 			ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
+			if(player.delta > 30){
+				ClientStart.con.sendPacket(new SpawnEntityPacket(player.locX + player.sprites[0].width / 2 - SpriteSheet.SPRITE_TRAIL.width / 2, player.locY + player.sprites[0].height / 2 - SpriteSheet.SPRITE_TRAIL.height / 2, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
+				player.delta = 0;
+			}
+
 		}
 		
 	}
