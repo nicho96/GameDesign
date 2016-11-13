@@ -19,7 +19,7 @@ public class Tile {
 	
 	public static Tile TILE_ROCK;
 	
-	//private static final Sprite[] rockSprites = {SpriteSheet.SPRITE_STONE_1, SpriteSheet.SPRITE_STONE_2, SpriteSheet.SPRITE_STONE_3, SpriteSheet.SPRITE__4};
+	//private static final Sprite[] rockSprites = {SpriteSheet.SPRITE_STONE_1, SpriteSheet.SPRITE_STONE_2, SpriteSheet.SPRITE_STONE_3, SpriteSheet.SPRITE_STONE_4};
 	
 	public Sprite[] sprites;
 	public int current = 0;
@@ -45,14 +45,18 @@ public class Tile {
 		TILE_P2_SPAWN = new Tile(SpriteSheet.SPRITE_P2_SPAWN);
 		
 		TILE_WOOD = new Tile(SpriteSheet.SPRITE_WOOD);
+		
 		TILE_STONE = new Tile(SpriteSheet.SPRITE_STONE);
 		TILE_METAL = new Tile(SpriteSheet.SPRITE_METAL);
 		
 		tiles.put(SpriteSheet.TILE_P1_SPAWN, TILE_P1_SPAWN);
 		tiles.put(SpriteSheet.TILE_P2_SPAWN, TILE_P2_SPAWN);
+
 		tiles.put(SpriteSheet.TILE_WOOD, TILE_WOOD);
 		tiles.put(SpriteSheet.TILE_STONE, TILE_STONE);
 		tiles.put(SpriteSheet.TILE_METAL, TILE_METAL);
+		
+		
 	}
 	
 	public static Tile getTileByID(int ID){

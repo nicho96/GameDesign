@@ -162,8 +162,8 @@ public class SpriteSheet {
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
-		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);/*
-		
+		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);
+		/*
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
 		SPRITE_STONE_3 = new Sprite("rock3", TILE_STONE);
