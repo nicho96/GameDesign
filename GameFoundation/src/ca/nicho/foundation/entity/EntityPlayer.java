@@ -2,13 +2,14 @@ package ca.nicho.foundation.entity;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
-import ca.nicho.foundation.packet.EntityPacket;
 
 public class EntityPlayer extends Entity {
 
 	public boolean moved = true;
 	public float speedFactor = 1;
 	public float velocity = 200; //px/s
+	
+	public double delta = 0;
 	
 	public Entity[] inventory;
 	public int position = 0;
@@ -53,6 +54,8 @@ public class EntityPlayer extends Entity {
 		double vx = deltaX * tickDelta / 1000 * velocity * speedFactor;
 		double vy = deltaY * tickDelta / 1000 * velocity * speedFactor;
 				
+		
+		
 		if(vx != 0 && vy != 0){
 			vx /= sqrt2;
 			vy /= sqrt2;
@@ -63,9 +66,12 @@ public class EntityPlayer extends Entity {
 				//Essential rounding this value, or character will remain stuck in the wall
 				this.locX = Math.round(locX);
 				this.locY = Math.round(locY);
+				
 			}else{
 				this.locX += vx;
 				this.locY += vy;
+				double dxy = Math.sqrt(vx*vx + vy*vy);
+				delta += dxy;
 				moved = true;
 			}
 		}

@@ -17,6 +17,7 @@ public class SpriteSheet {
 	public static final int ENTITY_MEDIC = 4;
 	public static final int ENTITY_CARGO = 5;
 	public static final int ENTITY_RADAR = 6;
+	public static final int ENTITY_TRAIL = 7;
 	
 	//Reserver 298 + 299 for Spawn Tiles (tiles than get converted to player spawn regions)
 	public static final int TILE_P1_SPAWN = 298;
@@ -33,6 +34,7 @@ public class SpriteSheet {
 	public static final int GUI_ENTER = 402;
 	public static final int GUI_SLOT = 403;
 	public static final int GUI_SELECTED = 404; //404 not found
+	public static final int GUI_LARGE_MAP = 405;
 	
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -71,8 +73,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_CARGO_2;
 	public static Sprite SPRITE_CARGO_3;
 	public static Sprite SPRITE_CARGO_4;
-	public static Sprite SPRITE_CARGO_5;
-	
+	public static Sprite SPRITE_CARGO_5;	
 
 	public static Sprite SPRITE_BATTLE_1;
 	public static Sprite SPRITE_BATTLE_2;
@@ -85,7 +86,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_RADAR_2;
 	public static Sprite SPRITE_RADAR_3;
 	public static Sprite SPRITE_RADAR_4;
-	
+		
+	public static Sprite SPRITE_TRAIL;
+
 	public static Sprite SPRITE_P1_SPAWN;
 	public static Sprite SPRITE_P2_SPAWN;
 		
@@ -162,9 +165,10 @@ public class SpriteSheet {
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
-		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);
-		/*
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
+		SPRITE_TRAIL = new Sprite("ripple", ENTITY_TRAIL);
+		
+		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
 		SPRITE_STONE_3 = new Sprite("rock3", TILE_STONE);
 		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);*/

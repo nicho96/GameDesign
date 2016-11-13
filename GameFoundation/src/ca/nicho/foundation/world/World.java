@@ -19,6 +19,7 @@ import ca.nicho.foundation.entity.EntityMedicShip;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.entity.EntityTrail;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.tile.Tile;
 
@@ -83,6 +84,9 @@ public class World implements Runnable{
 					break;
 				case SpriteSheet.ENTITY_RADAR:
 					ent = new EntityRadar(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_TRAIL:
+					ent = new EntityTrail(packet.x, packet.y, packet.id);
 					break;
 				
 			}

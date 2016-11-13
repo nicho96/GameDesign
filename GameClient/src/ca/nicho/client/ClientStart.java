@@ -9,6 +9,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.FileInputStream;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -24,6 +25,7 @@ import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
+import javazoom.jl.player.Player;
 
 public class ClientStart extends JFrame {
 	
@@ -64,6 +66,17 @@ public class ClientStart extends JFrame {
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
+		
+		try{
+		    FileInputStream fis = new FileInputStream("res/pandemic.mp3");
+		    Player playMP3 = new Player(fis);
+		    playMP3.play();
+		}
+		catch(Exception exc){
+		    exc.printStackTrace();
+		    System.out.println("Failed to play the file.");
+		}
+		
 	}
 	
 	public static GraphicsEnvironment gfxEnv;

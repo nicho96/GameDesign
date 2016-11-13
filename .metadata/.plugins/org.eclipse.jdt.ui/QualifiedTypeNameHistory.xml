@@ -36,9 +36,12 @@
 <fullyQualifiedTypeName name="ca.nicho.client.entity.Entity"/>
 <fullyQualifiedTypeName name="ca.nicho.server.ServerStart"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="java.util.Map.Entry"/>
 <fullyQualifiedTypeName name="ca.nicho.client.Game"/>
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityMedicShip"/>
 <fullyQualifiedTypeName name="ca.nicho.client.SpriteSheet"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.entity.Entity"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.tile.Tile"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.Game"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.SpriteSheet"/>
 </qualifiedTypeNameHistroy>

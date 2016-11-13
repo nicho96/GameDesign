@@ -54,7 +54,7 @@ public class Level {
 				for(int y = 0; y < map[0].length; y++){
 					Tile t = map[x][y];
 					if(t != null){
-						out.writeInt(t.sprite.type);
+						out.writeInt(t.sprites[0].type);
 					}else{
 						out.writeInt(-1);
 					}
@@ -113,9 +113,9 @@ public class Level {
 				Tile t = map[i][o];
 				if(t != null){
 					int ind = 0;
-					for(int x = 0; x < t.sprite.width; x++){
-						for(int y = 0; y < t.sprite.height; y++){
-							image.setRGB(x + i * Tile.TILE_DIM, y + o * Tile.TILE_DIM, t.sprite.data[ind]);
+					for(int x = 0; x < t.sprites[0].width; x++){
+						for(int y = 0; y < t.sprites[0].height; y++){
+							image.setRGB(x + i * Tile.TILE_DIM, y + o * Tile.TILE_DIM, t.sprites[0].data[ind]);
 							ind++;
 						}
 					}

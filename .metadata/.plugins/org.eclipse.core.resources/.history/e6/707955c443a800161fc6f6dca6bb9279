@@ -1,0 +1,11 @@
+package ca.nicho.foundation.entity;
+
+public class EntityTrail extends Entity {
+
+	private Sprite sprites = [];
+	
+	public EntityTrail(float x, float y, int id){
+		super(x, y, id);
+	}
+	
+}
