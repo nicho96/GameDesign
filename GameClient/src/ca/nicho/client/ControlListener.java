@@ -61,8 +61,6 @@ public class ControlListener implements KeyListener {
 				Game.world.getPlayer().nextSlot();
 		}
 		
-		
-		
 	}
 
 	@Override
@@ -96,7 +94,7 @@ public class ControlListener implements KeyListener {
 			player.move(deltaX, deltaY, ClientStart.tickDelta);
 			ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
 			if(player.delta > 30){
-				ClientStart.con.sendPacket(new SpawnEntityPacket(player.locX + player.sprites[0].width / 2 - SpriteSheet.SPRITE_TRAIL.width / 2, player.locY + player.sprites[0].height / 2 - SpriteSheet.SPRITE_TRAIL.height / 2, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
+				ClientStart.con.sendPacket(new SpawnEntityPacket(player.locX + player.sprites[0].width / 2 - SpriteSheet.SPRITE_TRAIL_1.width / 2, player.locY + player.sprites[0].height / 2 - SpriteSheet.SPRITE_TRAIL_1.height / 2, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
 				player.delta = 0;
 			}
 
@@ -135,10 +133,13 @@ public class ControlListener implements KeyListener {
 			Game.current = (Game.current + 1) % Game.ships.length;
 		}else if(e.getKeyChar() == '1'){
 			Game.current = 0;
+			ClientStart.log.addToLog("one was clicked", 0);
 		}else if(e.getKeyChar() == '2'){
 			Game.current = 1;
+			ClientStart.log.addToLog("two was clicked", 1);
 		}else if(e.getKeyChar() == '3'){
 			Game.current = 2;
+			ClientStart.log.addToLog("three was clicked", 2);
 		}else if(e.getKeyChar() == '4'){
 			Game.current = 3;
 		}else if(e.getKeyChar() == 'm'){

@@ -57,6 +57,7 @@ public class ServerGameSocket implements Runnable{
 	private EntityPlayer ship3 = null;
 	private EntityPlayer ship4 = null;
 	
+	
 	@Override
 	public void run() {
 		byte owner = player;

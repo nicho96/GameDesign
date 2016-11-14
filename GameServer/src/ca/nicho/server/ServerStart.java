@@ -35,7 +35,7 @@ public class ServerStart {
 		try {
 			System.out.println("Starting server on port " + PORT + "...");
 			ServerSocket socket = new ServerSocket(PORT);
-			((ServerWorld)Game.world).startClock();;
+			((ServerWorld)Game.world).startClock();
 			while(true){
 				Socket con = socket.accept();
 				if(con1 == null){ //New connection

@@ -35,7 +35,6 @@ public class SpriteSheet {
 	public static final int GUI_SLOT = 403;
 	public static final int GUI_SELECTED = 404; //404 not found
 	public static final int GUI_LARGE_MAP = 405;
-	public static final int GUI_LOG = 406;
 	
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -88,22 +87,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_RADAR_3;
 	public static Sprite SPRITE_RADAR_4;
 		
-	public static Sprite SPRITE_TRAIL_1;
-	public static Sprite SPRITE_TRAIL_2;
-	public static Sprite SPRITE_TRAIL_3;
-	public static Sprite SPRITE_TRAIL_4;
-	public static Sprite SPRITE_TRAIL_5;
-	public static Sprite SPRITE_TRAIL_6;
-	public static Sprite SPRITE_TRAIL_7;
-	public static Sprite SPRITE_TRAIL_8;
-	public static Sprite SPRITE_TRAIL_9;
-	public static Sprite SPRITE_TRAIL_10;
-	public static Sprite SPRITE_TRAIL_11;
+	public static Sprite SPRITE_TRAIL;
 
-	public static Sprite SPRITE_LOG_1;
-	public static Sprite SPRITE_LOG_2;
-	public static Sprite SPRITE_LOG_3;
-	
 	public static Sprite SPRITE_P1_SPAWN;
 	public static Sprite SPRITE_P2_SPAWN;
 		
@@ -180,21 +165,16 @@ public class SpriteSheet {
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
+		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);
+<<<<<<< HEAD
+		/*
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
-
-		SPRITE_TRAIL_1 = new Sprite("ripple_1", ENTITY_TRAIL);
-		SPRITE_TRAIL_2 = new Sprite("ripple_2", ENTITY_TRAIL);
-		SPRITE_TRAIL_3 = new Sprite("ripple_3", ENTITY_TRAIL);
-		SPRITE_TRAIL_4 = new Sprite("ripple_4", ENTITY_TRAIL);
-		SPRITE_TRAIL_5 = new Sprite("ripple_5", ENTITY_TRAIL);
-		SPRITE_TRAIL_6 = new Sprite("ripple_6", ENTITY_TRAIL);
-		SPRITE_TRAIL_7 = new Sprite("ripple_7", ENTITY_TRAIL);
-		SPRITE_TRAIL_8 = new Sprite("ripple_8", ENTITY_TRAIL);
-		SPRITE_TRAIL_9 = new Sprite("ripple_9", ENTITY_TRAIL);
-		SPRITE_TRAIL_10 = new Sprite("ripple_10", ENTITY_TRAIL);
-		SPRITE_TRAIL_11 = new Sprite("ripple_11", ENTITY_TRAIL);
+=======
+		
+		SPRITE_TRAIL = new Sprite("ripple", ENTITY_TRAIL);
 		
 		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
+>>>>>>> 2d95de11d4ad88171ea90667887604effaae5c1e
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
 		SPRITE_STONE_3 = new Sprite("rock3", TILE_STONE);
 		SPRITE_STONE_4 = new Sprite("rock4", TILE_STONE);*/
@@ -212,10 +192,6 @@ public class SpriteSheet {
 		SPRITE_ENTER = new Sprite("enter", GUI_ENTER);
 		SPRITE_SLOT = new Sprite("slot", GUI_SLOT);
 		SPRITE_SELECTED = new Sprite("selected", GUI_SELECTED);
-		
-		SPRITE_LOG_1 = new Sprite("mesh1", GUI_LOG);
-		SPRITE_LOG_2 = new Sprite("mesh2", GUI_LOG);
-		SPRITE_LOG_3 = new Sprite("mesh3", GUI_LOG);
 		
 		//Load ocean tiles
 		SPRITE_OCEAN_1 = new Sprite("ocean1", BACK_OCEAN_1);

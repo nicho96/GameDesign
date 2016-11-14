@@ -26,6 +26,7 @@ import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
 import javazoom.jl.player.Player;
+import log.LogHandler;
 
 public class ClientStart extends JFrame {
 	
@@ -41,6 +42,8 @@ public class ClientStart extends JFrame {
 	public static StoreHandler store;
 	public static ClientStart window;
 	public static ClientGameSocket con;
+	
+	public static LogHandler log;
 	
 	public static ControlListener listener;
 	
@@ -63,6 +66,7 @@ public class ClientStart extends JFrame {
 		sc.close();*/
 		Game.initWorld();
 		store = new StoreHandler();
+		log = new LogHandler();
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
@@ -123,6 +127,13 @@ public class ClientStart extends JFrame {
 			pixels = ((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
 			playerXRender = (FRAME_WIDTH - SpriteSheet.SPRITE_PLAYER.width) / 2;
 			playerYRender = (FRAME_HEIGHT - SpriteSheet.SPRITE_PLAYER.height) / 2;
+			
+			//log initialization
+			this.setLayout(null);
+			this.add(log);
+			log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
+			log.setLocation(10, FRAME_HEIGHT-180);
+			
 			new Thread(this).start();
 		}		
 		
@@ -297,7 +308,7 @@ public class ClientStart extends JFrame {
 			if(backTick == 0){
 				updateOceanTile();
 			}
-			backTick = (backTick + 1) % 50; //Loop at every 50 ticks
+			backTick = (backTick + 1) % 10; //Loop at every 50 ticks
 			
 			//Draw main menu
 			if(con == null){
@@ -319,7 +330,7 @@ public class ClientStart extends JFrame {
 			if(player == null)
 				return;
 		
-			
+		
 			//Draw background tiles
 			for(int x = 0; x < FRAME_WIDTH / 50 + 1; x++){
 				for(int y = 0; y < FRAME_HEIGHT / 50 + 1; y++){
@@ -383,7 +394,8 @@ public class ClientStart extends JFrame {
 					drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
 				}
 			}
-			
+
+			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;
@@ -403,8 +415,8 @@ public class ClientStart extends JFrame {
 					storeIndex ++;
 				}
 			}
+			this.drawGUISprite(10, 120, new Sprite(Game.points));		
 			
-			this.drawGUISprite(10, 120, new Sprite(Game.points));
 		}
 		
 		public int rate;
