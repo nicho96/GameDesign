@@ -60,6 +60,7 @@ public class LogHandler extends JPanel{
 	private final static int TYPE_TUTORIAL = 2;
 	private final static int TYPE_GUIDE = 3;
 	private final static String font = "fonts/coders_crux.ttf";
+	private static LogHandler pane;
 	
 	public LogHandler(){
 		setLayout(new BorderLayout());
@@ -89,8 +90,15 @@ public class LogHandler extends JPanel{
 	        
      
         add(scroll, BorderLayout.CENTER);
-	
+
+        pane = this;
 	    //add(textArea, BorderLayout.CENTER);
+	}
+	public static synchronized LogHandler getLogInstance() {
+	    if (null == pane) {
+	        pane = new LogHandler();
+	    }
+	    return pane;
 	}
 	
 	/**

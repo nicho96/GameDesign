@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.Scanner;
+import ca.nicho.foundation.log;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
@@ -33,6 +34,7 @@ public class ServerStart {
 	
 	public ServerStart(){
 		try {
+			LogHandler log = getLogInstance();
 			System.out.println("Starting server on port " + PORT + "...");
 			ServerSocket socket = new ServerSocket(PORT);
 			((ServerWorld)Game.world).startClock();
