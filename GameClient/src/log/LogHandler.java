@@ -13,12 +13,14 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.TimerTask;
 
 import javax.print.attribute.AttributeSet;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -73,6 +75,17 @@ public class LogHandler extends JPanel{
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
         scroll.getVerticalScrollBar().setUI(new MyScrollbarUI());
+        
+        scroll.getActionMap().put("unitScrollRight", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }});
+        scroll.getActionMap().put("unitScrollDown", new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
 	        
      
         add(scroll, BorderLayout.CENTER);
