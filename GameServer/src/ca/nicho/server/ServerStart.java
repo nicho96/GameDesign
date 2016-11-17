@@ -6,13 +6,14 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Scanner;
 
-import log;
+
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.server.world.ServerWorld;
+
 
 public class ServerStart {
 
