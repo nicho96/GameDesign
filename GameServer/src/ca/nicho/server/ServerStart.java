@@ -35,7 +35,6 @@ public class ServerStart {
 	
 	public ServerStart(){
 		try {
-			LogHandler log = new LogHandler();
 			System.out.println("Starting server on port " + PORT + "...");		
 			ServerSocket socket = new ServerSocket(PORT);
 			((ServerWorld)Game.world).startClock();
@@ -46,23 +45,23 @@ public class ServerStart {
 					new Thread(gameCon).start();
 					con1 = gameCon;
 					System.out.println("Player 1 Connected");
-					log.addToLog("Player 1 Connected", 0);
+					LogHandler.getLogInstance().addToLog("Player 1 Connected", 0);
 				} else if(con1.socket == null){ //Reconnect p1
 					con1.setSocket(con);
 					new Thread(con1).start();
 					System.out.println("Player 1 Reconnected");
-					log.addToLog("Player 1 Connected", 0);
+					LogHandler.getLogInstance().addToLog("Player 1 Connected", 0);
 				} else if (con2 == null){
 					ServerGameSocket gameCon = new ServerGameSocket(con, (byte)2);
 					new Thread(gameCon).start();
 					con2 = gameCon;
 					System.out.println("Player 2 Connected");
-					log.addToLog("Player 2 Connected", 0);
+					LogHandler.getLogInstance().addToLog("Player 2 Connected", 0);
 				}else if (con2.socket == null) { //Reconnect p2
 					con2.setSocket(con);
 					new Thread(con2).start();
 					System.out.println("Player 2 Reconnected");
-					log.addToLog("Player 2 Reconnected", 0);
+					LogHandler.getLogInstance().addToLog("Player 2 Reconnected", 0);
 				}else {
 					//Close the connection as there are too many people on the server
 					con.close();

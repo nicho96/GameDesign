@@ -61,7 +61,7 @@ public class LogHandler extends JPanel{
 	private final static int TYPE_TUTORIAL = 2;
 	private final static int TYPE_GUIDE = 3;
 	private final static String font = "fonts/coders_crux.ttf";
-	private static LogHandler pane;
+	private static volatile LogHandler pane;
 	
 	public LogHandler(){
 		this.pane = this;
@@ -96,13 +96,14 @@ public class LogHandler extends JPanel{
 	    //add(textArea, BorderLayout.CENTER);
 	}
 	public static synchronized LogHandler getLogInstance() {
-	    if (pane == null) {
+	    if (null == pane) {
 	        pane = new LogHandler();
+	    	//throw new NullPointerException();
 	    }
 	    return pane;
 	}
 	
-	
+	private static String textLOG;
 	/**
 	 * Adds text to the log
 	 * @param text to be entered
@@ -110,7 +111,7 @@ public class LogHandler extends JPanel{
 	 */
 	public void addToLog(String text, int type){
 
-/*
+
 		   Font customFont;
 		try {
 			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(font)).deriveFont(26f);
@@ -118,9 +119,7 @@ public class LogHandler extends JPanel{
 		} catch (FontFormatException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
-
-
+		}
 
 
 		switch(type){
@@ -133,11 +132,13 @@ public class LogHandler extends JPanel{
 		}
 
 		try {    
-			textPane.getDocument().insertString(0, text+"\n", null);
+			textPane.getDocument().insertString(0, text + "\n", null);
+			textLOG += text + "\n";
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 	
 
@@ -153,7 +154,7 @@ public class LogHandler extends JPanel{
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.setColor(new Color(255, 0, 255, 0));
+            g.setColor(new Color(0, 0, 0, 0));
             Insets insets = getInsets();
             int x = insets.left;
             int y = insets.top;

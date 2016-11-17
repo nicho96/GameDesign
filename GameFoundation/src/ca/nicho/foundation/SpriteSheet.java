@@ -36,6 +36,9 @@ public class SpriteSheet {
 	public static final int GUI_SELECTED = 404; //404 not found
 	public static final int GUI_LARGE_MAP = 405;
 	public static final int GUI_LOG = 406;
+	public static final int GUI_DISABLED = 407;
+	public static final int GUI_BACKGROUND = 407;
+	
 	
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -120,6 +123,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_ENTER;
 	public static Sprite SPRITE_SLOT;
 	public static Sprite SPRITE_SELECTED;
+	public static Sprite SPRITE_DISABLED;
+	public static Sprite SPRITE_BACKGROUND;
 	
 	//Ocean
 	public static Sprite SPRITE_OCEAN_1;
@@ -212,6 +217,8 @@ public class SpriteSheet {
 		SPRITE_ENTER = new Sprite("enter", GUI_ENTER);
 		SPRITE_SLOT = new Sprite("slot", GUI_SLOT);
 		SPRITE_SELECTED = new Sprite("selected", GUI_SELECTED);
+		SPRITE_DISABLED = new Sprite("disabled", GUI_DISABLED);
+		SPRITE_BACKGROUND = new Sprite("backgroundbase", GUI_BACKGROUND);
 		
 		SPRITE_LOG_1 = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_2 = new Sprite("mesh2", GUI_LOG);

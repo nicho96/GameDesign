@@ -109,7 +109,7 @@ public class ClientStart extends JFrame {
 		public int playerXRender;
 		public int playerYRender;
 		
-		public BufferedImage screen;
+		public BufferedImage screen, guiScreen;
 		public int[] pixels;
 		
 		public int stretchHeight;
@@ -123,6 +123,7 @@ public class ClientStart extends JFrame {
 			this.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 			this.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 			screen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
+			guiScreen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
 			this.setBackground(Color.black);
 			pixels = ((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
 			playerXRender = (FRAME_WIDTH - SpriteSheet.SPRITE_PLAYER.width) / 2;
@@ -150,6 +151,7 @@ public class ClientStart extends JFrame {
 				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 10, 95);
 				return;
 			}
+
 			
 			if(DEBUG){
 				g.setColor(Color.white);
@@ -355,9 +357,14 @@ public class ClientStart extends JFrame {
 			}
 			
 			//Load overlays last
-			if(!DEBUG)
-				drawGUISprite(10, 10, SpriteSheet.SPRITE_MAP_SMALL);
+			int mapX = 0;
+			int mapY = 0;
 			
+			if(!DEBUG){
+				mapX = (this.getWidth() - SpriteSheet.SPRITE_MAP_SMALL.width) / 2;
+				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
+				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
+			}
 			//Draw the ships on the map
 			for(int i = 0; i < Game.ships.length; i++){
 				Entity e = Game.world.entities.get(Game.ships[i]);
@@ -365,12 +372,12 @@ public class ClientStart extends JFrame {
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
-					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_GREEN);
+					drawGUISprite(mapX +31 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
 				}else{
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
-					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_BLUE);	
+					drawGUISprite(mapX +31 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 20), SpriteSheet.SPRITE_DOT_BLUE);	
 				}
 			}
 			
@@ -384,7 +391,7 @@ public class ClientStart extends JFrame {
 			
 			for(int i = 0; i < player.inventory.length; i++){
 				Entity e = player.inventory[i];
-				int guiX = FRAME_WIDTH - 100 - i * 95;
+				int guiX = FRAME_WIDTH - 100 - i * 99;
 				int guiY = FRAME_HEIGHT - 100;
 				if(player.position == i)
 					drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SELECTED);
@@ -401,21 +408,29 @@ public class ClientStart extends JFrame {
 				int storeIndex = 0;
 				for(StoreItem item: store.costs){
 					Entity e = item.entity;
-					int leftX =  FRAME_WIDTH - 195 + 95 * (storeIndex % 2);
-					int leftY = (storeIndex / 2) * 95;
+					int leftX =  FRAME_WIDTH - 195 + 99 * (storeIndex % 2);
+					int leftY = (storeIndex / 2) * 99;
 					int x = (100 - e.sprites[e.current].width) / 2 + leftX;
 					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
-					if(store.position != storeIndex)
-						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
-					else
+					
+					if(store.position == storeIndex){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
+					}
+					else if(!store.canAfford(storeIndex)){
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_DISABLED);
+					}
+					else if(store.canAfford(storeIndex))
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+					
 					this.drawGUISprite(x, y, e.sprites[e.current]);
 					this.drawGUISprite(leftX + 7, leftY + 7, item.sprite);
 					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical screen
 					storeIndex ++;
 				}
 			}
-			this.drawGUISprite(10, 120, new Sprite(Game.points));		
+			this.drawGUISprite(10, 120, new Sprite(Game.points));
+
+			
 			
 		}
 		
