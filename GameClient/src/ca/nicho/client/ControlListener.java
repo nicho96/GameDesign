@@ -133,10 +133,8 @@ public class ControlListener implements KeyListener {
 			Game.current = (Game.current + 1) % Game.ships.length;
 		}else if(e.getKeyChar() == '1'){
 			Game.current = 0;
-			ClientStart.log.addToLog("one was clicked", 0);
 		}else if(e.getKeyChar() == '2'){
 			Game.current = 1;
-			ClientStart.log.addToLog("two was clicked", 1);
 		}else if(e.getKeyChar() == '3'){
 			Game.current = 2;
 			ClientStart.log.addToLog("three was clicked", 2);

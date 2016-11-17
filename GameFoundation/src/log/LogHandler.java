@@ -54,7 +54,8 @@ import ca.nicho.foundation.SpriteSheet;
 
 public class LogHandler extends JPanel{
 	
-	TransparentTextArea textPane;
+	private static TransparentTextArea textPane;
+	private static JScrollPane scroll;
 	
 	private final static int TYPE_SERVER = 0;
 	private final static int TYPE_TUTORIAL = 2;
@@ -63,14 +64,15 @@ public class LogHandler extends JPanel{
 	private static LogHandler pane;
 	
 	public LogHandler(){
-		setLayout(new BorderLayout());
-		setOpaque(false);
+		this.pane = this;
+		pane.setLayout(new BorderLayout());
+		pane.setOpaque(false);
 
 
 		textPane = new TransparentTextArea();
 		textPane.setEnabled(false);
 			
-        JScrollPane scroll = new JScrollPane (textPane, 
+        scroll = new JScrollPane (textPane, 
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setBorder(new EmptyBorder(18, 30, 15, 25));
         scroll.setOpaque(false);
@@ -89,17 +91,17 @@ public class LogHandler extends JPanel{
 			}});
 	        
      
-        add(scroll, BorderLayout.CENTER);
+        pane.add(scroll, BorderLayout.CENTER);
 
-        pane = this;
 	    //add(textArea, BorderLayout.CENTER);
 	}
 	public static synchronized LogHandler getLogInstance() {
-	    if (null == pane) {
+	    if (pane == null) {
 	        pane = new LogHandler();
 	    }
 	    return pane;
 	}
+	
 	
 	/**
 	 * Adds text to the log
@@ -108,7 +110,7 @@ public class LogHandler extends JPanel{
 	 */
 	public void addToLog(String text, int type){
 
-
+/*
 		   Font customFont;
 		try {
 			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(font)).deriveFont(26f);
@@ -116,7 +118,7 @@ public class LogHandler extends JPanel{
 		} catch (FontFormatException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 
 
 

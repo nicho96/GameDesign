@@ -66,7 +66,7 @@ public class ClientStart extends JFrame {
 		sc.close();*/
 		Game.initWorld();
 		store = new StoreHandler();
-		log = new LogHandler();
+		log = LogHandler.getLogInstance();
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
