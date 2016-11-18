@@ -9,6 +9,8 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
+import ca.nicho.foundation.packet.LogPacket;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.foundation.packet.TilePacket;
@@ -83,6 +85,10 @@ public class ClientGameSocket implements Runnable {
 			case Packet.PACKET_POINTS:
 				PointPacket packetPoints = new PointPacket(data);
 				Game.points = packetPoints.points;
+				break;
+			case Packet.PACKET_LOG:
+				LogPacket packetLog = new LogPacket(data);
+				ClientStart.log.addToLog(packetLog.message, 0);
 				break;
 		}
 	}	
