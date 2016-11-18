@@ -79,17 +79,7 @@ public class LogHandler extends JPanel{
         scroll.getViewport().setOpaque(false);
         scroll.getVerticalScrollBar().setUI(new MyScrollbarUI());
         
-        scroll.getActionMap().put("unitScrollRight", new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }});
-        scroll.getActionMap().put("unitScrollDown", new AbstractAction(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}});
-	        
+        
      
         pane.add(scroll, BorderLayout.CENTER);
 
@@ -217,7 +207,7 @@ public class LogHandler extends JPanel{
 	        @Override
 	        protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
 	        	Image a = bar.getImage();
-	        	a.getScaledInstance(16, thumbRect.y, Image.SCALE_FAST);
+	        	a.getScaledInstance(16, 49, Image.SCALE_FAST);
 	        	g.drawImage(a, thumbRect.x, thumbRect.y, null);
 	        }
 

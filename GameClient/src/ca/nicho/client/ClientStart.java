@@ -372,12 +372,12 @@ public class ClientStart extends JFrame {
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
-					drawGUISprite(mapX +31 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
+					drawGUISprite(mapX +30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
 				}else{
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
-					drawGUISprite(mapX +31 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 20), SpriteSheet.SPRITE_DOT_BLUE);	
+					drawGUISprite(mapX +30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
 				}
 			}
 			
