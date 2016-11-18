@@ -54,8 +54,10 @@ public class World implements Runnable{
 		if(entities.containsKey(packet.id)){
 			//Entity exists, update it's values. If not, create a new entity.
 			Entity ent = entities.get(packet.id);
-			ent.locX = packet.x;
-			ent.locY = packet.y;
+			if(!(ent instanceof EntityPlayer && ent.owner == Game.ownerID)){
+				ent.locX = packet.x;
+				ent.locY = packet.y; 
+			}
 		}else{
 			Entity ent = null;
 			switch(packet.type){
@@ -91,7 +93,6 @@ public class World implements Runnable{
 				
 			}
 			if(ent != null){
-				System.out.println(packet.owner);
 				ent.owner = packet.owner;
 				spawnEntity(ent);
 			}else{

@@ -149,6 +149,7 @@ public class ServerGameSocket implements Runnable{
 			out.write(data);
 		}catch(IOException e){
 			e.printStackTrace();
+			this.nullifyStreams();
 		}
 	}
 	
