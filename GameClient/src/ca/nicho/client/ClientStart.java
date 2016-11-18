@@ -26,7 +26,6 @@ import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
 import javazoom.jl.player.Player;
-import log.LogHandler;
 
 public class ClientStart extends JFrame {
 	
@@ -37,13 +36,14 @@ public class ClientStart extends JFrame {
 	public static int FRAME_HEIGHT = 600;
 	
 	public static String host_port = "";
-	
+		
 	public static SpriteSheet sheet;
 	public static StoreHandler store;
+	public static OverviewMapHandler map;
 	public static ClientStart window;
 	public static ClientGameSocket con;
 	
-	public static LogHandler log;
+	//public static LogHandler log;
 	
 	public static ControlListener listener;
 	
@@ -66,7 +66,8 @@ public class ClientStart extends JFrame {
 		sc.close();*/
 		Game.initWorld();
 		store = new StoreHandler();
-		log = new LogHandler();
+		map = new OverviewMapHandler();
+		//log = new LogHandler();
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
@@ -130,9 +131,9 @@ public class ClientStart extends JFrame {
 			
 			//log initialization
 			this.setLayout(null);
-			this.add(log);
-			log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
-			log.setLocation(10, FRAME_HEIGHT-180);
+			//this.add(log);
+			//log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
+			//log.setLocation(10, FRAME_HEIGHT-180);
 			
 			new Thread(this).start();
 		}		
@@ -395,7 +396,7 @@ public class ClientStart extends JFrame {
 				}
 			}
 
-			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
+			//this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;
@@ -415,6 +416,16 @@ public class ClientStart extends JFrame {
 					storeIndex ++;
 				}
 			}
+			
+			if(map.isOpen){
+				int mapOffX = (FRAME_WIDTH -  SpriteSheet.SPRITE_MAP_LARGE.width) / 2;
+				int mapOffY = (FRAME_HEIGHT -  SpriteSheet.SPRITE_MAP_LARGE.height) / 2;
+				int crossOffX = mapOffX + (int)map.targetX - SpriteSheet.SPRITE_CROSSHAIR.width / 2;
+				int crossOffY = mapOffY + (int)map.targetY - SpriteSheet.SPRITE_CROSSHAIR.height / 2;
+				this.drawGUISprite(mapOffX, mapOffY, SpriteSheet.SPRITE_MAP_LARGE);
+				this.drawGUISprite(crossOffX, crossOffY, SpriteSheet.SPRITE_CROSSHAIR);
+			}
+			
 			this.drawGUISprite(10, 120, new Sprite(Game.points));		
 			
 		}

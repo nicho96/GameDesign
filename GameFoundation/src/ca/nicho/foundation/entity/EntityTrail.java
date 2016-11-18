@@ -21,4 +21,16 @@ public class EntityTrail extends Entity {
 		return false;
 	}
 	
+	public boolean clientTick(){
+		super.clientTick();
+		
+		if(tickCount == 120){
+			this.isDead = true;
+			return true;
+		}
+		tickCount++;
+		
+		return false;
+	}
+	
 }

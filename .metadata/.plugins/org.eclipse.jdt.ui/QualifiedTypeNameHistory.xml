@@ -23,7 +23,6 @@
 <fullyQualifiedTypeName name="ca.nicho.client.GameSocket"/>
 <fullyQualifiedTypeName name="ca.nicho.server.GameSocket"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
-<fullyQualifiedTypeName name="ca.nicho.client.ClientStart"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityEnemy"/>
 <fullyQualifiedTypeName name="ca.nicho.server.Game"/>
@@ -40,8 +39,9 @@
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityMedicShip"/>
 <fullyQualifiedTypeName name="ca.nicho.client.SpriteSheet"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.entity.Entity"/>
-<fullyQualifiedTypeName name="ca.nicho.foundation.tile.Tile"/>
 <fullyQualifiedTypeName name="java.util.Map.Entry"/>
-<fullyQualifiedTypeName name="ca.nicho.foundation.Game"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.SpriteSheet"/>
+<fullyQualifiedTypeName name="ca.nicho.client.ClientStart"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.tile.Tile"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.Game"/>
 </qualifiedTypeNameHistroy>

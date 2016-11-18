@@ -1,0 +1,8 @@
+package ca.nicho.client;
+
+public class OverviewMapHandler {
+
+	public int targetX = 0;
+	public int targetY = 0;
+	
+}

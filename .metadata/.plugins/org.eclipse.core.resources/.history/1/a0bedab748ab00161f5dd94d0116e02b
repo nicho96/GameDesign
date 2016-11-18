@@ -1,0 +1,5 @@
+package ca.nicho.client;
+
+public class OverviewMapHandler {
+
+}

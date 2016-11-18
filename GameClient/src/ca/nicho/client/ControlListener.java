@@ -19,6 +19,10 @@ public class ControlListener implements KeyListener {
 	private Key S = new Key();
 	private Key D = new Key();
 	private Key SPACE = new Key();
+	private Key UP = new Key();
+	private Key DOWN = new Key();
+	private Key LEFT = new Key();
+	private Key RIGHT = new Key();
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -52,6 +56,14 @@ public class ControlListener implements KeyListener {
 			S.pressed = true;
 		}else if(e.getKeyChar() == 'd'){
 			D.pressed = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_UP){
+			UP.pressed = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+			DOWN.pressed = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			LEFT.pressed = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			RIGHT.pressed = true;
 		}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
@@ -73,6 +85,14 @@ public class ControlListener implements KeyListener {
 			S.pressed = false;
 		}else if(e.getKeyChar() == 'd'){
 			D.pressed = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_UP){
+			UP.pressed = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+			DOWN.pressed = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			LEFT.pressed = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			RIGHT.pressed = false;
 		}
 	}
 		
@@ -88,6 +108,21 @@ public class ControlListener implements KeyListener {
 			deltaY = 1;
 		if(D.pressed)
 			deltaX = 1;
+		
+		if(ClientStart.map.isOpen){
+			int mapX = 0;
+			int mapY = 0;
+			if(UP.pressed)
+				mapY = -1;
+			if(DOWN.pressed)
+				mapY = 1;
+			if(LEFT.pressed)
+				mapX = -1;
+			if(RIGHT.pressed)
+				mapX = 1;
+			ClientStart.map.tick(mapX, mapY, ClientStart.tickDelta);
+		}
+		
 		
 		EntityPlayer player = Game.world.getPlayer();
 		if(player != null){
@@ -123,6 +158,8 @@ public class ControlListener implements KeyListener {
 					ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 					Game.world.getPlayer().inventory[0] = item.entity;
 				}
+			}else if(ClientStart.map.isOpen){
+				ClientStart.map.sendAirstrike();
 			}else{
 				if(Game.world.getPlayer().getCurrent() != null){
 					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
@@ -133,17 +170,19 @@ public class ControlListener implements KeyListener {
 			Game.current = (Game.current + 1) % Game.ships.length;
 		}else if(e.getKeyChar() == '1'){
 			Game.current = 0;
-			ClientStart.log.addToLog("one was clicked", 0);
+			//ClientStart.log.addToLog("one was clicked", 0);
 		}else if(e.getKeyChar() == '2'){
 			Game.current = 1;
-			ClientStart.log.addToLog("two was clicked", 1);
+			//ClientStart.log.addToLog("two was clicked", 1);
 		}else if(e.getKeyChar() == '3'){
 			Game.current = 2;
-			ClientStart.log.addToLog("three was clicked", 2);
+			//ClientStart.log.addToLog("three was clicked", 2);
 		}else if(e.getKeyChar() == '4'){
 			Game.current = 3;
 		}else if(e.getKeyChar() == 'm'){
 			StoreHandler.isOpen = !StoreHandler.isOpen;
+		}else if(e.getKeyChar() == 'y'){
+			ClientStart.map.isOpen = !ClientStart.map.isOpen;
 		}
 	}
 	

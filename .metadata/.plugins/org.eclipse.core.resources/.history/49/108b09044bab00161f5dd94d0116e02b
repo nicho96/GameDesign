@@ -1,0 +1,22 @@
+package ca.nicho.client;
+
+public class OverviewMapHandler {
+
+	public int speed = 5;
+	public double targetX = 0;
+	public int targetY = 0;
+	public boolean isOpen = false;
+	
+	public OverviewMapHandler(){
+		
+	}
+	
+	public void tick(int deltaX, int deltaY, double tickDelta){
+				
+		double vx = deltaX * tickDelta / 1000 * speed;
+		double vy = deltaY * tickDelta / 1000 * speed;
+		
+		targetX
+		
+	}
+}
