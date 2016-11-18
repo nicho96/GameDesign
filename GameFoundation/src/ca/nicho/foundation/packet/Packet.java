@@ -9,6 +9,7 @@ public abstract class Packet {
 	public static final int PACKET_KILL_ENTITY = 4;
 	public static final int PACKET_POINTS = 5;
 	public static final int PACKET_PURCHASE = 6;
+	public static final int PACKET_LOG = 7;
 	
 	public int packetType;
 	public byte[] data;

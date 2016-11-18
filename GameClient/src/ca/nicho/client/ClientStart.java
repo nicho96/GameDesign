@@ -134,9 +134,9 @@ public class ClientStart extends JFrame {
 			
 			//log initialization
 			this.setLayout(null);
-			//this.add(log);
-			//log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
-			//log.setLocation(10, FRAME_HEIGHT-180);
+			this.add(log);
+			log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
+			log.setLocation(10, FRAME_HEIGHT-180);
 			
 			new Thread(this).start();
 		}		
@@ -405,7 +405,7 @@ public class ClientStart extends JFrame {
 				}
 			}
 
-			//this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
+			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;

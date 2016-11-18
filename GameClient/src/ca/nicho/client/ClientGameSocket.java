@@ -51,12 +51,12 @@ public class ClientGameSocket implements Runnable {
 	public void readPacket() throws IOException{
 		int type = in.readInt();
 		int length = in.readInt();
-		byte[] data = new byte[length];
-		in.read(data);
-		if(length == 0){
+		if(length <= 0 || length > 100){
 			System.out.println("Corrupt packet received");
 			return;
 		}
+		byte[] data = new byte[length];
+		in.read(data);
 		switch(type){
 			case Packet.PACKET_ENTITY:
 				Game.world.entityUpdatePacketRecieved(new EntityPacket(data));

@@ -8,6 +8,7 @@ import java.util.Scanner;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.log.LogHandler;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.server.world.ServerWorld;
@@ -43,22 +44,26 @@ public class ServerStart {
 					con1 = gameCon;
 					System.out.println("Player 1 Connected");
 					LogHandler.getLogInstance().addToLog("Player 1 Connected", 0);
+					ServerStart.sendGlobalPacket(new LogPacket("Player 1 Connected"));
 				} else if(con1.socket == null){ //Reconnect p1
 					con1.setSocket(con);
 					new Thread(con1).start();
 					System.out.println("Player 1 Reconnected");
 					LogHandler.getLogInstance().addToLog("Player 1 Connected", 0);
+					ServerStart.sendGlobalPacket(new LogPacket("Player 1 Reconnected"));
 				} else if (con2 == null){
 					ServerGameSocket gameCon = new ServerGameSocket(con, (byte)2);
 					new Thread(gameCon).start();
 					con2 = gameCon;
 					System.out.println("Player 2 Connected");
 					LogHandler.getLogInstance().addToLog("Player 2 Connected", 0);
+					ServerStart.sendGlobalPacket(new LogPacket("Player 2 Connected"));
 				}else if (con2.socket == null) { //Reconnect p2
 					con2.setSocket(con);
 					new Thread(con2).start();
 					System.out.println("Player 2 Reconnected");
 					LogHandler.getLogInstance().addToLog("Player 2 Reconnected", 0);
+					ServerStart.sendGlobalPacket(new LogPacket("Player 1 Reconnect"));
 				}else {
 					//Close the connection as there are too many people on the server
 					con.close();
