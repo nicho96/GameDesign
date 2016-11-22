@@ -8,6 +8,7 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
 import ca.nicho.foundation.packet.TilePacket;
@@ -41,13 +42,16 @@ public class ServerWorld extends World{
 	 * Spawn an entity into the world
 	 * @param ent entity to be spawned
 	 */
+	
 	public void spawnEntity(Entity ent){
 		entities.put(ent.id, ent);
+		EntityPacket packet = new EntityPacket(ent);
+		ServerStart.sendGlobalPacket(packet);
 		//TODO change to not send all entity data to existing connections
-		for(Map.Entry<Integer, Entity> set : entities.entrySet()){
+		/*for(Map.Entry<Integer, Entity> set : entities.entrySet()){
 			EntityPacket packet = new EntityPacket(set.getValue());
 			ServerStart.sendGlobalPacket(packet);
-		}
+		}*/
 	}
 	
 	public void entityUpdatePacketRecieved(EntityPacket packet){
@@ -76,6 +80,12 @@ public class ServerWorld extends World{
 					break;
 				case SpriteSheet.ENTITY_TRAIL:
 					ent = new EntityTrail(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_WINDMILL:
+					EntityWindmill wind = new EntityWindmill(packet.x, packet.y, packet.id);
+					ent = wind;
+					ServerGame.windmills.add(wind);
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;
@@ -95,7 +105,8 @@ public class ServerWorld extends World{
 
 	private void tick(){
 		for(Map.Entry<Integer, Entity> ent : entities.entrySet()){
-			if(ent.getValue().tick()){
+			Entity e = ent.getValue();
+			if(e.tick()){
 				if(ent.getValue().isDead){
 					ServerStart.sendGlobalPacket(new KillEntityPacket(ent.getKey()));
 					this.killEntity(ent.getKey());

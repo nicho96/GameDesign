@@ -1,7 +1,6 @@
 package ca.nicho.client.store;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
@@ -9,6 +8,7 @@ import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityBattleship;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.entity.EntityWindmill;
 
 public class StoreHandler {
 	
@@ -22,7 +22,7 @@ public class StoreHandler {
 		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), 100));
 		costs.add(new StoreItem(new EntityMissile(-1, -1, -1), new Sprite(125), 125));
 		costs.add(new StoreItem(new EntityBattleship(-1, -1, -1), new Sprite(150), 150));
-		
+		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), 250));
 	}
 	
 	public void next(){

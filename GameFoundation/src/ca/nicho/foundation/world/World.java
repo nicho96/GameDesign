@@ -90,7 +90,9 @@ public class World implements Runnable{
 				case SpriteSheet.ENTITY_TRAIL:
 					ent = new EntityTrail(packet.x, packet.y, packet.id);
 					break;
-				
+				case SpriteSheet.ENTITY_WINDMILL:
+					ent = new EntityTrail(packet.x, packet.y, packet.id);
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;

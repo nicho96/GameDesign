@@ -468,7 +468,9 @@ public class ClientStart extends JFrame {
 				this.drawGUISprite(crossOffX, crossOffY, SpriteSheet.SPRITE_CROSSHAIR);
 			}
 			
-			this.drawGUISprite(10, 120, new Sprite(Game.points));
+			if (Game.points >= 0){
+				this.drawGUISprite(10, 120, new Sprite(Game.points));
+			}
 			
 		}
 		

@@ -63,14 +63,14 @@ public class ControlListener implements KeyListener {
 		}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
 			LEFT.pressed = true;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			RIGHT.pressed = true;
-		}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			System.exit(1);
-		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			if(StoreHandler.isOpen)
 				ClientStart.store.next();
+			else if (ClientStart.map.isOpen)
+				RIGHT.pressed = true;
 			else
 				Game.world.getPlayer().nextSlot();
+		}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			System.exit(1);
 		}
 		
 	}
@@ -122,7 +122,6 @@ public class ControlListener implements KeyListener {
 				mapX = 1;
 			ClientStart.map.tick(mapX, mapY, ClientStart.tickDelta);
 		}
-		
 		
 		EntityPlayer player = Game.world.getPlayer();
 		if(player != null){
