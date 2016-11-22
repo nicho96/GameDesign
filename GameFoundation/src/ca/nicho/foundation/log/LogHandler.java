@@ -14,12 +14,19 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.TimerTask;
 
 import javax.print.attribute.AttributeSet;
+import javax.sound.midi.ControllerEventListener;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -41,6 +48,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -56,12 +65,16 @@ public class LogHandler extends JPanel{
 	
 	private static TransparentTextArea textPane;
 	private static JScrollPane scroll;
+	public static JTextField field;
 	
 	private final static int TYPE_SERVER = 0;
 	private final static int TYPE_TUTORIAL = 2;
 	private final static int TYPE_GUIDE = 3;
 	private final static String font = "fonts/coders_crux.ttf";
 	private static volatile LogHandler pane;
+	
+	public int height;
+	public int width;
 	
 	public LogHandler(){
 		this.pane = this;
@@ -79,11 +92,63 @@ public class LogHandler extends JPanel{
         scroll.getViewport().setOpaque(false);
         scroll.getVerticalScrollBar().setUI(new MyScrollbarUI());
         
-        
-     
-        pane.add(scroll, BorderLayout.CENTER);
+        field = new JTextField(10);
+        field.setOpaque(false);
+       // field.addAncestorListener(new RequestFocusListener(false));        
+        field.setFocusable(false);
+        field.setRequestFocusEnabled(false);
+        field.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+		        field.setBorder(new EmptyBorder(0, 30, 0, 25));
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				field.setBorder(new CompoundBorder(new EmptyBorder(0, 30, 0, 25), BorderFactory.createLineBorder(Color.red)));
 
-	    //add(textArea, BorderLayout.CENTER);
+			}
+		});
+
+
+        field.setBorder(new EmptyBorder(0, 30, 0, 25));
+        field.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+								
+			} 
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				  if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						field.setFocusable(false);	
+						field.setFocusable(true);
+				   }
+			}
+		});
+
+
+
+
+       // pane.add(scroll, BorderLayout.CENTER);
+
+        pane.add(scroll, BorderLayout.CENTER);
+        pane.add(field, BorderLayout.SOUTH);
+        
+        width = SpriteSheet.SPRITE_LOG_LG.width;
+        height = SpriteSheet.SPRITE_LOG_LG.height + 30; //+30 for seperation
+	    pane.setSize(width, SpriteSheet.SPRITE_LOG_LG.height);
 	}
 	public static synchronized LogHandler getLogInstance() {
 	    if (null == pane) {
@@ -106,6 +171,7 @@ public class LogHandler extends JPanel{
 		try {
 			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(font)).deriveFont(26f);
 	        textPane.setFont(customFont);
+	        field.setFont(customFont);
 		} catch (FontFormatException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -217,4 +283,53 @@ public class LogHandler extends JPanel{
 	          scrollbar.repaint();
 	        }
 	    }    
+}
+class RequestFocusListener implements AncestorListener
+{
+    private boolean removeListener;
+
+    /*
+     *  Convenience constructor. The listener is only used once and then it is
+     *  removed from the component.
+     */
+    public RequestFocusListener()
+    {
+        this(true);
+    }
+
+    /*
+     *  Constructor that controls whether this listen can be used once or
+     *  multiple times.
+     *
+     *  @param removeListener when true this listener is only invoked once
+     *                        otherwise it can be invoked multiple times.
+     */
+    public RequestFocusListener(boolean removeListener)
+    {
+        this.removeListener = removeListener;
+    }
+    
+    
+	@Override
+	public void ancestorAdded(AncestorEvent event) {
+		// TODO Auto-generated method stub
+
+        JComponent component = event.getComponent();
+        component.requestFocusInWindow();
+
+        if (removeListener)
+            component.removeAncestorListener( this );
+	}
+
+	@Override
+	public void ancestorMoved(AncestorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ancestorRemoved(AncestorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
 }

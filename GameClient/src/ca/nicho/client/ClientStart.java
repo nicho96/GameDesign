@@ -7,13 +7,18 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.FileInputStream;
 import java.util.Map;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.client.store.StoreHandler.StoreItem;
@@ -99,6 +104,7 @@ public class ClientStart extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationByPlatform(true);
 		this.setResizable(false);
 		this.pack();
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -135,10 +141,27 @@ public class ClientStart extends JFrame {
 			//log initialization
 			this.setLayout(null);
 			this.add(log);
-			log.setSize(SpriteSheet.SPRITE_LOG_1.width, SpriteSheet.SPRITE_LOG_1.height);
-			log.setLocation(10, FRAME_HEIGHT-180);
-			
+			log.setSize(log.width, log.height);
+			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-230);
+			log.field.addFocusListener(new FocusListener() {
+				
+				@Override
+				public void focusLost(FocusEvent e) {
+					// TODO Auto-generated method stub
+					log.field.addKeyListener(listener);
+					log.addKeyListener(listener);
+				}
+				
+				@Override
+				public void focusGained(FocusEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+
 			new Thread(this).start();
+			
+			
 		}		
 		
 		@Override
@@ -364,9 +387,12 @@ public class ClientStart extends JFrame {
 			int mapY = 0;
 			
 			if(!DEBUG){
-				mapX = (this.getWidth() - SpriteSheet.SPRITE_MAP_SMALL.width) / 2;
+				mapX = 6;
 				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
+
+				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height - 20, SpriteSheet.SPRITE_BACKGROUND);
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
+			
 			}
 			//Draw the ships on the map
 			for(int i = 0; i < Game.ships.length; i++){
@@ -405,7 +431,8 @@ public class ClientStart extends JFrame {
 				}
 			}
 
-			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_1);	
+			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_LG);	
+			this.drawGUISprite(log.getX(), log.getY() + log.height - 41, SpriteSheet.SPRITE_LOG_SM);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;

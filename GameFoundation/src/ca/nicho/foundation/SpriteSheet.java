@@ -40,6 +40,7 @@ public class SpriteSheet {
 	public static final int GUI_BACKGROUND = 407;
 	public static final int GUI_RADAR_SCAN = 408;
 	public static final int GUI_CROSSHAIR = 409;
+	public static final int GUI_LOG_BOX = 410;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -104,9 +105,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TRAIL_10;
 	public static Sprite SPRITE_TRAIL_11;
 
-	public static Sprite SPRITE_LOG_1;
-	public static Sprite SPRITE_LOG_2;
-	public static Sprite SPRITE_LOG_3;
+	public static Sprite SPRITE_LOG_LG;
+	public static Sprite SPRITE_LOG_SM;
 	
 	public static Sprite SPRITE_P1_SPAWN;
 	public static Sprite SPRITE_P2_SPAWN;
@@ -228,9 +228,8 @@ public class SpriteSheet {
 		SPRITE_BACKGROUND = new Sprite("backgroundbase", GUI_BACKGROUND);
 		SPRITE_SCAN = new Sprite("radar_scan", GUI_RADAR_SCAN);
 		
-		SPRITE_LOG_1 = new Sprite("mesh1", GUI_LOG);
-		SPRITE_LOG_2 = new Sprite("mesh2", GUI_LOG);
-		SPRITE_LOG_3 = new Sprite("mesh3", GUI_LOG);
+		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
+		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);
 		
 		//Load ocean tiles
 		SPRITE_OCEAN_1 = new Sprite("ocean1", BACK_OCEAN_1);
