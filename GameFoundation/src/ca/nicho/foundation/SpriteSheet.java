@@ -18,6 +18,7 @@ public class SpriteSheet {
 	public static final int ENTITY_CARGO = 5;
 	public static final int ENTITY_RADAR = 6;
 	public static final int ENTITY_TRAIL = 7;
+	public static final int ENTITY_WINDMILL = 8;
 	
 	//Reserver 298 + 299 for Spawn Tiles (tiles than get converted to player spawn regions)
 	public static final int TILE_P1_SPAWN = 298;
@@ -103,6 +104,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TRAIL_9;
 	public static Sprite SPRITE_TRAIL_10;
 	public static Sprite SPRITE_TRAIL_11;
+	
+	public static Sprite SPRITE_WINDMILL;
 
 	public static Sprite SPRITE_LOG_1;
 	public static Sprite SPRITE_LOG_2;
@@ -203,6 +206,8 @@ public class SpriteSheet {
 		SPRITE_TRAIL_9 = new Sprite("ripple_9", ENTITY_TRAIL);
 		SPRITE_TRAIL_10 = new Sprite("ripple_10", ENTITY_TRAIL);
 		SPRITE_TRAIL_11 = new Sprite("ripple_11", ENTITY_TRAIL);
+		
+		SPRITE_WINDMILL = new Sprite("windmill", ENTITY_WINDMILL);
 		
 		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);

@@ -1,12 +1,15 @@
 package ca.nicho.server;
 
+import java.util.ArrayList;
+
 import ca.nicho.foundation.Game;
+import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.server.world.ServerWorld;
 
 public class ServerGame extends Game {
 
-	public static int p1Points = 0;
+	public static int p1Points = 1000;
 	public static int p2Points = 0;
 	
 	public int p1ship1 = -1;
@@ -19,6 +22,7 @@ public class ServerGame extends Game {
 	public int p2ship3 = -1;
 	public int p2ship4 = -1;
 
+	public static ArrayList<EntityWindmill> windmills = new ArrayList<EntityWindmill>();
 	
 	public static void initWorld(){
 		if(Game.world == null)
@@ -28,6 +32,7 @@ public class ServerGame extends Game {
 	public static int pointTicks = 0;
 	public static void updatePoints(){
 		if(pointTicks == 0){
+			updateEntityPoints();
 			p1Points++;
 			if(ServerStart.con1 != null)
 				ServerStart.con1.sendPacket(new PointPacket(p1Points));
@@ -36,6 +41,16 @@ public class ServerGame extends Game {
 				ServerStart.con2.sendPacket(new PointPacket(p2Points));
 		}
 		pointTicks = (pointTicks + 1) % 25;
+	}
+	
+	private static void updateEntityPoints(){
+		for(EntityWindmill ent : windmills){
+			if(ent.owner == 1 && !ent.isDead){
+				ServerGame.p1Points += ent.points;
+			}else if(ent.owner == 2 && !ent.isDead){
+				ServerGame.p2Points += ent.points;
+			}
+		}
 	}
 	
 }
