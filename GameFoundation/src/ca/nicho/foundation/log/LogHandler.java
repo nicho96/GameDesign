@@ -138,13 +138,8 @@ public class LogHandler extends JPanel{
 			}
 		});
 
-
-
-
-       // pane.add(scroll, BorderLayout.CENTER);
-
         pane.add(scroll, BorderLayout.CENTER);
-        pane.add(field, BorderLayout.SOUTH);
+        //pane.add(field, BorderLayout.SOUTH);
         
         width = SpriteSheet.SPRITE_LOG_LG.width;
         height = SpriteSheet.SPRITE_LOG_LG.height + 30; //+30 for seperation

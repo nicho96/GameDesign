@@ -6,12 +6,12 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
 
-public class EntityRadar extends Entity {
+public class EntityCarePackage extends Entity {
 
 	public int count = 0;
-	private static final Sprite[] sprites = {SpriteSheet.SPRITE_RADAR_1, SpriteSheet.SPRITE_RADAR_2, SpriteSheet.SPRITE_RADAR_3, SpriteSheet.SPRITE_RADAR_4, SpriteSheet.SPRITE_RADAR_5, SpriteSheet.SPRITE_RADAR_6, SpriteSheet.SPRITE_RADAR_7, SpriteSheet.SPRITE_RADAR_8};
+	private static final Sprite[] sprites = {SpriteSheet.SPRITE_PACKAGE_1, SpriteSheet.SPRITE_PACKAGE_2, SpriteSheet.SPRITE_PACKAGE_3, SpriteSheet.SPRITE_PACKAGE_4, SpriteSheet.SPRITE_PACKAGE_5};
 	
-	public EntityRadar(float x, float y, int ID){
+	public EntityCarePackage(float x, float y, int ID){
 		super(x, y, sprites, ID);
 	}
 

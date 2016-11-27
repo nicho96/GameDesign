@@ -2,6 +2,8 @@ package ca.nicho.foundation.entity;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.log.LogHandler;
+import ca.nicho.foundation.packet.LogPacket;
 
 public class EntityPlayer extends Entity {
 
@@ -53,13 +55,13 @@ public class EntityPlayer extends Entity {
 				
 		double vx = deltaX * tickDelta / 1000 * velocity * speedFactor;
 		double vy = deltaY * tickDelta / 1000 * velocity * speedFactor;
-				
-		
 		
 		if(vx != 0 && vy != 0){
 			vx /= sqrt2;
 			vy /= sqrt2;
 		}
+		
+
 		
 		if((vx != 0 || vy != 0)){
 			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
@@ -76,12 +78,5 @@ public class EntityPlayer extends Entity {
 			}
 		}
 	}
-	
-	@Override
-	public void collision(Entity ent){
-		if(ent instanceof EntityMissile){
-			this.isDead = true;
-		}
-	}
-	
+		
 }
