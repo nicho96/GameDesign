@@ -370,7 +370,8 @@ public class ClientStart extends JFrame {
 			if(Game.world != null){
 				//Render entities
 				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
-					drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
+					if(set.getValue().origHealth > 0)
+						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
 					drawEntity(set.getValue());
 				}
 				

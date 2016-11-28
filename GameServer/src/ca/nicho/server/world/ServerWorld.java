@@ -4,11 +4,13 @@ import java.util.Map;
 
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityExplosion;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
@@ -89,13 +91,15 @@ public class ServerWorld extends World{
 					break;
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
-				/*case SpriteSheet.ENTITY_WAVE:
+					break;
+				case SpriteSheet.ENTITY_WAVE:
 					ent = new EntityWave(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
-					break;*/
+					break;
 			}
+						
 			if(ent != null){
 				ent.owner = packet.owner;
 				spawnEntity(ent);
@@ -118,6 +122,7 @@ public class ServerWorld extends World{
 	}
 
 	private void tick(){
+
 		for(Map.Entry<Integer, Entity> ent : entities.entrySet()){
 			Entity e = ent.getValue();
 			if(e.tick()){
@@ -125,6 +130,7 @@ public class ServerWorld extends World{
 					ServerStart.sendGlobalPacket(new KillEntityPacket(ent.getKey()));
 					this.killEntity(ent.getKey());
 				}else{
+					System.out.println("Entity Packet Update");
 					ServerStart.sendGlobalPacket(new EntityPacket(ent.getValue()));
 				}
 			}

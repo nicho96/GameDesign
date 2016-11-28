@@ -13,6 +13,7 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityBattleship;
+import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityCargoShip;
 import ca.nicho.foundation.entity.EntityEnemy;
 import ca.nicho.foundation.entity.EntityExplosion;
@@ -22,6 +23,7 @@ import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.tile.Tile;
 
@@ -95,12 +97,12 @@ public class World implements Runnable{
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
 					break;
-				/*case SpriteSheet.ENTITY_WAVE:
+				case SpriteSheet.ENTITY_WAVE:
 					ent = new EntityWave(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
-					break;*/
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;

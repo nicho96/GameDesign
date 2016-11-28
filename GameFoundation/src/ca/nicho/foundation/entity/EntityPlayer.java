@@ -35,8 +35,7 @@ public class EntityPlayer extends Entity {
 
 	@Override
 	public boolean tick(){
-		super.tick();
-		boolean tmp = moved;
+		boolean tmp = super.tick() || moved;
 		moved = false;
 		return tmp;
 	}

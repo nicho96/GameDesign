@@ -34,11 +34,19 @@ public abstract class Entity {
 	 * Update the entity. Currently only used by the server
 	 * @return true if there is a reason to update the clients with updated information about this entity
 	 */
+	public int healthTick;
 	public boolean tick(){
 		if(cooldownTick > 0){
 			cooldownTick--;
 		}
-		return false;
+		
+		boolean ret = false;
+		
+		if(healthTick == 0 && origHealth > 0){
+			ret = this.heal(1);
+		}
+		healthTick = (healthTick + 1) % 10;
+		return ret;
 	}
 	
 	private int spriteTick = 1;
@@ -59,7 +67,7 @@ public abstract class Entity {
 	public void damage(int amount){
 		if(cooldownTick == 0){
 			health -= amount;
-			if(health < 0)
+			if(health < 0 && origHealth > 0)
 				this.isDead = true;
 			Game.world.entityDamaged(this);
 			cooldownTick = 100;
@@ -76,4 +84,14 @@ public abstract class Entity {
 			
 		}
 	}
+	
+	public boolean heal(int amount){
+		health += amount;
+		if(health > origHealth){
+			health = origHealth;
+			return false;
+		}
+		return true;
+	}
+	
 }

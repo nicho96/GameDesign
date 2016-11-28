@@ -11,12 +11,13 @@ public class EntityExplosion extends Entity {
 	private static Sprite[] sprites = {SpriteSheet.SPRITE_EXPLOSION};
 	
 	public EntityExplosion(float x, float y, int id) {
-		super(x, y, 5, sprites, id);
+		super(x, y, -1, sprites, id);
 	}
 
 	public int tickCount;
 	public boolean tick() {
 		super.tick();
+					
 		if(tickCount == 30){
 			this.isDead = true;
 			return true;
