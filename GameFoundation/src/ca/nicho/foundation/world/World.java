@@ -15,8 +15,10 @@ import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityBattleship;
 import ca.nicho.foundation.entity.EntityCargoShip;
 import ca.nicho.foundation.entity.EntityEnemy;
+import ca.nicho.foundation.entity.EntityExplosion;
 import ca.nicho.foundation.entity.EntityMedicShip;
 import ca.nicho.foundation.entity.EntityMissile;
+import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
@@ -58,16 +60,10 @@ public class World implements Runnable{
 				ent.locX = packet.x;
 				ent.locY = packet.y; 
 			}
+			ent.health = packet.health;
 		}else{
 			Entity ent = null;
 			switch(packet.type){
-				case SpriteSheet.ENTITY_PLAYER: //Entity player is not a valid packet anymore, but default to a battleship sprite
-					EntityPlayer player = new EntityPlayer(packet.x, packet.y, SpriteSheet.SPRITE_BATTLESHIP, packet.id);
-					//if(Game.player == null){
-						//Game.player = player;
-					//}
-					ent = player;
-					break;
 				case SpriteSheet.ENTITY_ENEMY:
 					System.out.println(packet.id);
 					ent = new EntityEnemy(packet.x, packet.y, packet.id);
@@ -93,9 +89,16 @@ public class World implements Runnable{
 				case SpriteSheet.ENTITY_WINDMILL:
 					ent = new EntityTrail(packet.x, packet.y, packet.id);
 					break;
+				case SpriteSheet.ENTITY_NAVY_BASE:
+					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_EXPLOSION:
+					ent = new EntityExplosion(packet.x, packet.y, packet.id);
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;
+				ent.health = packet.health;
 				spawnEntity(ent);
 			}else{
 				System.out.println("World: Tried to spawn a null entity (packet malformed?) " + packet.type);
@@ -194,9 +197,6 @@ public class World implements Runnable{
 			int width = in.readInt();
 			int height = in.readInt();
 			
-			System.out.println(width);
-			System.out.println(height);
-			
 			map = new Tile[width * height];
 			
 			for(int x = 0; x < width; x++){
@@ -208,8 +208,9 @@ public class World implements Runnable{
 					}else if(type == SpriteSheet.TILE_P2_SPAWN){
 						this.p2SpawnX = x * Tile.TILE_DIM;
 						this.p2SpawnY = y * Tile.TILE_DIM;
+					}else{
+						map[x + y * width] = Tile.getTileByID(type);
 					}
-					map[x + y * width] = Tile.getTileByID(type);
 				}
 			}
 			
@@ -230,6 +231,8 @@ public class World implements Runnable{
 	public EntityPlayer getPlayer(){
 		return (Game.ships != null) ? (EntityPlayer) entities.get(Game.ships[Game.current]) : null;
 	}
+	
+	public void entityDamaged(Entity e){}
 	
 	@Override
 	public void run(){

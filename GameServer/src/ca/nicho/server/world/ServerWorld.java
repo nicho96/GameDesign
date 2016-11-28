@@ -4,8 +4,9 @@ import java.util.Map;
 
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityExplosion;
 import ca.nicho.foundation.entity.EntityMissile;
-import ca.nicho.foundation.entity.EntityPlayer;
+import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
 import ca.nicho.foundation.entity.EntityWindmill;
@@ -69,9 +70,6 @@ public class ServerWorld extends World{
 		}else{
 			ent = null;
 			switch(packet.type){
-				case SpriteSheet.ENTITY_PLAYER: //Not a valid packet anymore, use other ship entities who inherit from player
-					ent = new EntityPlayer(packet.x, packet.y, SpriteSheet.SPRITE_BATTLESHIP, packet.id);
-					break;
 				case SpriteSheet.ENTITY_MISSILE:
 					ent = new EntityMissile(packet.x, packet.y, packet.id);
 					break;
@@ -85,6 +83,12 @@ public class ServerWorld extends World{
 					EntityWindmill wind = new EntityWindmill(packet.x, packet.y, packet.id);
 					ent = wind;
 					ServerGame.windmills.add(wind);
+					break;
+				case SpriteSheet.ENTITY_NAVY_BASE:
+					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_EXPLOSION:
+					ent = new EntityExplosion(packet.x, packet.y, packet.id);
 					break;
 			}
 			if(ent != null){
@@ -101,6 +105,11 @@ public class ServerWorld extends World{
 		super.setTileByPos(pos, tile);
 		TilePacket packet = new TilePacket(pos, tile);
 		ServerStart.sendGlobalPacket(packet);
+	}
+	
+	@Override
+	public void entityDamaged(Entity e){
+		ServerStart.sendGlobalPacket(new EntityPacket(e));
 	}
 
 	private void tick(){

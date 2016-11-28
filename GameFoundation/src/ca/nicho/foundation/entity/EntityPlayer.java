@@ -15,12 +15,12 @@ public class EntityPlayer extends Entity {
 	public int position = 0;
 	
 	
-	public EntityPlayer(float x, float y, Sprite sprite, int id) {
-		super(x, y, sprite, id);
+	public EntityPlayer(float x, float y, int health, Sprite sprite, int id) {
+		super(x, y, health, sprite, id);
 	}
 	
-	public EntityPlayer(float x, float y, Sprite[] sprites, int id) {
-		super(x, y, sprites, id);
+	public EntityPlayer(float x, float y, int health, Sprite[] sprites, int id) {
+		super(x, y, health, sprites, id);
 	}
 	
 	public Entity getCurrent(){
@@ -33,6 +33,7 @@ public class EntityPlayer extends Entity {
 
 	@Override
 	public boolean tick(){
+		super.tick();
 		boolean tmp = moved;
 		moved = false;
 		return tmp;

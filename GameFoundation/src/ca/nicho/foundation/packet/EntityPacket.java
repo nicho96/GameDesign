@@ -11,6 +11,7 @@ public class EntityPacket extends Packet {
 	public int id;
 	public float x;
 	public float y;
+	public int health;
 	public byte owner;
 	
 	/**
@@ -23,6 +24,7 @@ public class EntityPacket extends Packet {
 		this.id = ent.id;
 		this.x = ent.locX;
 		this.y = ent.locY;
+		this.health = ent.health;
 		this.owner = ent.owner;
 	}
 	
@@ -37,25 +39,28 @@ public class EntityPacket extends Packet {
 		id = buffer.getInt();
 		x = buffer.getFloat();
 		y = buffer.getFloat();
+		health = buffer.getInt();
 		owner = buffer.get();
 	}
 	
-	public EntityPacket(int type, int id, float x, float y, byte owner){
+	public EntityPacket(int type, int id, float x, float y, int health, byte owner){
 		super(Packet.PACKET_ENTITY);
 		this.type = type;
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.health = health;
 		this.owner = owner;
 	}
 	
 	@Override
 	public byte[] getPacketData() {
-		ByteBuffer buffer = ByteBuffer.allocate(17); // 3 * 4 + 1 byte primitives
+		ByteBuffer buffer = ByteBuffer.allocate(21); // 4 * 5 + 1 byte primitives
 		buffer.putInt(type);
 		buffer.putInt(id);
 		buffer.putFloat(x);
 		buffer.putFloat(y);
+		buffer.putInt(health);
 		buffer.put(owner);
 		return buffer.array();
 	}

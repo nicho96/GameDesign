@@ -1,5 +1,6 @@
 package ca.nicho.foundation.entity;
 
+import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 
 public abstract class Entity {
@@ -12,32 +13,55 @@ public abstract class Entity {
 	public boolean isDead = false;
 	public boolean detected = false;
 	public byte owner = -1;
+	public int health;
 	
-	public Entity(float x, float y, Sprite sprite, int id){
-		this(x, y, new Sprite[1], id);
+	public Entity(float x, float y, int health, Sprite sprite, int id){
+		this(x, y, health, new Sprite[1], id);
 		sprites[0] = sprite;
 	}
 	
-	public Entity(float x, float y, Sprite[] sprites, int id){
+	public Entity(float x, float y, int health, Sprite[] sprites, int id){
 		this.id = id;
 		this.sprites = sprites;
 		this.locX = x;
 		this.locY = y;
+		this.health = health;
 	}
 	
 	/**
 	 * Update the entity. Currently only used by the server
 	 * @return true if there is a reason to update the clients with updated information about this entity
 	 */
-	public abstract boolean tick();
+	public boolean tick(){
+		if(cooldownTick > 0){
+			cooldownTick--;
+		}
+		return false;
+	}
 	
 	private int spriteTick = 1;
 	public boolean clientTick(){
 		if((spriteTick = (spriteTick + 1) % 2) == 0){
 			current = (current + 1) % sprites.length;
 		}
+
+		if(cooldownTick > 0){
+			cooldownTick--;
+		}
 		
 		return false;
+	}
+	
+	
+	int cooldownTick = 0;
+	public void damage(int amount){
+		if(cooldownTick == 0){
+			health -= amount;
+			if(health < 0)
+				this.isDead = true;
+			Game.world.entityDamaged(this);
+			cooldownTick = 100;
+		}
 	}
 	
 	public void collision(Entity ent){};

@@ -207,7 +207,7 @@ public class ClientStart extends JFrame {
 						else
 							g.setColor(Color.white);
 						
-						g.drawString(ent.getKey() + " " + ent.getValue().owner, x, y);
+						g.drawString(ent.getKey() + " | " + ent.getValue().owner + " | " + ent.getValue().health, x, y);
 						
 						if(ent instanceof EntityRadar){
 							g.drawString(((EntityRadar)ent).count + "", x + 50, y);
@@ -336,7 +336,7 @@ public class ClientStart extends JFrame {
 			if(backTick == 0){
 				updateOceanTile();
 			}
-			backTick = (backTick + 1) % 10; //Loop at every 50 ticks
+			backTick = (backTick + 1) % 30; //Loop at every 50 ticks
 			
 			//Draw main menu
 			if(con == null){

@@ -101,7 +101,7 @@ public class GamePadListener {
 			public void action() {
 				//Shoot missile
 				if(A.getPollData() > 0 && reset){
-					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, SpriteSheet.ENTITY_MISSILE, Game.ownerID));
+					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, Game.world.getPlayer().health, SpriteSheet.ENTITY_MISSILE, Game.ownerID));
 				}			
 			}
 		};

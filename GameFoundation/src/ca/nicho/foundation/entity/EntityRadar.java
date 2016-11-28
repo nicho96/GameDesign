@@ -12,7 +12,7 @@ public class EntityRadar extends Entity {
 	private static final Sprite[] sprites = {SpriteSheet.SPRITE_RADAR_1, SpriteSheet.SPRITE_RADAR_2, SpriteSheet.SPRITE_RADAR_3, SpriteSheet.SPRITE_RADAR_4};
 	
 	public EntityRadar(float x, float y, int ID){
-		super(x, y, sprites, ID);
+		super(x, y, 100, sprites, ID);
 	}
 
 	
@@ -20,6 +20,7 @@ public class EntityRadar extends Entity {
 	
 	@Override
 	public boolean tick(){
+		super.tick();
 		return false;
 	}
 	

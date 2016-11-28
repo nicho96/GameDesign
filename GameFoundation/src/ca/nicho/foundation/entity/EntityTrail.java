@@ -8,11 +8,12 @@ public class EntityTrail extends Entity {
 	private static Sprite[] sprites = {SpriteSheet.SPRITE_TRAIL_1, SpriteSheet.SPRITE_TRAIL_2, SpriteSheet.SPRITE_TRAIL_3, SpriteSheet.SPRITE_TRAIL_4, SpriteSheet.SPRITE_TRAIL_5, SpriteSheet.SPRITE_TRAIL_6, SpriteSheet.SPRITE_TRAIL_7, SpriteSheet.SPRITE_TRAIL_8, SpriteSheet.SPRITE_TRAIL_9, SpriteSheet.SPRITE_TRAIL_10, SpriteSheet.SPRITE_TRAIL_11};
 	
 	public EntityTrail(float x, float y, int id){
-		super(x, y, sprites, id);
+		super(x, y, 5, sprites, id);
 	}
 
 	public int tickCount = 0;
 	public boolean tick() {
+		super.tick();
 		if(tickCount == 100){
 			this.isDead = true;
 			return true;

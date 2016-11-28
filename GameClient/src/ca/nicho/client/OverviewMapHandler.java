@@ -39,7 +39,7 @@ public class OverviewMapHandler {
 		
 		for(int x = -Tile.TILE_DIM * 8; x <= Tile.TILE_DIM * 8; x += Tile.TILE_DIM * 2){
 			for(int y = -Tile.TILE_DIM * 8; y <= Tile.TILE_DIM * 8; y += Tile.TILE_DIM * 2){
-				ClientStart.con.sendPacket(new SpawnEntityPacket(ClientStart.map.getMapPositionX() + x, ClientStart.map.getMapPositionY() + y, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
+				ClientStart.con.sendPacket(new SpawnEntityPacket(ClientStart.map.getMapPositionX() + x, ClientStart.map.getMapPositionY() + y, 5, SpriteSheet.ENTITY_EXPLOSION, Game.ownerID));
 			}
 		}
 	}

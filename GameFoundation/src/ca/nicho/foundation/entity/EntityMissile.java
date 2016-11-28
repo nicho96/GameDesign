@@ -9,11 +9,12 @@ public class EntityMissile extends Entity{
 	public int timeAlive = 20;
 	
 	public EntityMissile(float x, float y, int id) {
-		super(x, y, SpriteSheet.SPRITE_MISSILE, id);
+		super(x, y, 5, SpriteSheet.SPRITE_MISSILE, id);
 	}
 
 	@Override
 	public synchronized boolean tick() {
+		super.tick();
 		Game.world.checkEntityCollision(this);
 		this.locX += velocity;
 		if(timeAlive-- == 0){

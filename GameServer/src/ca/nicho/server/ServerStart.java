@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.log.LogHandler;
 import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
@@ -28,7 +29,7 @@ public class ServerStart {
 		PORT = Integer.parseInt(sc.nextLine());
 		sc.close();
 		ServerGame.initWorld();
-		new ServerStart();
+		new ServerStart();		
 	}
 	
 	public ServerStart(){
@@ -36,6 +37,14 @@ public class ServerStart {
 			System.out.println("Starting server on port " + PORT + "...");		
 			ServerSocket socket = new ServerSocket(PORT);
 			((ServerWorld)Game.world).startClock();
+			
+			EntityNavyBase base1 = new EntityNavyBase(Game.world.p1SpawnX, Game.world.p1SpawnY, Game.world.entId++);
+			base1.owner = 1;
+			Game.world.spawnEntity(base1);
+			EntityNavyBase base2 = new EntityNavyBase(Game.world.p2SpawnX, Game.world.p2SpawnY, Game.world.entId++);
+			base2.owner = 2;
+			Game.world.spawnEntity(base2);
+			
 			while(true){
 				Socket con = socket.accept();
 				if(con1 == null){ //New connection

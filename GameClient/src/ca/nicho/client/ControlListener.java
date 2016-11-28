@@ -128,7 +128,7 @@ public class ControlListener implements KeyListener {
 			player.move(deltaX, deltaY, ClientStart.tickDelta);
 			ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
 			if(player.delta > 30){
-				ClientStart.con.sendPacket(new SpawnEntityPacket(player.locX + player.sprites[0].width / 2 - SpriteSheet.SPRITE_TRAIL_1.width / 2, player.locY + player.sprites[0].height / 2 - SpriteSheet.SPRITE_TRAIL_1.height / 2, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
+				ClientStart.con.sendPacket(new SpawnEntityPacket(player.locX + player.sprites[0].width / 2 - SpriteSheet.SPRITE_TRAIL_1.width / 2, player.locY + player.sprites[0].height / 2 - SpriteSheet.SPRITE_TRAIL_1.height / 2, player.health, SpriteSheet.ENTITY_TRAIL, Game.ownerID));
 				player.delta = 0;
 			}
 
@@ -161,7 +161,7 @@ public class ControlListener implements KeyListener {
 				ClientStart.map.sendAirstrike();
 			}else{
 				if(Game.world.getPlayer().getCurrent() != null){
-					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
+					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().health, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
 					Game.world.getPlayer().clearCurrent();
 				}
 			}

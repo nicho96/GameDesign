@@ -10,11 +10,12 @@ public class EntityWindmill extends Entity {
 	public int points = 2;
 	
 	public EntityWindmill(float x, float y, int id){
-		super(x, y, sprites, id);
+		super(x, y, 25, sprites, id);
 	}
 
 	@Override
 	public boolean tick() {
+		super.tick();
 		return false;
 	}
 	
