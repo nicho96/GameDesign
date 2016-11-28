@@ -142,7 +142,7 @@ public class ClientStart extends JFrame {
 			this.setLayout(null);
 			this.add(log);
 			log.setSize(log.width, log.height);
-			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-230);
+			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-10);
 			log.field.addFocusListener(new FocusListener() {
 				
 				@Override
@@ -370,6 +370,8 @@ public class ClientStart extends JFrame {
 			if(Game.world != null){
 				//Render entities
 				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					if(set.getValue().owner == Game.ownerID)
+						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
 					drawEntity(set.getValue());
 				}
 				
@@ -432,7 +434,7 @@ public class ClientStart extends JFrame {
 			}
 
 			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_LG);	
-			this.drawGUISprite(log.getX(), log.getY() + log.height - 41, SpriteSheet.SPRITE_LOG_SM);	
+		//	this.drawGUISprite(log.getX(), log.getY() + log.height - 41, SpriteSheet.SPRITE_LOG_SM);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;

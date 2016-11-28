@@ -13,6 +13,7 @@ public abstract class Entity {
 	public boolean isDead = false;
 	public boolean detected = false;
 	public byte owner = -1;
+	public int origHealth;
 	public int health;
 	
 	public Entity(float x, float y, int health, Sprite sprite, int id){
@@ -25,6 +26,7 @@ public abstract class Entity {
 		this.sprites = sprites;
 		this.locX = x;
 		this.locY = y;
+		this.origHealth = health;
 		this.health = health;
 	}
 	
@@ -66,4 +68,12 @@ public abstract class Entity {
 	
 	public void collision(Entity ent){};
 	
+	public void flip(Entity ent){
+		Sprite[] sprites = ent.sprites;
+		
+		for(int i = 0; i < sprites.length; i++){
+			int[] data = sprites[0].data;
+			
+		}
+	}
 }

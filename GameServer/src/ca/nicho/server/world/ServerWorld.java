@@ -89,7 +89,12 @@ public class ServerWorld extends World{
 					break;
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
+				/*case SpriteSheet.ENTITY_WAVE:
+					ent = new EntityWave(packet.x, packet.y, packet.id);
 					break;
+				case SpriteSheet.ENTITY_CARE_PACKAGE:
+					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
+					break;*/
 			}
 			if(ent != null){
 				ent.owner = packet.owner;

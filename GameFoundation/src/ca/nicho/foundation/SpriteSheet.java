@@ -19,8 +19,11 @@ public class SpriteSheet {
 	public static final int ENTITY_RADAR = 6;
 	public static final int ENTITY_TRAIL = 7;
 	public static final int ENTITY_WINDMILL = 8;
+
 	public static final int ENTITY_NAVY_BASE = 9;
 	public static final int ENTITY_EXPLOSION = 10;
+	public static final int ENTITY_WAVE = 11;
+	public static final int ENTITY_CARE_PACKAGE = 12;
 	
 	//Reserver 298 + 299 for Spawn Tiles (tiles than get converted to player spawn regions)
 	public static final int TILE_P1_SPAWN = 298;
@@ -95,6 +98,20 @@ public class SpriteSheet {
 	public static Sprite SPRITE_RADAR_2;
 	public static Sprite SPRITE_RADAR_3;
 	public static Sprite SPRITE_RADAR_4;
+	public static Sprite SPRITE_RADAR_5;
+	public static Sprite SPRITE_RADAR_6;
+	public static Sprite SPRITE_RADAR_7;
+	public static Sprite SPRITE_RADAR_8;
+	
+	public static Sprite SPRITE_WAVE_1;
+	public static Sprite SPRITE_WAVE_2;
+	public static Sprite SPRITE_WAVE_3;
+	public static Sprite SPRITE_WAVE_4;
+	public static Sprite SPRITE_WAVE_5;
+	public static Sprite SPRITE_WAVE_6;
+	public static Sprite SPRITE_WAVE_7;
+	public static Sprite SPRITE_WAVE_8;
+	public static Sprite SPRITE_WAVE_9;
 		
 	public static Sprite SPRITE_EXPLOSION;
 	
@@ -109,6 +126,12 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TRAIL_9;
 	public static Sprite SPRITE_TRAIL_10;
 	public static Sprite SPRITE_TRAIL_11;
+	
+	public static Sprite SPRITE_PACKAGE_1;
+	public static Sprite SPRITE_PACKAGE_2;
+	public static Sprite SPRITE_PACKAGE_3;
+	public static Sprite SPRITE_PACKAGE_4;
+	public static Sprite SPRITE_PACKAGE_5;
 	
 	public static Sprite SPRITE_WINDMILL;
 	
@@ -199,7 +222,23 @@ public class SpriteSheet {
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
+		SPRITE_RADAR_4 = new Sprite("radar_4", ENTITY_RADAR);
+		SPRITE_RADAR_5 = new Sprite("radar_5", ENTITY_RADAR);
+		SPRITE_RADAR_6 = new Sprite("radar_6", ENTITY_RADAR);
+		SPRITE_RADAR_7 = new Sprite("radar_7", ENTITY_RADAR);
+		SPRITE_RADAR_8 = new Sprite("radar_8", ENTITY_RADAR);
+		
 		SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
+		
+		SPRITE_WAVE_1 = new Sprite("wave_1", ENTITY_WAVE);
+		SPRITE_WAVE_2 = new Sprite("wave_2", ENTITY_WAVE);
+		SPRITE_WAVE_3 = new Sprite("wave_3", ENTITY_WAVE);
+		SPRITE_WAVE_4 = new Sprite("wave_4", ENTITY_WAVE);
+		SPRITE_WAVE_5 = new Sprite("wave_5", ENTITY_WAVE);
+		SPRITE_WAVE_6 = new Sprite("wave_6", ENTITY_WAVE);
+		SPRITE_WAVE_7 = new Sprite("wave_7", ENTITY_WAVE);
+		SPRITE_WAVE_8 = new Sprite("wave_8", ENTITY_WAVE);
+		SPRITE_WAVE_9 = new Sprite("wave_9", ENTITY_WAVE);
 
 		SPRITE_TRAIL_1 = new Sprite("ripple_1", ENTITY_TRAIL);
 		SPRITE_TRAIL_2 = new Sprite("ripple_2", ENTITY_TRAIL);
@@ -212,6 +251,12 @@ public class SpriteSheet {
 		SPRITE_TRAIL_9 = new Sprite("ripple_9", ENTITY_TRAIL);
 		SPRITE_TRAIL_10 = new Sprite("ripple_10", ENTITY_TRAIL);
 		SPRITE_TRAIL_11 = new Sprite("ripple_11", ENTITY_TRAIL);
+		
+		SPRITE_PACKAGE_1 = new Sprite("package_1", ENTITY_CARE_PACKAGE);
+		SPRITE_PACKAGE_2 = new Sprite("package_2", ENTITY_CARE_PACKAGE);
+		SPRITE_PACKAGE_3 = new Sprite("package_3", ENTITY_CARE_PACKAGE);
+		SPRITE_PACKAGE_4 = new Sprite("package_4", ENTITY_CARE_PACKAGE);
+		SPRITE_PACKAGE_5 = new Sprite("package_5", ENTITY_CARE_PACKAGE);
 		
 		SPRITE_WINDMILL = new Sprite("windmill", ENTITY_WINDMILL);
 		

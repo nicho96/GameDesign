@@ -17,7 +17,7 @@ public class EntityExplosion extends Entity {
 	public int tickCount;
 	public boolean tick() {
 		super.tick();
-		if(tickCount == 100){
+		if(tickCount == 30){
 			this.isDead = true;
 			return true;
 		}

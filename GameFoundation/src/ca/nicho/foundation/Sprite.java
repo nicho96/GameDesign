@@ -13,6 +13,26 @@ public class Sprite {
 	public int height = 0;
 	public int type;
 	
+	public Sprite(float health, boolean somethingtodistinguishfromnum){
+		width = 50;
+		height = 4;
+		data = new int[width * height];
+	
+		int color = 0x00FF00;
+		if(health < 0.5)
+			color = 0xFF0000;
+		
+		int pos = (int)(health * 50);
+		
+		for(int i = 0; i < data.length; i++){
+			int val = i % width;
+			if(val <= pos)
+				data[i] = color;
+			else
+				data[i] = 0x000000;
+		}
+	}
+	
 	public Sprite(int num){
 		String numS = num + "";
 		this.width = SpriteSheet.SPRITE_0.width * numS.length();
