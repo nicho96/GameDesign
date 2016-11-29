@@ -1,17 +1,23 @@
 package ca.nicho.server.world;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityExplosion;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityNavyBase;
+import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.TilePacket;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
@@ -21,7 +27,7 @@ import ca.nicho.server.ServerStart;
 public class ServerWorld extends World{
 
 	public GameClock clock;
-
+	
 	public ServerWorld(){
 		super();
 
@@ -48,11 +54,6 @@ public class ServerWorld extends World{
 		entities.put(ent.id, ent);
 		EntityPacket packet = new EntityPacket(ent);
 		ServerStart.sendGlobalPacket(packet);
-		//TODO change to not send all entity data to existing connections
-		/*for(Map.Entry<Integer, Entity> set : entities.entrySet()){
-			EntityPacket packet = new EntityPacket(set.getValue());
-			ServerStart.sendGlobalPacket(packet);
-		}*/
 	}
 	
 	public void entityUpdatePacketRecieved(EntityPacket packet){
@@ -85,17 +86,21 @@ public class ServerWorld extends World{
 					ServerGame.windmills.add(wind);
 					break;
 				case SpriteSheet.ENTITY_NAVY_BASE:
-					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
+					EntityNavyBase base = new EntityNavyBase(packet.x, packet.y, packet.id);
+					bases.add(base);
+					ent = base;
 					break;
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
-				/*case SpriteSheet.ENTITY_WAVE:
+					break;
+				case SpriteSheet.ENTITY_WAVE:
 					ent = new EntityWave(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
-					break;*/
+					break;
 			}
+						
 			if(ent != null){
 				ent.owner = packet.owner;
 				spawnEntity(ent);
@@ -118,18 +123,50 @@ public class ServerWorld extends World{
 	}
 
 	private void tick(){
-		for(Map.Entry<Integer, Entity> ent : entities.entrySet()){
-			Entity e = ent.getValue();
+
+		for(Map.Entry<Integer, Entity> set : entities.entrySet()){
+			Entity e = set.getValue();
 			if(e.tick()){
-				if(ent.getValue().isDead){
-					ServerStart.sendGlobalPacket(new KillEntityPacket(ent.getKey()));
-					this.killEntity(ent.getKey());
+				if(set.getValue().isDead){
+					if(!(e instanceof EntityPlayer)){
+						ServerStart.sendGlobalPacket(new KillEntityPacket(set.getKey()));
+						this.killEntity(set.getKey());
+					}
 				}else{
-					ServerStart.sendGlobalPacket(new EntityPacket(ent.getValue()));
+					ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 				}
 			}
 		}
-		ServerGame.updatePoints();
+		
+		if(Game.started){
+			ServerGame.updatePoints();
+			checkWin();
+		}
+	}
+	
+	private boolean isWon = false;
+	private void checkWin(){
+		if(isWon)
+			return;
+		int p1Count = 0;
+		int p2Count = 0;
+		for(EntityNavyBase base : bases){
+			if(base.owner == 1 || !base.isDead)
+				p1Count ++;
+			else if(base.owner == 2 || !base.isDead)
+				p2Count ++;
+		}
+		
+		isWon = true;
+		if(p1Count == 0 && p2Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("The game has been tied!"));
+		}else if(p1Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("Player 2 has won!"));
+		}else if(p2Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("Player 1 has won!"));
+		}else{
+			isWon = false;
+		}
 	}
 	
 	private class GameClock implements Runnable{

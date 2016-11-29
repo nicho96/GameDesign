@@ -19,12 +19,6 @@ public class EntityRadar extends Entity {
 	private int tickCount = 0;
 	
 	@Override
-	public boolean tick(){
-		super.tick();
-		return false;
-	}
-	
-	@Override
 	public boolean clientTick() {
 		super.clientTick();
 		tickCount = (tickCount + 1) % 10;

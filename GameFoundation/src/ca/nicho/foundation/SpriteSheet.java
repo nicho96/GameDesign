@@ -33,6 +33,9 @@ public class SpriteSheet {
 	public static final int TILE_WOOD = 300;
 	public static final int TILE_STONE = 301;
 	public static final int TILE_METAL = 302;
+	public static final int TILE_MARSH = 303;
+	public static final int TILE_NET = 304;
+	public static final int TILE_BOX = 305;
 	
 	//Reserve 400-499 for GUI elements (may need to extend in future
 	public static final int GUI_MAP = 400;
@@ -150,6 +153,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_STONE_2;
 	public static Sprite SPRITE_STONE_3;
 	public static Sprite SPRITE_STONE_4;
+	public static Sprite SPRITE_MARSH;
+	public static Sprite SPRITE_NET;
+	public static Sprite SPRITE_BOX;
 	
 	//GUI
 	public static Sprite SPRITE_MAP_SMALL;
@@ -275,6 +281,9 @@ public class SpriteSheet {
 		SPRITE_WOOD = new Sprite("wood", TILE_WOOD);
 		SPRITE_STONE = new Sprite("stone", TILE_STONE);
 		SPRITE_METAL = new Sprite("metal", TILE_METAL);
+		SPRITE_MARSH = new Sprite("marsh", TILE_MARSH);
+		SPRITE_NET = new Sprite("net", TILE_NET);
+		SPRITE_BOX = new Sprite("box", TILE_BOX);
 		
 		//Load GUI elements
 		SPRITE_MAP_SMALL = new Sprite("map", GUI_MAP);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.entity.EntityWindmill;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.server.world.ServerWorld;
 

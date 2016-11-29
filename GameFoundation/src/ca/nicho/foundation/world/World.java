@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,6 +14,7 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityBattleship;
+import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityCargoShip;
 import ca.nicho.foundation.entity.EntityEnemy;
 import ca.nicho.foundation.entity.EntityExplosion;
@@ -22,6 +24,8 @@ import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityWave;
+import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.tile.Tile;
 
@@ -38,6 +42,7 @@ public class World implements Runnable{
 	
 	public static final int MAP_WIDTH = 100;
 	public static final int MAP_HEIGHT = 100;
+	public ArrayList<EntityNavyBase> bases = new ArrayList<EntityNavyBase>();
 	public Tile[] map;
 	
 	public World(){
@@ -87,7 +92,7 @@ public class World implements Runnable{
 					ent = new EntityTrail(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_WINDMILL:
-					ent = new EntityTrail(packet.x, packet.y, packet.id);
+					ent = new EntityWindmill(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_NAVY_BASE:
 					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
@@ -95,12 +100,12 @@ public class World implements Runnable{
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
 					break;
-				/*case SpriteSheet.ENTITY_WAVE:
+				case SpriteSheet.ENTITY_WAVE:
 					ent = new EntityWave(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
-					break;*/
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;
