@@ -24,6 +24,7 @@ import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
 import ca.nicho.foundation.entity.EntityWave;
+import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.tile.Tile;
 
@@ -89,7 +90,7 @@ public class World implements Runnable{
 					ent = new EntityTrail(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_WINDMILL:
-					ent = new EntityTrail(packet.x, packet.y, packet.id);
+					ent = new EntityWindmill(packet.x, packet.y, packet.id);
 					break;
 				case SpriteSheet.ENTITY_NAVY_BASE:
 					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
