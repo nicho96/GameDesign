@@ -8,6 +8,7 @@ import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityExplosion;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityNavyBase;
+import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
 import ca.nicho.foundation.entity.EntityWave;
@@ -50,11 +51,6 @@ public class ServerWorld extends World{
 		entities.put(ent.id, ent);
 		EntityPacket packet = new EntityPacket(ent);
 		ServerStart.sendGlobalPacket(packet);
-		//TODO change to not send all entity data to existing connections
-		/*for(Map.Entry<Integer, Entity> set : entities.entrySet()){
-			EntityPacket packet = new EntityPacket(set.getValue());
-			ServerStart.sendGlobalPacket(packet);
-		}*/
 	}
 	
 	public void entityUpdatePacketRecieved(EntityPacket packet){
@@ -123,15 +119,16 @@ public class ServerWorld extends World{
 
 	private void tick(){
 
-		for(Map.Entry<Integer, Entity> ent : entities.entrySet()){
-			Entity e = ent.getValue();
+		for(Map.Entry<Integer, Entity> set : entities.entrySet()){
+			Entity e = set.getValue();
 			if(e.tick()){
-				if(ent.getValue().isDead){
-					ServerStart.sendGlobalPacket(new KillEntityPacket(ent.getKey()));
-					this.killEntity(ent.getKey());
+				if(set.getValue().isDead){
+					if(!(e instanceof EntityPlayer)){
+						ServerStart.sendGlobalPacket(new KillEntityPacket(set.getKey()));
+						this.killEntity(set.getKey());
+					}
 				}else{
-					System.out.println("Entity Packet Update");
-					ServerStart.sendGlobalPacket(new EntityPacket(ent.getValue()));
+					ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 				}
 			}
 		}

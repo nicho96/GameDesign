@@ -38,6 +38,14 @@ public class Level {
 		
 	}
 	
+	public void flipAtHalfY(){
+		for(int y = 0; y < map.length / 2; y++){
+			for(int x = 0; x < map[0].length; x++){
+				map[x][map.length - y - 1] = map[x][y];
+			}
+		}
+	}
+	
 	public void setTile(Tile t, int x, int y){
 		map[x][y] = t;
 	}
@@ -99,6 +107,8 @@ public class Level {
 			e.printStackTrace();
 		}
 		
+		//this.flipAtHalfY();
+		
 	}
 	
 	public BufferedImage generateBufferedImage(){
@@ -113,8 +123,8 @@ public class Level {
 				Tile t = map[i][o];
 				if(t != null){
 					int ind = 0;
-					for(int x = 0; x < t.sprites[0].width; x++){
-						for(int y = 0; y < t.sprites[0].height; y++){
+					for(int x = 0; x < Tile.TILE_DIM; x++){
+						for(int y = 0; y < Tile.TILE_DIM; y++){
 							image.setRGB(x + i * Tile.TILE_DIM, y + o * Tile.TILE_DIM, t.sprites[0].data[ind]);
 							ind++;
 						}

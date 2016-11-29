@@ -32,8 +32,8 @@ import ca.nicho.foundation.world.World;
 
 public class LevelStart extends JFrame {
 
-	public static final int FRAME_WIDTH = 1000;
-	public static final int FRAME_HEIGHT = 600;
+	public static final int FRAME_WIDTH = 1800;
+	public static final int FRAME_HEIGHT = 1000;
 	
 	public static Level level;
 	public static int locX = 0;
@@ -188,7 +188,7 @@ public class LevelStart extends JFrame {
 			
 			for(int i = 0; i < FRAME_WIDTH; i++){
 				for(int o = 0; o < FRAME_HEIGHT; o++){
-					this.drawPixel(i, o, 0x000000);
+					this.drawPixel(i, o, 0xDEDEDE);
 				}
 			}
 			

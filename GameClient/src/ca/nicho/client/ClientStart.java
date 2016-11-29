@@ -97,8 +97,8 @@ public class ClientStart extends JFrame {
 	public ClientStart(){
 		this.setUndecorated(true);
 		gfxEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		gfxDev = gfxEnv.getDefaultScreenDevice();
-		mainPanel = new Screen();
+		gfxDev = gfxEnv.getScreenDevices()[1];//TODO Change back to use default screen
+		mainPanel = new Screen();	
 		listener = new ControlListener();
 		this.addKeyListener(listener);
 		this.setLayout(new BorderLayout());
@@ -403,20 +403,19 @@ public class ClientStart extends JFrame {
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
-					drawGUISprite(mapX +30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
-				}else{
+					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
+				}else if (e != null){
 					int x = i * 50 + 200;
 					this.drawGUISprite(x, 10, e.sprites[e.current]);
 					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
-					drawGUISprite(mapX +30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
+					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
 				}
 			}
 			
 			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
 				Entity e = set.getValue();
 				if(e.detected){
-					System.out.println(e.id + " " + e.owner + " " + e.detected);
-					drawGUISprite(10 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 100), 10 + (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 100), SpriteSheet.SPRITE_DOT_RED);	
+					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
 				}
 			}
 			

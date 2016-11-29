@@ -40,6 +40,14 @@ public class EntityPlayer extends Entity {
 		return tmp;
 	}
 	
+	@Override
+	public boolean clientTick(){
+		if(health < 0){
+			this.isDead = true;
+		}
+		return super.clientTick();
+	}
+	
 	public void nextSlot(){
 		position = (position + 1) % inventory.length;
 	}
@@ -53,6 +61,9 @@ public class EntityPlayer extends Entity {
 	 */
 	public void move(double deltaX, double deltaY, double tickDelta){
 				
+		if(isDead)
+			return;
+		
 		double vx = deltaX * tickDelta / 1000 * velocity * speedFactor;
 		double vy = deltaY * tickDelta / 1000 * velocity * speedFactor;
 		
@@ -60,9 +71,7 @@ public class EntityPlayer extends Entity {
 			vx /= sqrt2;
 			vy /= sqrt2;
 		}
-		
-
-		
+	
 		if((vx != 0 || vy != 0)){
 			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
 				//Essential rounding this value, or character will remain stuck in the wall
