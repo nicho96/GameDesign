@@ -1,7 +1,9 @@
 package ca.nicho.server.world;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityCarePackage;
@@ -15,6 +17,7 @@ import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.TilePacket;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
@@ -24,7 +27,7 @@ import ca.nicho.server.ServerStart;
 public class ServerWorld extends World{
 
 	public GameClock clock;
-
+	
 	public ServerWorld(){
 		super();
 
@@ -83,7 +86,9 @@ public class ServerWorld extends World{
 					ServerGame.windmills.add(wind);
 					break;
 				case SpriteSheet.ENTITY_NAVY_BASE:
-					ent = new EntityNavyBase(packet.x, packet.y, packet.id);
+					EntityNavyBase base = new EntityNavyBase(packet.x, packet.y, packet.id);
+					bases.add(base);
+					ent = base;
 					break;
 				case SpriteSheet.ENTITY_EXPLOSION:
 					ent = new EntityExplosion(packet.x, packet.y, packet.id);
@@ -132,7 +137,36 @@ public class ServerWorld extends World{
 				}
 			}
 		}
-		ServerGame.updatePoints();
+		
+		if(Game.started){
+			ServerGame.updatePoints();
+			checkWin();
+		}
+	}
+	
+	private boolean isWon = false;
+	private void checkWin(){
+		if(isWon)
+			return;
+		int p1Count = 0;
+		int p2Count = 0;
+		for(EntityNavyBase base : bases){
+			if(base.owner == 1 || !base.isDead)
+				p1Count ++;
+			else if(base.owner == 2 || !base.isDead)
+				p2Count ++;
+		}
+		
+		isWon = true;
+		if(p1Count == 0 && p2Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("The game has been tied!"));
+		}else if(p1Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("Player 2 has won!"));
+		}else if(p2Count == 0){
+			ServerStart.sendGlobalPacket(new LogPacket("Player 1 has won!"));
+		}else{
+			isWon = false;
+		}
 	}
 	
 	private class GameClock implements Runnable{

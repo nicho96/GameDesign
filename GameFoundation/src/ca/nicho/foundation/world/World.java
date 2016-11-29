@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,6 +42,7 @@ public class World implements Runnable{
 	
 	public static final int MAP_WIDTH = 100;
 	public static final int MAP_HEIGHT = 100;
+	public ArrayList<EntityNavyBase> bases = new ArrayList<EntityNavyBase>();
 	public Tile[] map;
 	
 	public World(){

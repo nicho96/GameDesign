@@ -44,7 +44,8 @@ public class ServerStart {
 			EntityNavyBase base2 = new EntityNavyBase(Game.world.p2SpawnX, Game.world.p2SpawnY, Game.world.entId++);
 			base2.owner = 2;
 			Game.world.spawnEntity(base2);
-			
+			Game.world.bases.add(base1);
+			Game.world.bases.add(base2);
 			while(true){
 				Socket con = socket.accept();
 				if(con1 == null){ //New connection
@@ -74,6 +75,11 @@ public class ServerStart {
 					con.close();
 					continue; //Prevents execution of any post-connection code for this connection
 				}
+				
+				if(con1 != null && con2 != null){
+					Game.started = true;
+				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

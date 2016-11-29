@@ -10,7 +10,6 @@ import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
 import ca.nicho.foundation.packet.LogPacket;
-import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.foundation.packet.TilePacket;

@@ -18,6 +18,7 @@ public class Tile {
 	public static Tile TILE_METAL;
 	public static Tile TILE_MARSH;
 	public static Tile TILE_NET;
+	public static Tile TILE_BOX;
 	
 	public static Tile TILE_ROCK;
 	
@@ -52,6 +53,7 @@ public class Tile {
 		TILE_METAL = new Tile(SpriteSheet.SPRITE_METAL);
 		TILE_MARSH = new Tile(SpriteSheet.SPRITE_MARSH);
 		TILE_NET = new Tile(SpriteSheet.SPRITE_NET);
+		TILE_BOX = new Tile(SpriteSheet.SPRITE_BOX);
 		
 		tiles.put(SpriteSheet.TILE_P1_SPAWN, TILE_P1_SPAWN);
 		tiles.put(SpriteSheet.TILE_P2_SPAWN, TILE_P2_SPAWN);
@@ -61,6 +63,7 @@ public class Tile {
 		tiles.put(SpriteSheet.TILE_METAL, TILE_METAL);
 		tiles.put(SpriteSheet.TILE_MARSH, TILE_MARSH);
 		tiles.put(SpriteSheet.TILE_NET, TILE_NET);
+		tiles.put(SpriteSheet.TILE_BOX, TILE_BOX);
 		
 	}
 	

@@ -8,7 +8,7 @@ public class Game {
 	public static int current;
 	public static int points;
 	
-	
+	public static boolean started = false;
 	
 	public static byte ownerID;
 	

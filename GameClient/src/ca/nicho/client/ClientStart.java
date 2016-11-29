@@ -97,7 +97,7 @@ public class ClientStart extends JFrame {
 	public ClientStart(){
 		this.setUndecorated(true);
 		gfxEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		gfxDev = gfxEnv.getScreenDevices()[1];//TODO Change back to use default screen
+		gfxDev = gfxEnv.getScreenDevices()[0];//TODO Change back to use default screen
 		mainPanel = new Screen();	
 		listener = new ControlListener();
 		this.addKeyListener(listener);
@@ -375,11 +375,16 @@ public class ClientStart extends JFrame {
 					drawEntity(set.getValue());
 				}
 				
-				//Render tiles
-				for(int pos = 0; pos < Game.world.map.length; pos++){
-					Tile tile = Game.world.map[pos];
-					if(tile != null){
-						drawTile(pos, tile);
+				//Render tiles (now optimized to increase FPS!)
+				for(int posX = (int)(player.locX - FRAME_WIDTH / 2) / Tile.TILE_DIM ; posX < (int)(player.locX + FRAME_WIDTH / 2) / Tile.TILE_DIM + 1; posX++){
+					for(int posY = (int)(player.locY - FRAME_HEIGHT / 2) / Tile.TILE_DIM ; posY < (int)(player.locY + FRAME_HEIGHT / 2) / Tile.TILE_DIM + 1; posY++){
+						int ind = posY * World.MAP_WIDTH + posX;
+						if(ind < Game.world.map.length && ind >= 0){
+							Tile tile = Game.world.map[ind];
+							if(tile != null){
+								drawTile(posY * World.MAP_WIDTH + posX, tile);
+							}
+						}
 					}
 				}
 			}
@@ -485,11 +490,10 @@ public class ClientStart extends JFrame {
 			while(running){
 				long current = System.currentTimeMillis();
 				tickDelta = (int)(current - last);
-				if(tickDelta >= 0){
+				if(tickDelta >= 10){
 					
 					//Poll the controller
 					GamePadListener.tick();
-					
 					rate = (int)(1000f / (current - last));
 					last = current;
 					
@@ -498,13 +502,14 @@ public class ClientStart extends JFrame {
 						listener.tick();
 					}
 					this.repaint();
+					tickDelta = 0;
 				}
-				try {
+				/*try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 			}
 			
 		}
