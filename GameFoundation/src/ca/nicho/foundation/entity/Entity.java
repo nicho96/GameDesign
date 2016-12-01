@@ -70,7 +70,7 @@ public abstract class Entity {
 			if(health < 0 && origHealth > 0)
 				this.isDead = true;
 			Game.world.entityDamaged(this);
-			cooldownTick = 100;
+			cooldownTick = 30;
 		}
 	}
 	

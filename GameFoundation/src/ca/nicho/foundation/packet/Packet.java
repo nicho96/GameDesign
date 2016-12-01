@@ -10,6 +10,7 @@ public abstract class Packet {
 	public static final int PACKET_POINTS = 5;
 	public static final int PACKET_PURCHASE = 6;
 	public static final int PACKET_LOG = 7;
+	public static final int PACKET_SPAWN_MISSILE = 8;
 	
 	public int packetType;
 	public byte[] data;
