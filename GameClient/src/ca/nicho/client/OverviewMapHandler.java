@@ -16,10 +16,10 @@ public class OverviewMapHandler {
 		
 	}
 	
-	public void tick(int deltaX, int deltaY, double tickDelta){
+	public void tick(float f, float g, double tickDelta){
 				
-		double vx = deltaX * tickDelta / 1000 * speed;
-		double vy = deltaY * tickDelta / 1000 * speed;
+		double vx = f * tickDelta / 1000 * speed;
+		double vy = g * tickDelta / 1000 * speed;
 		
 		targetX += vx;
 		targetY += vy;

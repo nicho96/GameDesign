@@ -7,17 +7,18 @@ import java.net.Socket;
 import java.util.Map;
 
 import ca.nicho.foundation.Game;
-import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityBattleship;
 import ca.nicho.foundation.entity.EntityCargoShip;
 import ca.nicho.foundation.entity.EntityMedicShip;
+import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PurchasePacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
+import ca.nicho.foundation.packet.SpawnMissilePacket;
 import ca.nicho.foundation.packet.TilePacket;
 import ca.nicho.foundation.tile.Tile;
 
@@ -120,6 +121,12 @@ public class ServerGameSocket implements Runnable{
 					ServerGame.p1Points -= purchasePacket.amount;
 				else if(this == ServerStart.con2)
 					ServerGame.p2Points -= purchasePacket.amount;
+				break;
+			case Packet.PACKET_SPAWN_MISSILE:
+				SpawnMissilePacket missilePacket = new SpawnMissilePacket(data);
+				EntityMissile missileEnt = new EntityMissile(missilePacket.x, missilePacket.y, missilePacket.id, missilePacket.dx, missilePacket.dy);
+				missileEnt.owner = missilePacket.owner;
+				Game.world.spawnEntity(missileEnt);
 				break;
 		}
 	}	

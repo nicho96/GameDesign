@@ -49,6 +49,9 @@ public class ClientStart extends JFrame {
 	public static ClientStart window;
 	public static ClientGameSocket con;
 	
+	public static float angX = 1;
+	public static float angY = 0;
+	
 	public static LogHandler log;
 	
 	public static ControlListener listener;
@@ -370,9 +373,16 @@ public class ClientStart extends JFrame {
 			if(Game.world != null){
 				//Render entities
 				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
-					if(set.getValue().origHealth > 0)
+					if(set.getValue().origHealth > 0){
 						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
+						if(set.getValue().owner == Game.ownerID)
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_GREEN);
+						else
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_RED);
+					}
+				
 					drawEntity(set.getValue());
+	
 				}
 				
 				//Render tiles (now optimized to increase FPS!)
@@ -423,17 +433,19 @@ public class ClientStart extends JFrame {
 					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
 				}
 			}
-			
-			for(int i = 0; i < player.inventory.length; i++){
-				Entity e = player.inventory[i];
-				int guiX = FRAME_WIDTH - 100 - i * 99;
-				int guiY = FRAME_HEIGHT - 100;
-				if(player.position == i)
-					drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SELECTED);
-				else
-					drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
-				if(e != null){
-					drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
+
+			if(!map.isOpen && !StoreHandler.isOpen){
+				for(int i = 0; i < player.inventory.length; i++){
+					Entity e = player.inventory[i];
+					int guiX = FRAME_WIDTH - 100 - i * 99;
+					int guiY = FRAME_HEIGHT - 100;
+					if(player.position == i)
+						drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SELECTED);
+					else
+						drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
+					if(e != null){
+						drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
+					}
 				}
 			}
 
@@ -477,6 +489,11 @@ public class ClientStart extends JFrame {
 			if (Game.points >= 0){
 				this.drawGUISprite(10, 120, new Sprite(Game.points));
 			}
+			
+			float crossx = angX * 80;
+			float crossy = angY * 80;
+			if(Math.sqrt(crossx * crossx + crossy * crossy) > 75)
+				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10), SpriteSheet.SPRITE_CROSSHAIR);
 			
 		}
 		

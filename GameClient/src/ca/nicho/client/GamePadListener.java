@@ -1,5 +1,6 @@
 package ca.nicho.client;
 
+import ca.nicho.client.store.StoreHandler;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.packet.EntityPacket;
@@ -72,7 +73,7 @@ public class GamePadListener {
 		LEFT_THUMB = analog.getComponent(Identifier.Button._8);
 		RIGHT_THUMB = analog.getComponent(Identifier.Button._9);
 		D_PAD = analog.getComponent(Identifier.Axis.POV);
-		
+				
 		wrapped[0] = new ComponentWrapper(LEFT_THUMB_X){
 			public void action() {
 				// TODO Auto-generated method stuff				
@@ -99,10 +100,50 @@ public class GamePadListener {
 		
 		wrapped[4] = new ComponentWrapper(A){
 			public void action() {
-				//Shoot missile
-				if(A.getPollData() > 0 && reset){
-					ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, Game.world.getPlayer().health, SpriteSheet.ENTITY_MISSILE, Game.ownerID));
-				}			
+				if(reset){
+				if(A.getPollData() > 0){
+						if(ClientStart.map.isOpen){
+							ClientStart.map.sendAirstrike();
+						}else{
+							ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, Game.world.getPlayer().health, SpriteSheet.ENTITY_MISSILE, Game.ownerID));	
+						}
+					}		
+				}
+			}
+		};
+		
+		wrapped[8] = new ComponentWrapper(LEFT_TRIGGER){
+			public void action() {
+				if(LEFT_TRIGGER.getPollData() > 0 && reset){
+					Game.current = (Game.current + 1) % Game.ships.length;
+				}
+			}
+		};
+		
+		wrapped[9] = new ComponentWrapper(RIGHT_TRIGGER){
+			public void action() {
+				
+				if(RIGHT_TRIGGER.getPollData() > 0 && reset){
+					ClientStart.map.sendAirstrike();
+				}
+			}
+		};
+		
+		wrapped[10] = new ComponentWrapper(BACK){
+			public void action() {
+				if(BACK.getPollData() > 0 && reset){
+					StoreHandler.isOpen = !StoreHandler.isOpen;
+					ClientStart.map.isOpen = false;
+				}
+			}
+		};
+		
+		wrapped[11] = new ComponentWrapper(START){
+			public void action() {
+				if(START.getPollData() > 0 && reset){
+					ClientStart.map.isOpen = !ClientStart.map.isOpen;
+					StoreHandler.isOpen = false;
+				}
 			}
 		};
 		
@@ -111,10 +152,17 @@ public class GamePadListener {
 			public void action() {
 				//Other things that don't need to be wrapped
 				float dVal = D_PAD.getPollData();
-				if(dVal == 1f)
-					Game.current = (Game.current - 1 > 0) ? Game.current - 1 : Game.ships.length - 1;
-				else if(dVal == 0.5f)
-					Game.current = (Game.current + 1) % Game.ships.length;
+				if(reset){
+					if(dVal == 1f)
+						System.out.println("LEFT");
+					else if(dVal == 0.5f)
+						System.out.println("RIGHT");
+					else if(dVal == 0.75f)
+						System.out.println("DOWN");
+					else if(dVal == 0.25f){
+						System.out.println("UP");
+					}
+				}
 			}
 		};
 		
@@ -133,10 +181,21 @@ public class GamePadListener {
 			
 			
 			if(Game.world.getPlayer() != null){
-				float x = RIGHT_THUMB_X.getPollData();
-				float y = RIGHT_THUMB_Y.getPollData();
+				float x = LEFT_THUMB_X.getPollData();
+				float y = LEFT_THUMB_Y.getPollData();
 				Game.world.getPlayer().move((Math.abs(x) > 0.2f) ? x : 0, (Math.abs(y) > 0.2f) ? y : 0, ClientStart.tickDelta);
 				ClientStart.con.sendPacket(new EntityPacket(Game.world.getPlayer()));
+			}
+			
+			if(ClientStart.map.isOpen){
+				float x = RIGHT_THUMB_X.getPollData();
+				float y = RIGHT_THUMB_Y.getPollData();
+				ClientStart.map.tick((Math.abs(x) > 0.2f) ? 2*x : 0f, (Math.abs(y) > 0.2f) ? 2*y : 0f, ClientStart.tickDelta);
+			}else{
+				float x = RIGHT_THUMB_X.getPollData();
+				float y = RIGHT_THUMB_Y.getPollData();
+				ClientStart.angX = x;
+				ClientStart.angY = y;
 			}
 			
 		}
