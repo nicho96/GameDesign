@@ -1,5 +1,7 @@
 package ca.nicho.foundation.entity;
 
+import java.util.Map;
+
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 
@@ -25,7 +27,10 @@ public class EntityMissile extends Entity{
 	@Override
 	public synchronized boolean tick() {
 		super.tick();
-		Game.world.checkEntityCollision(this);
+		
+		if(Game.world.checkEntityCollision(this))
+			this.isDead = true;
+		
 		this.locX += velocity * dx;
 		this.locY += velocity * dy;
 		if(timeAlive-- == 0){

@@ -24,6 +24,7 @@ import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
@@ -106,6 +107,9 @@ public class World implements Runnable{
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
 					break;
+				case SpriteSheet.ENTITY_TURRET:
+					ent = new EntityTurret(packet.x, packet.y, packet.id);
+					break;
 			}
 			if(ent != null){
 				ent.owner = packet.owner;
@@ -183,7 +187,7 @@ public class World implements Runnable{
 	 * Check entity collision between e1 and some entity
 	 * @param e1 the entity checking for collisions
 	 */
-	public void checkEntityCollision(Entity e1){
+	public boolean checkEntityCollision(Entity e1){
 		for(Map.Entry<Integer, Entity> ent2 : entities.entrySet()){
 			Entity e2 = ent2.getValue();
 			if(e1 == e2)
@@ -194,8 +198,10 @@ public class World implements Runnable{
 			if(r1.intersects(r2)){
 				e1.collision(e2);
 				e2.collision(e1);
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	public void load(String name){

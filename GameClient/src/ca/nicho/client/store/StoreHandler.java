@@ -8,6 +8,7 @@ import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWindmill;
 
 public class StoreHandler {
@@ -23,6 +24,8 @@ public class StoreHandler {
 		costs.add(new StoreItem(new EntityMissile(-1, -1, -1), new Sprite(125), 125));
 		costs.add(new StoreItem(new EntityCarePackage(-1, -1, -1), new Sprite(150), 150));
 		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), 250));
+		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), 250));
+		
 	}
 	
 	public void next(){

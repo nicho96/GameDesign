@@ -87,5 +87,12 @@ public class EntityPlayer extends Entity {
 			}
 		}
 	}
+	
+	@Override
+	public void collision(Entity ent){
+		if(ent instanceof EntityMissile){
+			this.damage(10);
+		}
+	}
 		
 }
