@@ -55,9 +55,7 @@ public class ServerGameSocket implements Runnable{
 
 	private EntityPlayer ship1 = null;
 	private EntityPlayer ship2 = null;
-	private EntityPlayer ship3 = null;
-	private EntityPlayer ship4 = null;
-	
+	private EntityPlayer ship3 = null;	
 	
 	@Override
 	public void run() {
@@ -72,17 +70,14 @@ public class ServerGameSocket implements Runnable{
 			ship2.owner = owner;
 			ship3 = new EntityCargoShip(x, y - 100,  Game.world.entId++);
 			ship3.owner = owner;
-			ship4 = new EntityMedicShip(x, y + 100,  Game.world.entId++);
-			ship4.owner = owner;
 			Game.world.spawnEntity(ship1);
 			Game.world.spawnEntity(ship2);
 			Game.world.spawnEntity(ship3);
-			Game.world.spawnEntity(ship4);
 		}
 		//Spawn the user into the world
 		this.sendIntitalWorldState(); //Send the world
 		this.sendInitialEntities(); //Send the remaining entities
-		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, ship4.id, owner)); //Send final connection packet
+		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, owner)); //Send final connection packet
 		while(true){
 			try{
 				if(socket != null)

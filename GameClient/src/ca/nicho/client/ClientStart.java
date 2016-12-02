@@ -11,14 +11,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.FileInputStream;
 import java.util.Map;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.client.store.StoreHandler.StoreItem;
@@ -31,7 +27,6 @@ import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.log.LogHandler;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
-import javazoom.jl.player.Player;
 
 public class ClientStart extends JFrame {
 	
@@ -67,6 +62,7 @@ public class ClientStart extends JFrame {
 		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
 		Tile.initTiles();
 		GamePadListener.init();
+		new AudioHandler();
 		/*Scanner sc = new Scanner(System.in);
 		System.out.print("Enter host: ");
 		HOST = sc.nextLine();
@@ -74,6 +70,7 @@ public class ClientStart extends JFrame {
 		PORT = Integer.parseInt(sc.nextLine());
 		sc.close();*/
 		Game.initWorld();
+		
 		store = new StoreHandler();
 		map = new OverviewMapHandler();
 		log = LogHandler.getLogInstance();
@@ -81,17 +78,7 @@ public class ClientStart extends JFrame {
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
-		
-		try{
-		    FileInputStream fis = new FileInputStream("res/pandemic.mp3");
-		    Player playMP3 = new Player(fis);
-		    playMP3.play();
-		}
-		catch(Exception exc){
-		    exc.printStackTrace();
-		    System.out.println("Failed to play the file.");
-		}
-		
+				
 	}
 	
 	public static GraphicsEnvironment gfxEnv;
@@ -130,8 +117,8 @@ public class ClientStart extends JFrame {
 		public int yOff;
 		
 		public Screen(){
-			FRAME_WIDTH = ((int)gfxEnv.getMaximumWindowBounds().getWidth()) / Tile.TILE_DIM * Tile.TILE_DIM; //Will round to nearest tile
-			FRAME_HEIGHT = ((int)gfxEnv.getMaximumWindowBounds().getHeight()) / Tile.TILE_DIM * Tile.TILE_DIM;
+			FRAME_WIDTH = ((int)gfxDev.getDefaultConfiguration().getBounds().getWidth()) / Tile.TILE_DIM * Tile.TILE_DIM; //Will round to nearest tile
+			FRAME_HEIGHT = ((int)gfxDev.getDefaultConfiguration().getBounds().getHeight()) / Tile.TILE_DIM * Tile.TILE_DIM;
 			this.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 			this.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 			screen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
