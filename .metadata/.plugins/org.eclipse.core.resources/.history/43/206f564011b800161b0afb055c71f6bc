@@ -1,0 +1,13 @@
+package ca.nicho.foundation.entity;
+
+import ca.nicho.foundation.Sprite;
+
+public class EntityTurret extends Entity {
+
+	public EntityTurret(float x, float y, int health, int id) {
+		super(x, y, health, , id);
+	}
+
+	
+	
+}

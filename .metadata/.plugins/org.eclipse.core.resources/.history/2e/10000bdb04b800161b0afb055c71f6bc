@@ -1,0 +1,67 @@
+package ca.nicho.foundation.packet;
+
+import java.nio.ByteBuffer;
+
+import ca.nicho.foundation.entity.EntityMissile;
+
+public class SpawnMissilePacket extends Packet {
+
+	public int type;
+	public int id;
+	public float x;
+	public float y;
+	public int health;
+	public byte owner;
+	
+	/**
+	 * Constructor used to create a packet for sending
+	 * @param ent
+	 */
+	public SpawnMissilePacket(EntityMissile ent){
+		super(Packet.PACKET_ENTITY);
+		this.type = ent.sprites[0].type;
+		this.id = ent.id;
+		this.x = ent.locX;
+		this.y = ent.locY;
+		this.health = ent.health;
+		this.owner = ent.owner;
+	}
+	
+	/**
+	 * Constructor used to create the appropriate entity out of the packet
+	 * @param data
+	 */
+	public SpawnMissilePacket(byte data[]){
+		super(Packet.PACKET_ENTITY);
+		ByteBuffer buffer = ByteBuffer.wrap(data); //Store the packet data into a buffer for further reading
+		type = buffer.getInt();
+		id = buffer.getInt();
+		x = buffer.getFloat();
+		y = buffer.getFloat();
+		health = buffer.getInt();
+		owner = buffer.get();
+	}
+	
+	public SpawnMissilePacket(int type, int id, float x, float y, int health, byte owner){
+		super(Packet.PACKET_ENTITY);
+		this.type = type;
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.health = health;
+		this.owner = owner;
+	}
+	
+	@Override
+	public byte[] getPacketData() {
+		ByteBuffer buffer = ByteBuffer.allocate(21); // 4 * 5 + 1 byte primitives
+		buffer.putInt(type);
+		buffer.putInt(id);
+		buffer.putFloat(x);
+		buffer.putFloat(y);
+		buffer.putInt(health);
+		buffer.put(owner);
+		return buffer.array();
+	}
+	
+}

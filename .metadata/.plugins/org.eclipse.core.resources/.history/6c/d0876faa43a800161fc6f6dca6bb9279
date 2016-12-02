@@ -1,9 +1,0 @@
-package ca.nicho.foundation.entity;
-
-public class EntityTrail extends Entity {
-
-	public EntityTrail(){
-		super();
-	}
-	
-}

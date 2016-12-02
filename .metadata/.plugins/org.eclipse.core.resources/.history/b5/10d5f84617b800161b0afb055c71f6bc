@@ -1,0 +1,43 @@
+package ca.nicho.foundation.entity;
+
+import java.util.Map;
+
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+
+public class EntityTurret extends Entity {
+
+	private static Sprite[] sprites = {SpriteSheet.SPRITE_TURRET};
+	
+	public EntityTurret(float x, float y, int id) {
+		super(x, y, 100, sprites, id);
+	}
+	
+	private int shotTick = 0;
+	public boolean tick(){
+		
+		if(shotTick == 0){
+			System.out.println(Game.world.entities.size());
+			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+				Entity ent = set.getValue();
+				if(ent.owner != this.owner){
+					float dx = this.locX - ent.locX;
+					float dy = this.locY - ent.locY;
+					double distance = Math.sqrt(dx*dx + dy*dy);
+					if(distance < 500){
+						float angX = (dx > dy) ? 1 : dx / Math.abs(dy);
+						float angY = (dy > dx) ? 1 : dy / Math.abs(dx);
+						
+						EntityMissile missile = new EntityMissile(this.locX, this.locY, Game.world.entId++, angX, angY);
+						Game.world.spawnEntity(missile);
+						break;
+					}
+				}
+			}
+		}
+		shotTick = (shotTick + 1) % 100;
+		return super.tick();
+	}
+	
+}
