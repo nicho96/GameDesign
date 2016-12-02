@@ -4,6 +4,7 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.log.LogHandler;
 import ca.nicho.foundation.packet.LogPacket;
+import ca.nicho.foundation.tile.Tile;
 
 public class EntityPlayer extends Entity {
 
@@ -77,25 +78,28 @@ public class EntityPlayer extends Entity {
 		}
 	
 		if((vx != 0 || vy != 0)){
-						
-			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
+			
+
+			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy, Tile.TILE_MARSH) && !Game.world.checkCollision(this, this.locX + vx, this.locY + vy, Tile.TILE_STONE)){
+				velocity = 125;
+				this.locX += vx;
+				this.locY += vy;
+				double dxy = Math.sqrt(vx*vx + vy*vy);
+				delta += dxy;
+				moved = true;				
+			}
+			else if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
 				//Essential rounding this value, or character will remain stuck in the wall
 				this.locX = Math.round(locX);
 				this.locY = Math.round(locY);
 				
 			}else{
+				velocity = 200;
 				this.locX += vx;
 				this.locY += vy;
 				double dxy = Math.sqrt(vx*vx + vy*vy);
 				delta += dxy;
 				moved = true;
-				
-				System.out.println("vx:"+vx);
-				if(vx<0){
-					for(int i = 0; i <sprites.length; i++){
-						
-					}
-				}
 			}
 		}
 	}

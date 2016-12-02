@@ -184,6 +184,13 @@ public class World implements Runnable{
 				getTileAtLocation(posX + ent.sprites[ent.current].width, posY + ent.sprites[ent.current].height) != null;
 	}
 	
+	public boolean checkCollision(Entity ent, double posX, double posY, Tile type){
+		return getTileAtLocation(posX, posY) == type ||
+				getTileAtLocation(posX, posY + ent.sprites[ent.current].height) == type ||
+				getTileAtLocation(posX +  ent.sprites[ent.current].width, posY) == type ||
+				getTileAtLocation(posX + ent.sprites[ent.current].width, posY + ent.sprites[ent.current].height) == type;
+	}
+	
 	/**
 	 * Check entity collision between e1 and some entity
 	 * @param e1 the entity checking for collisions
