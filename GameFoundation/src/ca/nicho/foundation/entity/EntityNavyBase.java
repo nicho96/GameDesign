@@ -11,3 +11,4 @@ public class EntityNavyBase extends Entity {
 		super(x, y, 300, sprites, id);
 	}
 }
+

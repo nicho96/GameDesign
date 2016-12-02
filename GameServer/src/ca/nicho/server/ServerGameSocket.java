@@ -124,7 +124,7 @@ public class ServerGameSocket implements Runnable{
 				break;
 			case Packet.PACKET_SPAWN_MISSILE:
 				SpawnMissilePacket missilePacket = new SpawnMissilePacket(data);
-				EntityMissile missileEnt = new EntityMissile(missilePacket.x, missilePacket.y, missilePacket.id, missilePacket.dx, missilePacket.dy);
+				EntityMissile missileEnt = new EntityMissile(missilePacket.x, missilePacket.y, Game.world.entId++, missilePacket.dx, missilePacket.dy);
 				missileEnt.owner = missilePacket.owner;
 				Game.world.spawnEntity(missileEnt);
 				break;

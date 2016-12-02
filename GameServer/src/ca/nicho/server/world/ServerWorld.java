@@ -13,6 +13,7 @@ import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTrail;
+import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.EntityPacket;
@@ -98,6 +99,9 @@ public class ServerWorld extends World{
 					break;
 				case SpriteSheet.ENTITY_CARE_PACKAGE:
 					ent = new EntityCarePackage(packet.x, packet.y, packet.id);
+					break;
+				case SpriteSheet.ENTITY_TURRET:
+					ent = new EntityTurret(packet.x, packet.y, packet.id);
 					break;
 			}
 						

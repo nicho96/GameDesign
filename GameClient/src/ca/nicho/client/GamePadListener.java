@@ -3,8 +3,10 @@ package ca.nicho.client;
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
+import ca.nicho.foundation.packet.SpawnMissilePacket;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;
@@ -124,7 +126,12 @@ public class GamePadListener {
 			public void action() {
 				
 				if(RIGHT_TRIGGER.getPollData() > 0 && reset){
-					ClientStart.map.sendAirstrike();
+					if(ClientStart.map.isOpen)
+						ClientStart.map.sendAirstrike();
+					else if(!StoreHandler.isOpen){
+						EntityPlayer p = Game.world.getPlayer();
+						ClientStart.con.sendPacket(new SpawnMissilePacket(p.locX, p.locY, ClientStart.angX, ClientStart.angY, Game.ownerID));
+					}
 				}
 			}
 		};
@@ -194,8 +201,13 @@ public class GamePadListener {
 			}else{
 				float x = RIGHT_THUMB_X.getPollData();
 				float y = RIGHT_THUMB_Y.getPollData();
-				ClientStart.angX = x;
-				ClientStart.angY = y;
+				if(Math.abs(x) > 0.2 || Math.abs(y) > 0.2){
+					double rad = Math.atan2(x, y);
+					float dy = (float)Math.sin(rad);
+					float dx = (float)Math.cos(rad);
+					ClientStart.angX = dy;
+					ClientStart.angY = dx;
+				}
 			}
 			
 		}

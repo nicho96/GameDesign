@@ -19,11 +19,11 @@ public class SpriteSheet {
 	public static final int ENTITY_RADAR = 6;
 	public static final int ENTITY_TRAIL = 7;
 	public static final int ENTITY_WINDMILL = 8;
-
 	public static final int ENTITY_NAVY_BASE = 9;
 	public static final int ENTITY_EXPLOSION = 10;
 	public static final int ENTITY_WAVE = 11;
 	public static final int ENTITY_CARE_PACKAGE = 12;
+	public static final int ENTITY_TURRET = 13;
 	
 	//Reserver 298 + 299 for Spawn Tiles (tiles than get converted to player spawn regions)
 	public static final int TILE_P1_SPAWN = 298;
@@ -137,6 +137,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_PACKAGE_5;
 	
 	public static Sprite SPRITE_WINDMILL;
+	
+	public static Sprite SPRITE_TURRET;
 	
 	public static Sprite SPRITE_NAVY_BASE;
 
@@ -265,6 +267,8 @@ public class SpriteSheet {
 		SPRITE_PACKAGE_5 = new Sprite("package_5", ENTITY_CARE_PACKAGE);
 		
 		SPRITE_WINDMILL = new Sprite("windmill", ENTITY_WINDMILL);
+		
+		SPRITE_TURRET = new Sprite("turret", ENTITY_TURRET);
 		
 		SPRITE_NAVY_BASE = new Sprite("navy_base", ENTITY_NAVY_BASE);
 		

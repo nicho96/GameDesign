@@ -1,5 +1,6 @@
 package ca.nicho.foundation.entity;
 
+import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
 
