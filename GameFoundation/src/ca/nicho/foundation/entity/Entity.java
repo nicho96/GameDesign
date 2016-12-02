@@ -1,5 +1,7 @@
 package ca.nicho.foundation.entity;
 
+import java.awt.image.BufferedImage;
+
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 
@@ -74,9 +76,7 @@ public abstract class Entity {
 		}
 	}
 	
-	public void collision(Entity t){};
-	
-
+	public void collision(Entity ent){};
 	
 	public boolean heal(int amount){
 		health += amount;

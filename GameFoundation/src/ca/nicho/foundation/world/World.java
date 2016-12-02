@@ -158,6 +158,7 @@ public class World implements Runnable{
 	public Tile getTileAtLocation(double x, double y){
 		int tileX = (int)x / Tile.TILE_DIM;
 		int tileY = (int)y / Tile.TILE_DIM;
+
 		return map[tileY * MAP_WIDTH + tileX];
 	}
 	

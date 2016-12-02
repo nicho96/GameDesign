@@ -50,6 +50,9 @@ public class SpriteSheet {
 	public static final int GUI_RADAR_SCAN = 408;
 	public static final int GUI_CROSSHAIR = 409;
 	public static final int GUI_LOG_BOX = 410;
+	public static final int GUI_POINTS_BACKGROUND = 411;
+	public static final int GUI_BACKGROUND_TOP = 412;
+	public static final int GUI_SHIP_BACKGROUND = 413;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -170,7 +173,11 @@ public class SpriteSheet {
 	public static Sprite SPRITE_CROSSHAIR;
 	public static Sprite SPRITE_DISABLED;
 	public static Sprite SPRITE_BACKGROUND;
+	public static Sprite SPRITE_BACKGROUND_TOP;
 	public static Sprite SPRITE_SCAN;
+	public static Sprite SPRITE_POINTS_BACKGROUND;
+	public static Sprite SPRITE_SHIPS_BACKGROUND;
+
 	
 	//Ocean
 	public static Sprite SPRITE_OCEAN_1;
@@ -302,7 +309,10 @@ public class SpriteSheet {
 		SPRITE_CROSSHAIR = new Sprite("crosshair", GUI_CROSSHAIR);
 		SPRITE_DISABLED = new Sprite("disabled", GUI_DISABLED);
 		SPRITE_BACKGROUND = new Sprite("backgroundbase", GUI_BACKGROUND);
+		SPRITE_BACKGROUND_TOP = new Sprite("backgroundtop", GUI_BACKGROUND_TOP);
 		SPRITE_SCAN = new Sprite("radar_scan", GUI_RADAR_SCAN);
+		SPRITE_POINTS_BACKGROUND = new Sprite("points_bg", GUI_POINTS_BACKGROUND);
+		SPRITE_SHIPS_BACKGROUND = new Sprite("ship_bg", GUI_SHIP_BACKGROUND);
 		
 		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);

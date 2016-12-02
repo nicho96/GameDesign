@@ -145,7 +145,7 @@ public class ClientStart extends JFrame {
 			this.setLayout(null);
 			this.add(log);
 			log.setSize(log.width, log.height);
-			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-10);
+			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-5);
 			log.field.addFocusListener(new FocusListener() {
 				
 				@Override
@@ -408,23 +408,27 @@ public class ClientStart extends JFrame {
 				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
 
 				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height - 20, SpriteSheet.SPRITE_BACKGROUND);
+				drawGUISprite(0, 0, SpriteSheet.SPRITE_BACKGROUND_TOP);
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 			
 			}
 			//Draw the ships on the map
+			drawGUISprite(150, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
 			for(int i = 0; i < Game.ships.length; i++){
 				Entity e = Game.world.entities.get(Game.ships[i]);
+				
 				if(e == player){
-					int x = i * 50 + 200;
-					this.drawGUISprite(x, 10, e.sprites[e.current]);
-					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_GREEN);
+					int x = i * 82 + 190;
+					this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height - 5, e.sprites[e.current]);
+					this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_GREEN);
 					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
 				}else if (e != null){
-					int x = i * 50 + 200;
-					this.drawGUISprite(x, 10, e.sprites[e.current]);
-					this.drawGUISprite(x, 10, SpriteSheet.SPRITE_DOT_BLUE);
+					int x = i * 82 + 190;
+					this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height, e.sprites[e.current]);
+					this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_BLUE);
 					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
 				}
+				
 			}
 			
 			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
@@ -456,9 +460,9 @@ public class ClientStart extends JFrame {
 				int storeIndex = 0;
 				for(StoreItem item: store.costs){
 					Entity e = item.entity;
-					int leftX =  FRAME_WIDTH - 195 + 99 * (storeIndex % 2);
-					int leftY = (storeIndex / 2) * 99;
-					int x = (100 - e.sprites[e.current].width) / 2 + leftX;
+					int leftX =  FRAME_WIDTH - 100 + 99 * (storeIndex % 1);
+					int leftY = (storeIndex / 1) * 99 + SpriteSheet.SPRITE_BACKGROUND_TOP.height + SpriteSheet.SPRITE_POINTS_BACKGROUND.height;
+					int x = (100 -e.sprites[e.current].width) / 2 + leftX;
 					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
 					
 					if(store.position == storeIndex){
@@ -487,7 +491,10 @@ public class ClientStart extends JFrame {
 			}
 			
 			if (Game.points >= 0){
-				this.drawGUISprite(10, 120, new Sprite(Game.points));
+				Sprite bg = SpriteSheet.SPRITE_POINTS_BACKGROUND;
+				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
+				
+				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
 			}
 			
 			float crossx = angX * 80;

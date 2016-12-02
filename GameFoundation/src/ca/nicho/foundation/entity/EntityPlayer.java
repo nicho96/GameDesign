@@ -13,16 +13,20 @@ public class EntityPlayer extends Entity {
 	
 	public double delta = 0;
 	
+	public Sprite[] sprites;
+	
 	public Entity[] inventory;
 	public int position = 0;
 	
 	
 	public EntityPlayer(float x, float y, int health, Sprite sprite, int id) {
 		super(x, y, health, sprite, id);
+		this.sprites = sprites;
 	}
 	
 	public EntityPlayer(float x, float y, int health, Sprite[] sprites, int id) {
 		super(x, y, health, sprites, id);
+		this.sprites = sprites;
 	}
 	
 	public Entity getCurrent(){
@@ -73,6 +77,7 @@ public class EntityPlayer extends Entity {
 		}
 	
 		if((vx != 0 || vy != 0)){
+						
 			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
 				//Essential rounding this value, or character will remain stuck in the wall
 				this.locX = Math.round(locX);
@@ -84,6 +89,13 @@ public class EntityPlayer extends Entity {
 				double dxy = Math.sqrt(vx*vx + vy*vy);
 				delta += dxy;
 				moved = true;
+				
+				System.out.println("vx:"+vx);
+				if(vx<0){
+					for(int i = 0; i <sprites.length; i++){
+						
+					}
+				}
 			}
 		}
 	}
@@ -93,6 +105,7 @@ public class EntityPlayer extends Entity {
 		if(ent instanceof EntityMissile){
 			this.damage(10);
 		}
+
 	}
 		
 }
