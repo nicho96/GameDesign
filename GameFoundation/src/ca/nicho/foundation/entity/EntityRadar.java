@@ -10,11 +10,12 @@ public class EntityRadar extends Entity {
 
 	public int count = 0;
 	private static final Sprite[] sprites = {SpriteSheet.SPRITE_RADAR_1, SpriteSheet.SPRITE_RADAR_2, SpriteSheet.SPRITE_RADAR_3, SpriteSheet.SPRITE_RADAR_4, SpriteSheet.SPRITE_RADAR_5, SpriteSheet.SPRITE_RADAR_6, SpriteSheet.SPRITE_RADAR_7, SpriteSheet.SPRITE_RADAR_8};
-	
+	private static final Sprite icon = SpriteSheet.SPRITE_RADAR_ICON;
 	public EntityRadar(float x, float y, int ID){
 		super(x, y, 100, sprites, ID);
 	}
 
+	public Sprite getIcon(){return icon;}
 	
 	private int tickCount = 0;
 	

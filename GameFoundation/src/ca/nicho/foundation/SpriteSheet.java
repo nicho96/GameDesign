@@ -96,7 +96,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_BATTLE_4;
 	
 	//public static Sprite SPRITE_CARGO;
-	public static Sprite SPRITE_RADAR;
+	public static Sprite SPRITE_RADAR_ICON;
 	public static Sprite SPRITE_RADAR_1;
 	public static Sprite SPRITE_RADAR_2;
 	public static Sprite SPRITE_RADAR_3;
@@ -130,6 +130,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TRAIL_10;
 	public static Sprite SPRITE_TRAIL_11;
 	
+	public static Sprite SPRITE_PACKAGE_ICON;
 	public static Sprite SPRITE_PACKAGE_1;
 	public static Sprite SPRITE_PACKAGE_2;
 	public static Sprite SPRITE_PACKAGE_3;
@@ -226,7 +227,7 @@ public class SpriteSheet {
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
 		
-		//SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
+		SPRITE_RADAR_ICON = new Sprite("radar", ENTITY_RADAR);
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
@@ -260,6 +261,8 @@ public class SpriteSheet {
 		SPRITE_TRAIL_10 = new Sprite("ripple_10", ENTITY_TRAIL);
 		SPRITE_TRAIL_11 = new Sprite("ripple_11", ENTITY_TRAIL);
 		
+
+		SPRITE_PACKAGE_ICON = new Sprite("package", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_1 = new Sprite("package_1", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_2 = new Sprite("package_2", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_3 = new Sprite("package_3", ENTITY_CARE_PACKAGE);

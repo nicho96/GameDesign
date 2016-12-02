@@ -74,16 +74,9 @@ public abstract class Entity {
 		}
 	}
 	
-	public void collision(Entity ent){};
+	public void collision(Entity t){};
 	
-	public void flip(Entity ent){
-		Sprite[] sprites = ent.sprites;
-		
-		for(int i = 0; i < sprites.length; i++){
-			int[] data = sprites[0].data;
-			
-		}
-	}
+
 	
 	public boolean heal(int amount){
 		health += amount;
