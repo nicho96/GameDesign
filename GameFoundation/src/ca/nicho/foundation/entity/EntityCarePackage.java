@@ -41,7 +41,7 @@ public class EntityCarePackage extends Entity {
 			if(this.owner != -1 && e.owner != this.owner){
 				Game.world.spawnEntity(new EntityExplosion(this.locX, this.locY, Game.world.entId++));
 				this.isDead = true;
-			}else{
+			}else if(this.owner == -1){
 				Game.world.givePoints(e, (int)(Math.random() * 125) + 125); //Between 125-250 points
 				this.isDead = true;
 			}
