@@ -142,9 +142,24 @@ public class ServerWorld extends World{
 			}
 		}
 		
+		spawnCrates();
+		
 		if(Game.started){
 			ServerGame.updatePoints();
 			checkWin();
+		}
+	}
+	
+	int crateCooldown = 0;
+	private void spawnCrates(){
+		crateCooldown = (crateCooldown + 1) % 50;
+		if(crateCooldown == 0){
+			int x = (int)(Math.random() * MAP_WIDTH);
+			int y = (int)(Math.random() * MAP_HEIGHT);
+			if(map[y * MAP_WIDTH + x] == null){
+				Entity ent = new EntityCarePackage(x * Tile.TILE_DIM, y * Tile.TILE_DIM, entId++);
+				this.spawnEntity(ent);
+			}
 		}
 	}
 	
@@ -172,6 +187,22 @@ public class ServerWorld extends World{
 			isWon = false;
 		}
 	}
+	
+	@Override
+	public void killEntity(int id){
+		entities.remove(id);
+		ServerStart.sendGlobalPacket(new KillEntityPacket(id));
+	}
+	
+	@Override
+	public void givePoints(Entity parent, int points){
+		if(parent.owner == 1)
+			ServerGame.p1Points += points;
+		else if(parent.owner == 2){
+			ServerGame.p2Points += points;
+		}
+	}
+
 	
 	private class GameClock implements Runnable{
 		

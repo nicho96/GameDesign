@@ -90,7 +90,6 @@ public class EntityPlayer extends Entity {
 				delta += dxy;
 				moved = true;
 				
-				System.out.println("vx:"+vx);
 				if(vx<0){
 					for(int i = 0; i <sprites.length; i++){
 						

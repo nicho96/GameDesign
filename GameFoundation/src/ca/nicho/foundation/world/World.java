@@ -266,6 +266,10 @@ public class World implements Runnable{
 		
 	}
 	
+	public void givePoints(Entity parent, int points){
+		
+	}
+	
 	private void tick(){
 		for(Map.Entry<Integer, Entity> set : entities.entrySet()){
 			Entity e = set.getValue();
