@@ -47,24 +47,24 @@ public class Tile {
 		TILE_P1_SPAWN = new Tile(SpriteSheet.SPRITE_P1_SPAWN);
 		TILE_P2_SPAWN = new Tile(SpriteSheet.SPRITE_P2_SPAWN);
 		
-		TILE_WOOD = new Tile(SpriteSheet.SPRITE_WOOD);
 		
 		TILE_STONE = new Tile(SpriteSheet.SPRITE_STONE); 
 		TILE_METAL = new Tile(SpriteSheet.SPRITE_METAL);
 		TILE_MARSH = new Tile(SpriteSheet.SPRITE_MARSH);
 		TILE_NET = new Tile(SpriteSheet.SPRITE_NET);
 		TILE_BOX = new Tile(SpriteSheet.SPRITE_BOX);
+		TILE_WOOD = new Tile(SpriteSheet.SPRITE_WOOD);
 		
 		tiles.put(SpriteSheet.TILE_P1_SPAWN, TILE_P1_SPAWN);
 		tiles.put(SpriteSheet.TILE_P2_SPAWN, TILE_P2_SPAWN);
 
-		tiles.put(SpriteSheet.TILE_WOOD, TILE_WOOD);
 		tiles.put(SpriteSheet.TILE_STONE, TILE_STONE);
 		tiles.put(SpriteSheet.TILE_METAL, TILE_METAL);
 		tiles.put(SpriteSheet.TILE_MARSH, TILE_MARSH);
 		tiles.put(SpriteSheet.TILE_NET, TILE_NET);
 		tiles.put(SpriteSheet.TILE_BOX, TILE_BOX);
-		
+
+		tiles.put(SpriteSheet.TILE_WOOD, TILE_WOOD);		
 	}
 	
 	public static Tile getTileByID(int ID){
