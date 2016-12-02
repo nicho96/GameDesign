@@ -85,7 +85,7 @@ public class ClientStart extends JFrame {
 		try{
 		    FileInputStream fis = new FileInputStream("res/pandemic.mp3");
 		    Player playMP3 = new Player(fis);
-		    playMP3.play();
+		  //  playMP3.play();
 		}
 		catch(Exception exc){
 		    exc.printStackTrace();

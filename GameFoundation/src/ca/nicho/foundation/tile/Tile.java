@@ -49,7 +49,7 @@ public class Tile {
 		
 		TILE_WOOD = new Tile(SpriteSheet.SPRITE_WOOD);
 		
-		TILE_STONE = new Tile(SpriteSheet.SPRITE_STONE);
+		TILE_STONE = new Tile(SpriteSheet.SPRITE_STONE); 
 		TILE_METAL = new Tile(SpriteSheet.SPRITE_METAL);
 		TILE_MARSH = new Tile(SpriteSheet.SPRITE_MARSH);
 		TILE_NET = new Tile(SpriteSheet.SPRITE_NET);
