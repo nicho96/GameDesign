@@ -78,7 +78,6 @@ public class ClientStart extends JFrame {
 		new Thread(Game.world).start();
 		window = new ClientStart();
 		window.setVisible(true);
-				
 	}
 	
 	public static GraphicsEnvironment gfxEnv;
@@ -424,14 +423,14 @@ public class ClientStart extends JFrame {
 			if(!map.isOpen && !StoreHandler.isOpen){
 				for(int i = 0; i < player.inventory.length; i++){
 					Entity e = player.inventory[i];
-					int guiX = FRAME_WIDTH - 100 - i * 99;
-					int guiY = FRAME_HEIGHT - 100;
+					int guiX = FRAME_WIDTH - 150 - i * 99;
+					int guiY = FRAME_HEIGHT - 150;
 					if(player.position == i)
-						drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SELECTED);
+						drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
 					else
-						drawGUISprite(guiX, guiY, SpriteSheet.SPRITE_SLOT);
+						drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
 					if(e != null){
-						drawGUISprite(guiX + 20, guiY + 20, e.sprites[e.current]);
+						drawGUISprite(guiX + 20, log.getY() + 20, e.sprites[e.current]);
 					}
 				}
 			}
