@@ -32,6 +32,7 @@ public class ControlListener implements KeyListener {
 				if(ClientStart.host_port.length() > 0)
 					ClientStart.host_port = ClientStart.host_port.substring(0, ClientStart.host_port.length() - 1);
 			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				AudioHandler.PANDEMIC.play();
 				String[] split = ClientStart.host_port.split(":");
 				if(split.length == 2){
 					ClientStart.HOST = split[0];
