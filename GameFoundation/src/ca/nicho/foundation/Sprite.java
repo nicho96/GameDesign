@@ -1,10 +1,13 @@
 package ca.nicho.foundation;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import ca.nicho.foundation.entity.Entity;
 
 public class Sprite { 
 	public String name;
@@ -12,6 +15,7 @@ public class Sprite {
 	public int width = 0;
 	public int height = 0;
 	public int type;
+	private BufferedImage sprite;
 	
 	public Sprite(float health, boolean somethingtodistinguishfromnum){
 		width = 50;
@@ -92,7 +96,7 @@ public class Sprite {
 		File f = new File("res/" + name + ".png");
 		if(f.exists()){
 			try {
-				BufferedImage sprite = ImageIO.read(f);
+				sprite = ImageIO.read(f);
 				data = new int[sprite.getWidth() * sprite.getHeight()];
 				int ind = 0;
 				for(int i = 0; i < sprite.getHeight(); i++){
@@ -110,5 +114,16 @@ public class Sprite {
 		}else{
 			System.out.println("SpriteSheet: Sprite named " + name + " does not exist.");
 		}
+	}
+	
+	public void flip()
+	{
+	    for (int i=0;i<sprite.getWidth();i++)
+	        for (int j=0;j<sprite.getHeight()/2;j++)
+	        {
+	            int tmp = sprite.getRGB(i, j);
+	            sprite.setRGB(i, j, sprite.getRGB(i, sprite.getHeight()-j-1));
+	            sprite.setRGB(i, sprite.getHeight()-j-1, tmp);
+	        }
 	}
 }	

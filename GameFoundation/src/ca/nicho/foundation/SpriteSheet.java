@@ -50,6 +50,9 @@ public class SpriteSheet {
 	public static final int GUI_RADAR_SCAN = 408;
 	public static final int GUI_CROSSHAIR = 409;
 	public static final int GUI_LOG_BOX = 410;
+	public static final int GUI_POINTS_BACKGROUND = 411;
+	public static final int GUI_BACKGROUND_TOP = 412;
+	public static final int GUI_SHIP_BACKGROUND = 413;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -96,7 +99,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_BATTLE_4;
 	
 	//public static Sprite SPRITE_CARGO;
-	public static Sprite SPRITE_RADAR;
+	public static Sprite SPRITE_RADAR_ICON;
 	public static Sprite SPRITE_RADAR_1;
 	public static Sprite SPRITE_RADAR_2;
 	public static Sprite SPRITE_RADAR_3;
@@ -130,17 +133,27 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TRAIL_10;
 	public static Sprite SPRITE_TRAIL_11;
 	
+	public static Sprite SPRITE_PACKAGE_ICON;
 	public static Sprite SPRITE_PACKAGE_1;
 	public static Sprite SPRITE_PACKAGE_2;
 	public static Sprite SPRITE_PACKAGE_3;
 	public static Sprite SPRITE_PACKAGE_4;
 	public static Sprite SPRITE_PACKAGE_5;
-	
-	public static Sprite SPRITE_WINDMILL;
+
+	public static Sprite SPRITE_WINDMILL_1;
+	public static Sprite SPRITE_WINDMILL_2;
+	public static Sprite SPRITE_WINDMILL_3;
 	
 	public static Sprite SPRITE_TURRET;
-	
-	public static Sprite SPRITE_NAVY_BASE;
+
+	public static Sprite SPRITE_NAVY_BASE_R_1;
+	public static Sprite SPRITE_NAVY_BASE_R_2;
+	public static Sprite SPRITE_NAVY_BASE_R_3;
+	public static Sprite SPRITE_NAVY_BASE_R_4;
+	public static Sprite SPRITE_NAVY_BASE_G_1;
+	public static Sprite SPRITE_NAVY_BASE_G_2;
+	public static Sprite SPRITE_NAVY_BASE_G_3;
+	public static Sprite SPRITE_NAVY_BASE_G_4;
 
 	public static Sprite SPRITE_LOG_LG;
 	public static Sprite SPRITE_LOG_SM;
@@ -169,7 +182,11 @@ public class SpriteSheet {
 	public static Sprite SPRITE_CROSSHAIR;
 	public static Sprite SPRITE_DISABLED;
 	public static Sprite SPRITE_BACKGROUND;
+	public static Sprite SPRITE_BACKGROUND_TOP;
 	public static Sprite SPRITE_SCAN;
+	public static Sprite SPRITE_POINTS_BACKGROUND;
+	public static Sprite SPRITE_SHIPS_BACKGROUND;
+
 	
 	//Ocean
 	public static Sprite SPRITE_OCEAN_1;
@@ -226,7 +243,7 @@ public class SpriteSheet {
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
 		
-		//SPRITE_RADAR = new Sprite("radar", ENTITY_RADAR);
+		SPRITE_RADAR_ICON = new Sprite("radar", ENTITY_RADAR);
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);
 		SPRITE_RADAR_2 = new Sprite("radar_2", ENTITY_RADAR);
 		SPRITE_RADAR_3 = new Sprite("radar_3", ENTITY_RADAR);
@@ -260,18 +277,29 @@ public class SpriteSheet {
 		SPRITE_TRAIL_10 = new Sprite("ripple_10", ENTITY_TRAIL);
 		SPRITE_TRAIL_11 = new Sprite("ripple_11", ENTITY_TRAIL);
 		
+
+		SPRITE_PACKAGE_ICON = new Sprite("package", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_1 = new Sprite("package_1", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_2 = new Sprite("package_2", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_3 = new Sprite("package_3", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_4 = new Sprite("package_4", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_5 = new Sprite("package_5", ENTITY_CARE_PACKAGE);
 		
-		SPRITE_WINDMILL = new Sprite("windmill", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_1 = new Sprite("windmill_1", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_2 = new Sprite("windmill_2", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_3 = new Sprite("windmill_3", ENTITY_WINDMILL);
 		
 		SPRITE_TURRET = new Sprite("turret", ENTITY_TURRET);
-		
-		SPRITE_NAVY_BASE = new Sprite("navy_base", ENTITY_NAVY_BASE);
-		
+
+		SPRITE_NAVY_BASE_G_1 = new Sprite("base_green_1", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_2 = new Sprite("base_green_2", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_3 = new Sprite("base_green_3", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_4 = new Sprite("base_green_4", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_1 = new Sprite("base_red_1", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_2 = new Sprite("base_red_2", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_3 = new Sprite("base_red_3", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_4 = new Sprite("base_red_4", ENTITY_NAVY_BASE);
+
 		SPRITE_EXPLOSION = new Sprite("explosion", ENTITY_EXPLOSION);
 		
 		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
@@ -299,7 +327,10 @@ public class SpriteSheet {
 		SPRITE_CROSSHAIR = new Sprite("crosshair", GUI_CROSSHAIR);
 		SPRITE_DISABLED = new Sprite("disabled", GUI_DISABLED);
 		SPRITE_BACKGROUND = new Sprite("backgroundbase", GUI_BACKGROUND);
+		SPRITE_BACKGROUND_TOP = new Sprite("backgroundtop", GUI_BACKGROUND_TOP);
 		SPRITE_SCAN = new Sprite("radar_scan", GUI_RADAR_SCAN);
+		SPRITE_POINTS_BACKGROUND = new Sprite("points_bg", GUI_POINTS_BACKGROUND);
+		SPRITE_SHIPS_BACKGROUND = new Sprite("ship_bg", GUI_SHIP_BACKGROUND);
 		
 		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);

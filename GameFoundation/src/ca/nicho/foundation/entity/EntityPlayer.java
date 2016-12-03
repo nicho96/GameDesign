@@ -4,6 +4,7 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.log.LogHandler;
 import ca.nicho.foundation.packet.LogPacket;
+import ca.nicho.foundation.tile.Tile;
 
 public class EntityPlayer extends Entity {
 
@@ -13,16 +14,20 @@ public class EntityPlayer extends Entity {
 	
 	public double delta = 0;
 	
+	public Sprite[] sprites;
+	
 	public Entity[] inventory;
 	public int position = 0;
 	
 	
 	public EntityPlayer(float x, float y, int health, Sprite sprite, int id) {
 		super(x, y, health, sprite, id);
+		this.sprites = sprites;
 	}
 	
 	public EntityPlayer(float x, float y, int health, Sprite[] sprites, int id) {
 		super(x, y, health, sprites, id);
+		this.sprites = sprites;
 	}
 	
 	public Entity getCurrent(){
@@ -73,12 +78,23 @@ public class EntityPlayer extends Entity {
 		}
 	
 		if((vx != 0 || vy != 0)){
-			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
+			
+
+			if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy, Tile.TILE_MARSH) && !Game.world.checkCollision(this, this.locX + vx, this.locY + vy, Tile.TILE_STONE)){
+				velocity = 125;
+				this.locX += vx;
+				this.locY += vy;
+				double dxy = Math.sqrt(vx*vx + vy*vy);
+				delta += dxy;
+				moved = true;				
+			}
+			else if(Game.world.checkCollision(this, this.locX + vx, this.locY + vy)){
 				//Essential rounding this value, or character will remain stuck in the wall
 				this.locX = Math.round(locX);
 				this.locY = Math.round(locY);
 				
 			}else{
+				velocity = 200;
 				this.locX += vx;
 				this.locY += vy;
 				double dxy = Math.sqrt(vx*vx + vy*vy);
@@ -93,6 +109,7 @@ public class EntityPlayer extends Entity {
 		if(ent instanceof EntityMissile){
 			this.damage(10);
 		}
+
 	}
 		
 }

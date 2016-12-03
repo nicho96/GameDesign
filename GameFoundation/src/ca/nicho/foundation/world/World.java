@@ -158,6 +158,7 @@ public class World implements Runnable{
 	public Tile getTileAtLocation(double x, double y){
 		int tileX = (int)x / Tile.TILE_DIM;
 		int tileY = (int)y / Tile.TILE_DIM;
+
 		return map[tileY * MAP_WIDTH + tileX];
 	}
 	
@@ -181,6 +182,13 @@ public class World implements Runnable{
 				getTileAtLocation(posX, posY + ent.sprites[ent.current].height) != null ||
 				getTileAtLocation(posX +  ent.sprites[ent.current].width, posY) != null ||
 				getTileAtLocation(posX + ent.sprites[ent.current].width, posY + ent.sprites[ent.current].height) != null;
+	}
+	
+	public boolean checkCollision(Entity ent, double posX, double posY, Tile type){
+		return getTileAtLocation(posX, posY) == type ||
+				getTileAtLocation(posX, posY + ent.sprites[ent.current].height) == type ||
+				getTileAtLocation(posX +  ent.sprites[ent.current].width, posY) == type ||
+				getTileAtLocation(posX + ent.sprites[ent.current].width, posY + ent.sprites[ent.current].height) == type;
 	}
 	
 	/**
@@ -262,6 +270,10 @@ public class World implements Runnable{
 				tick();
 			}
 		}
+		
+	}
+	
+	public void givePoints(Entity parent, int points){
 		
 	}
 	

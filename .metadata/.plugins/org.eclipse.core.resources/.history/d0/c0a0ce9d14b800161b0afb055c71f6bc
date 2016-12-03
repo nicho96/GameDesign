@@ -1,0 +1,43 @@
+package ca.nicho.foundation.entity;
+
+import java.util.Map;
+
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+
+public class EntityWindmill extends Entity {
+
+	private static Sprite[] sprites = {SpriteSheet.SPRITE_WINDMILL};
+	
+	public int points = 2;
+	
+	public EntityWindmill(float x, float y, int id){
+		super(x, y, 25, sprites, id);
+	}
+	
+	public boolean tick(){
+		
+		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+			Entity ent = set.getValue();
+			if(ent.owner != this.owner){
+				float dx = this.locX - ent.locX;
+				float dy = this.locY - ent.locY;
+			
+				double distance = Math.sqrt(dx*dx + dy*dy);
+				if(distance < 500){
+					
+					float angX = (dx > dy) ? 1 : dx / dy;
+					float angY = (dy > dx) ? 1 : dy / dx;
+					
+					EntityMissile missile = new EntityMissile(this.locX, this.locY, Game.world.entId++, angX, angY);
+					Game.world.spawnEntity(missile);
+					
+				}
+			}
+		}
+		
+		return super.tick();
+	}
+	
+}
