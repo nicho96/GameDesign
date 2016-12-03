@@ -1,5 +1,6 @@
 package ca.nicho.client;
 
+import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class ClientGameSocket implements Runnable {
 	public void readPacket() throws IOException{
 		int type = in.readInt();
 		int length = in.readInt();
-		if(length <= 0 || length > 100){
+		if(length < 0 || length > 100){
 			System.out.println("Corrupt packet received");
 			return;
 		}
@@ -86,7 +87,11 @@ public class ClientGameSocket implements Runnable {
 				break;
 			case Packet.PACKET_LOG:
 				LogPacket packetLog = new LogPacket(data);
-				ClientStart.log.addToLog(packetLog.message, 0);
+				ClientStart.log.addToLog(packetLog.message, "#6A1B9A");
+				break;
+			case Packet.PACKET_GAME_START:
+				Game.started = true;
+				ClientStart.log.addToLog("The Game is now Starting!", "AE5F67");
 				break;
 		}
 	}	

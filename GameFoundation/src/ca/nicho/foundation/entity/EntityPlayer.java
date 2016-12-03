@@ -1,9 +1,9 @@
 package ca.nicho.foundation.entity;
 
+import java.util.ArrayList;
+
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
-import ca.nicho.foundation.log.LogHandler;
-import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.tile.Tile;
 
 public class EntityPlayer extends Entity {
@@ -16,13 +16,12 @@ public class EntityPlayer extends Entity {
 	
 	public Sprite[] sprites;
 	
-	public Entity[] inventory;
+	public ArrayList<Entity> inventory = new ArrayList<Entity>();
 	public int position = 0;
-	
+	public int capacity;
 	
 	public EntityPlayer(float x, float y, int health, Sprite sprite, int id) {
 		super(x, y, health, sprite, id);
-		this.sprites = sprites;
 	}
 	
 	public EntityPlayer(float x, float y, int health, Sprite[] sprites, int id) {
@@ -31,11 +30,11 @@ public class EntityPlayer extends Entity {
 	}
 	
 	public Entity getCurrent(){
-		return inventory[position];
+		return (inventory.size() > 0 && position < inventory.size()) ? inventory.get(position) : null;
 	}
 	
 	public void clearCurrent(){
-		inventory[position] = null;
+		inventory.remove(position);
 	}
 
 	@Override
@@ -54,7 +53,9 @@ public class EntityPlayer extends Entity {
 	}
 	
 	public void nextSlot(){
-		position = (position + 1) % inventory.length;
+		if(capacity == 0)
+			return;
+		position = (position + 1) % capacity;
 	}
 	
 	public static final double sqrt2 = Math.sqrt(2);
@@ -109,7 +110,14 @@ public class EntityPlayer extends Entity {
 		if(ent instanceof EntityMissile){
 			this.damage(10);
 		}
-
+	}
+	
+	public boolean addItem(Entity e){
+		if(inventory.size() < capacity){
+			inventory.add(e);
+			return true;
+		}
+		return false;
 	}
 		
 }

@@ -24,7 +24,6 @@ import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
-import ca.nicho.foundation.log.LogHandler;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.foundation.world.World;
 
@@ -422,8 +421,8 @@ public class ClientStart extends JFrame {
 				}
 				
 				if(!map.isOpen && !StoreHandler.isOpen){
-					for(int i = 0; i < player.inventory.length; i++){
-						Entity e = player.inventory[i];
+					for(int i = 0; i < player.capacity; i++){
+ 						Entity e = (i < player.inventory.size()) ? player.inventory.get(i) : null;
 						int guiX = FRAME_WIDTH - 150 - i * 99;
 						int guiY = FRAME_HEIGHT - 150;
 						if(player.position == i)

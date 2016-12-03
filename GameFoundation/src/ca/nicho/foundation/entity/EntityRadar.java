@@ -35,7 +35,7 @@ public class EntityRadar extends Entity {
 				float dy = e.locY - locY;
 				double distance = Math.sqrt(dx*dx + dy*dy);
 				
-				if(distance < 200){
+				if(distance < 1000){
 					e.detected = true;
 					count += 1;
 				}else{

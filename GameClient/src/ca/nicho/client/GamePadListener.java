@@ -2,7 +2,7 @@ package ca.nicho.client;
 
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.foundation.Game;
-import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
@@ -106,10 +106,27 @@ public class GamePadListener {
 				if(A.getPollData() > 0){
 						if(ClientStart.map.isOpen){
 							ClientStart.map.sendAirstrike();
+						}else if(StoreHandler.isOpen){
+							ClientStart.store.buy();
 						}else{
-							ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX + 20, Game.world.getPlayer().locY, Game.world.getPlayer().health, SpriteSheet.ENTITY_MISSILE, Game.ownerID));	
+							EntityPlayer p = Game.world.getPlayer();
+							Entity item = p.getCurrent();
+							if(item != null){
+								ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().health, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
+								p.clearCurrent();
+							}
 						}
 					}		
+				}
+			}
+		};
+	
+		wrapped[7] = new ComponentWrapper(Y){
+			public void action(){
+				if(reset){
+					if(Y.getPollData() > 0){
+						ClientStart.MAIN_GUI_SHOWN = !ClientStart.MAIN_GUI_SHOWN;
+					}
 				}
 			}
 		};
@@ -131,6 +148,7 @@ public class GamePadListener {
 					else if(!StoreHandler.isOpen){
 						EntityPlayer p = Game.world.getPlayer();
 						ClientStart.con.sendPacket(new SpawnMissilePacket(p.locX, p.locY, ClientStart.angX, ClientStart.angY, Game.ownerID));
+						AudioHandler.SHOT.play();
 					}
 				}
 			}
@@ -160,14 +178,31 @@ public class GamePadListener {
 				//Other things that don't need to be wrapped
 				float dVal = D_PAD.getPollData();
 				if(reset){
-					if(dVal == 1f)
-						System.out.println("LEFT");
-					else if(dVal == 0.5f)
-						System.out.println("RIGHT");
-					else if(dVal == 0.75f)
-						System.out.println("DOWN");
-					else if(dVal == 0.25f){
-						System.out.println("UP");
+					if(dVal == 1f){ //LEFT
+						if(!StoreHandler.isOpen && !ClientStart.map.isOpen){
+							EntityPlayer p = Game.world.getPlayer();
+							p.position = (p.position + 1) % p.capacity;
+						}
+					}
+					else if(dVal == 0.5f){ //RIGHT
+						if(!StoreHandler.isOpen && !ClientStart.map.isOpen){
+							EntityPlayer p = Game.world.getPlayer();
+							p.position--;
+							if(p.position < 0)
+								p.position = p.capacity - 1;
+						}
+					}
+					else if(dVal == 0.75f){ //DOWN
+						if(StoreHandler.isOpen){
+							ClientStart.store.position = (ClientStart.store.position + 1) % ClientStart.store.costs.size();
+						}
+					}
+					else if(dVal == 0.25f){ //UP
+						if(StoreHandler.isOpen){
+							ClientStart.store.position--;
+							if(ClientStart.store.position < 0)
+								ClientStart.store.position = ClientStart.store.costs.size() - 1;
+						}
 					}
 				}
 			}
@@ -178,6 +213,9 @@ public class GamePadListener {
 	public static void tick(){
 		if(analog != null){
 			analog.poll();
+			
+			if(!Game.started) //Don't allow user input until game starts
+				return;
 			
 			//For things that need to be wrapped, execute their code
 			for(ComponentWrapper cw : wrapped){

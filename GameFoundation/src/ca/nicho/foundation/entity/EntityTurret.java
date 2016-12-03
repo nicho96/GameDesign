@@ -20,7 +20,7 @@ public class EntityTurret extends Entity {
 		if(shotTick == 0){
 			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
 				Entity ent = set.getValue();
-				if(ent.owner != this.owner){
+				if(ent.owner != this.owner && !ent.isDead){
 					float x = this.locX - ent.locX;
 					float y = this.locY - ent.locY;
 					double distance = Math.sqrt(x*x + y*y);
@@ -28,7 +28,6 @@ public class EntityTurret extends Entity {
 						double rad = Math.atan2(x, y) - Math.PI;
 						float dx = (float)Math.sin(rad);
 						float dy = (float)Math.cos(rad);
-						System.out.println("TARGETING: " + ent.id);
 						EntityMissile missile = new EntityMissile(this.locX, this.locY, Game.world.entId++, dx, dy);
 						Game.world.spawnEntity(missile);
 						break;

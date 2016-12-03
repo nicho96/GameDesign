@@ -1,63 +1,38 @@
-package ca.nicho.foundation.log;
+package ca.nicho.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.TimerTask;
 
-import javax.print.attribute.AttributeSet;
-import javax.sound.midi.ControllerEventListener;
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
 
 import ca.nicho.foundation.SpriteSheet;
 
@@ -67,11 +42,8 @@ public class LogHandler extends JPanel{
 	private static JScrollPane scroll;
 	public static JTextField field;
 	
-	private final static int TYPE_SERVER = 0;
-	private final static int TYPE_TUTORIAL = 2;
-	private final static int TYPE_GUIDE = 3;
 	private final static String font = "fonts/coders_crux.ttf";
-	private static volatile LogHandler pane;
+	private static volatile LogHandler pane; //Volatile? Why? ~Nicho
 	
 	public int height;
 	public int width;
@@ -159,37 +131,10 @@ public class LogHandler extends JPanel{
 	 * @param text to be entered
 	 * @param type determines text color and style
 	 */
-	public void addToLog(String text, int type){
-
-
-		   Font customFont;
-		try {
-			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(font)).deriveFont(26f);
-	        textPane.setFont(customFont);
-	        field.setFont(customFont);
-		} catch (FontFormatException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-
-		switch(type){
-			case(TYPE_SERVER):
-				break;
-			case(TYPE_TUTORIAL):
-				break;
-			case(TYPE_GUIDE):
-				break;
-		}
-
-		try {    
-			textPane.getDocument().insertString(0, text + "\n", null);
-			textLOG += text + "\n";
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	
+	public void addToLog(String text, String hex){
+		Color c = Color.black;
+		textPane.appendToPane(text, c);
 	}
 	
 
@@ -212,8 +157,18 @@ public class LogHandler extends JPanel{
             int width = getWidth() - (insets.left + insets.right);
             int height = getHeight() - (insets.top + insets.bottom);
             g.fillRect(x, y, width, height);
+        }
+        
+        protected void appendToPane(String msg, Color c){
+            StyleContext sc = StyleContext.getDefaultStyleContext();
+            AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        	
+            aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console"); //We can change
+            aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+            setCaretPosition(0);
+            setCharacterAttributes(aset, false);
+            replaceSelection(msg + "\n");
         }
 
     }

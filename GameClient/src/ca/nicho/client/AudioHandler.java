@@ -16,17 +16,27 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public final class AudioHandler {
 
 	public static ClipWrapper PANDEMIC;
+	public static ClipWrapper DENIED;
+	public static ClipWrapper PURCHASE;
+	public static ClipWrapper SHOT;
 	
 	public AudioHandler(){
 		System.out.println("AudioHandler: Loading and encoding audio files");
 		try{
 			PANDEMIC = loadClip("pandemic.mp3");
+			DENIED = loadClip("denied.mp3");
+			PURCHASE = loadClip("purchase.mp3");
+			SHOT = loadClip("shot.mp3", true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 		
 	public ClipWrapper loadClip(String file) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+		return this.loadClip(file, false);
+	}
+	
+	public ClipWrapper loadClip(String file, boolean overwrite) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/" + file));
 		AudioFormat baseFormat = audioStream.getFormat();
 		AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(), 16, baseFormat.getChannels(),
@@ -35,14 +45,20 @@ public final class AudioHandler {
 		
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream2);
-		return new ClipWrapper(clip);
+		return new ClipWrapper(clip, overwrite);
 	}
 	
 	public class ClipWrapper {
 		public Clip clip;
+		public boolean overwrite = false;
 		
 		public ClipWrapper(Clip c){
 			this.clip = c;
+		}
+		
+		public ClipWrapper(Clip c, boolean overwrite){
+			this.clip = c;
+			this.overwrite = overwrite;
 		}
 		
 		public void setVolume(float vol){
@@ -55,6 +71,8 @@ public final class AudioHandler {
 		}
 		
 		public void play(){
+			if(!clip.isRunning() || overwrite)
+				restart();
 			clip.start();
 		}
 	}
