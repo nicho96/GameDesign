@@ -44,6 +44,8 @@ public class ClientStart extends JFrame {
 	public static ClientStart window;
 	public static ClientGameSocket con;
 	
+	public static boolean MAIN_GUI_SHOWN = false;
+	
 	public static float angX = 1;
 	public static float angY = 0;
 	
@@ -63,12 +65,6 @@ public class ClientStart extends JFrame {
 		Tile.initTiles();
 		GamePadListener.init();
 		new AudioHandler();
-		/*Scanner sc = new Scanner(System.in);
-		System.out.print("Enter host: ");
-		HOST = sc.nextLine();
-		System.out.print("Enter port: ");
-		PORT = Integer.parseInt(sc.nextLine());
-		sc.close();*/
 		Game.initWorld();
 		
 		store = new StoreHandler();
@@ -98,6 +94,7 @@ public class ClientStart extends JFrame {
 		this.pack();
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gfxDev.setFullScreenWindow(this);
+		ClientStart.setGUIVisible(true);
 	}
 	
 	private class Screen extends JPanel implements Runnable {
@@ -358,18 +355,6 @@ public class ClientStart extends JFrame {
 			
 			if(Game.world != null){
 				//Render entities
-				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
-					if(set.getValue().origHealth > 0){
-						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
-						if(set.getValue().owner == Game.ownerID)
-							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_GREEN);
-						else
-							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_RED);
-					}
-				
-					drawEntity(set.getValue());
-	
-				}
 				
 				//Render tiles (now optimized to increase FPS!)
 				for(int posX = (int)(player.locX - FRAME_WIDTH / 2) / Tile.TILE_DIM ; posX < (int)(player.locX + FRAME_WIDTH / 2) / Tile.TILE_DIM + 1; posX++){
@@ -383,63 +368,76 @@ public class ClientStart extends JFrame {
 						}
 					}
 				}
+				
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					if(set.getValue().origHealth > 0){
+						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
+						if(set.getValue().owner == Game.ownerID)
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_GREEN);
+						else
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_RED);
+					}
+				
+					drawEntity(set.getValue());
+	
+				}
+				
 			}
 			
 			//Load overlays last
 			int mapX = 0;
 			int mapY = 0;
 			
-			if(!DEBUG){
+			if(ClientStart.MAIN_GUI_SHOWN){
 				mapX = 6;
 				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
-
 				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height - 20, SpriteSheet.SPRITE_BACKGROUND);
 				drawGUISprite(0, 0, SpriteSheet.SPRITE_BACKGROUND_TOP);
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
-			
-			}
-			//Draw the ships on the map
-			drawGUISprite(150, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
-			for(int i = 0; i < Game.ships.length; i++){
-				Entity e = Game.world.entities.get(Game.ships[i]);
 				
-				if(e == player){
-					int x = i * 82 + 190;
-					this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height - 5, e.sprites[e.current]);
-					this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_GREEN);
-					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
-				}else if (e != null){
-					int x = i * 82 + 190;
-					this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height, e.sprites[e.current]);
-					this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_BLUE);
-					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
+				//Draw the ships on the map
+				drawGUISprite(150, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
+				for(int i = 0; i < Game.ships.length; i++){
+					Entity e = Game.world.entities.get(Game.ships[i]);
+					
+					if(e == player){
+						int x = i * 82 + 190;
+						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height - 5, e.sprites[e.current]);
+						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_GREEN);
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
+					}else if (e != null){
+						int x = i * 82 + 190;
+						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height, e.sprites[e.current]);
+						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_BLUE);
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
+					}
+					
 				}
 				
-			}
-			
-			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
-				Entity e = set.getValue();
-				if(e.detected){
-					drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
-				}
-			}
-
-			if(!map.isOpen && !StoreHandler.isOpen){
-				for(int i = 0; i < player.inventory.length; i++){
-					Entity e = player.inventory[i];
-					int guiX = FRAME_WIDTH - 150 - i * 99;
-					int guiY = FRAME_HEIGHT - 150;
-					if(player.position == i)
-						drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
-					else
-						drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
-					if(e != null){
-						drawGUISprite(guiX + 20, log.getY() + 20, e.sprites[e.current]);
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
+					Entity e = set.getValue();
+					if(e.detected){
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
 					}
 				}
+				
+				if(!map.isOpen && !StoreHandler.isOpen){
+					for(int i = 0; i < player.inventory.length; i++){
+						Entity e = player.inventory[i];
+						int guiX = FRAME_WIDTH - 150 - i * 99;
+						int guiY = FRAME_HEIGHT - 150;
+						if(player.position == i)
+							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
+						else
+							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
+						if(e != null){
+							drawGUISprite(guiX + 20, log.getY() + 20, e.sprites[e.current]);
+						}
+					}
+				}
+				this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_LG);	
 			}
 
-			this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_LG);	
 		//	this.drawGUISprite(log.getX(), log.getY() + log.height - 41, SpriteSheet.SPRITE_LOG_SM);	
 			//Load store overlays
 			if(StoreHandler.isOpen){
@@ -514,7 +512,7 @@ public class ClientStart extends JFrame {
 					this.repaint();
 					tickDelta = 0;
 				}
-				/*try {
+				/*try { //A gross way to manage the clock cycle, in theory this reduces CPU usage, but is harder to control
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -524,6 +522,11 @@ public class ClientStart extends JFrame {
 			
 		}
 		
+	}
+	
+	public static void setGUIVisible(boolean vis){
+		ClientStart.MAIN_GUI_SHOWN = vis;
+		log.setVisible(vis);
 	}
 	
 }

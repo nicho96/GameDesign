@@ -1,7 +1,5 @@
 package ca.nicho.foundation.entity;
 
-import java.util.Map;
-
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
@@ -14,13 +12,16 @@ public class EntityCarePackage extends Entity {
 	public EntityCarePackage(float x, float y, int ID){
 		super(x, y, 100, sprites, ID);
 	}
-
 	
 	private int tickCount = 0;
 	
 	@Override
 	public boolean tick(){
-		return false;
+		tickCount = (tickCount + 1) % 5;
+		if(tickCount != 0)
+			return false;
+		Game.world.checkEntityCollision(this);
+		return true;
 	}
 	
 	@Override
@@ -30,25 +31,21 @@ public class EntityCarePackage extends Entity {
 		
 		if(tickCount != 0 || this.owner != Game.ownerID)
 			return false;
-		
-		count = 0;
-		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
-			Entity e = set.getValue();
-			if(e != this && e.owner != Game.ownerID){
-				float dx = e.locX - locX;
-				float dy = e.locY - locY;
-				double distance = Math.sqrt(dx*dx + dy*dy);
 				
-				if(distance < 200){
-					e.detected = true;
-					count += 1;
-				}else{
-					e.detected = false;
-				}
+		return true;
+	}
+	
+	@Override
+	public void collision(Entity e){
+		if(e instanceof EntityPlayer){
+			if(this.owner != -1 && e.owner != this.owner){
+				Game.world.spawnEntity(new EntityExplosion(this.locX, this.locY, Game.world.entId++));
+				this.isDead = true;
+			}else if(this.owner == -1){
+				Game.world.givePoints(e, (int)(Math.random() * 125) + 125); //Between 125-250 points
+				this.isDead = true;
 			}
 		}
-		
-		return true;
 	}
 	
 }

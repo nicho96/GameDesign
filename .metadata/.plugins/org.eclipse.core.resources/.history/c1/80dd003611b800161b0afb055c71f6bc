@@ -1,0 +1,7 @@
+package ca.nicho.foundation.entity;
+
+public class EntityTurret extends Entity {
+
+	
+	
+}

@@ -154,7 +154,6 @@ public class ControlListener implements KeyListener {
 			if(StoreHandler.isOpen){
 				StoreItem item = ClientStart.store.getCurrentStoreItem();
 				if(Game.points - item.cost > 0){
-					System.out.println(item.entity.sprites[0].type);
 					ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 					Game.world.getPlayer().inventory[0] = item.entity;
 				}
@@ -180,6 +179,8 @@ public class ControlListener implements KeyListener {
 			StoreHandler.isOpen = !StoreHandler.isOpen;
 		}else if(e.getKeyChar() == 'y'){
 			ClientStart.map.isOpen = !ClientStart.map.isOpen;
+		}else if(e.getKeyChar() == 'e'){
+			ClientStart.setGUIVisible(!ClientStart.MAIN_GUI_SHOWN);
 		}
 	}
 	

@@ -1,0 +1,20 @@
+package ca.nicho.foundation.entity;
+
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+
+public class EntityTurret extends Entity {
+
+	private static Sprite[] sprites = {SpriteSheet.SPRITE_TURRET};
+	
+	public EntityTurret(float x, float y, int health, int id) {
+		super(x, y, health, sprites, id);
+	}
+
+	@Override
+	public boolean tick(){
+		return false;
+	}
+	
+	
+}
