@@ -139,12 +139,21 @@ public class SpriteSheet {
 	public static Sprite SPRITE_PACKAGE_3;
 	public static Sprite SPRITE_PACKAGE_4;
 	public static Sprite SPRITE_PACKAGE_5;
-	
-	public static Sprite SPRITE_WINDMILL;
+
+	public static Sprite SPRITE_WINDMILL_1;
+	public static Sprite SPRITE_WINDMILL_2;
+	public static Sprite SPRITE_WINDMILL_3;
 	
 	public static Sprite SPRITE_TURRET;
-	
-	public static Sprite SPRITE_NAVY_BASE;
+
+	public static Sprite SPRITE_NAVY_BASE_R_1;
+	public static Sprite SPRITE_NAVY_BASE_R_2;
+	public static Sprite SPRITE_NAVY_BASE_R_3;
+	public static Sprite SPRITE_NAVY_BASE_R_4;
+	public static Sprite SPRITE_NAVY_BASE_G_1;
+	public static Sprite SPRITE_NAVY_BASE_G_2;
+	public static Sprite SPRITE_NAVY_BASE_G_3;
+	public static Sprite SPRITE_NAVY_BASE_G_4;
 
 	public static Sprite SPRITE_LOG_LG;
 	public static Sprite SPRITE_LOG_SM;
@@ -276,12 +285,21 @@ public class SpriteSheet {
 		SPRITE_PACKAGE_4 = new Sprite("package_4", ENTITY_CARE_PACKAGE);
 		SPRITE_PACKAGE_5 = new Sprite("package_5", ENTITY_CARE_PACKAGE);
 		
-		SPRITE_WINDMILL = new Sprite("windmill", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_1 = new Sprite("windmill_1", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_2 = new Sprite("windmill_2", ENTITY_WINDMILL);
+		SPRITE_WINDMILL_3 = new Sprite("windmill_3", ENTITY_WINDMILL);
 		
 		SPRITE_TURRET = new Sprite("turret", ENTITY_TURRET);
-		
-		SPRITE_NAVY_BASE = new Sprite("navy_base", ENTITY_NAVY_BASE);
-		
+
+		SPRITE_NAVY_BASE_G_1 = new Sprite("base_green_1", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_2 = new Sprite("base_green_2", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_3 = new Sprite("base_green_3", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_G_4 = new Sprite("base_green_4", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_1 = new Sprite("base_red_1", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_2 = new Sprite("base_red_2", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_3 = new Sprite("base_red_3", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R_4 = new Sprite("base_red_4", ENTITY_NAVY_BASE);
+
 		SPRITE_EXPLOSION = new Sprite("explosion", ENTITY_EXPLOSION);
 		
 		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
