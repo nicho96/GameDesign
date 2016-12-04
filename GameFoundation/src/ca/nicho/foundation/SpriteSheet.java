@@ -55,7 +55,6 @@ public class SpriteSheet {
 	public static final int GUI_SHIP_BACKGROUND = 413;
 	public static final int GUI_SHIPCRAFT = 414;
 	public static final int GUI_SLOT_NUM = 415;
-	public static final int GUI_AIRSTRIKE = 416;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -142,8 +141,6 @@ public class SpriteSheet {
 		
 	public static Sprite SPRITE_EXPLOSION;
 	
-	public static Sprite SPRITE_AIRSTRIKE;
-	
 	public static Sprite SPRITE_TRAIL_1;
 	public static Sprite SPRITE_TRAIL_2;
 	public static Sprite SPRITE_TRAIL_3;
@@ -177,7 +174,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TURRET_8;
 	public static Sprite SPRITE_TURRET_1_FIRE;
 	public static Sprite SPRITE_TURRET_2_FIRE;
+	
 
+	public static Sprite SPRITE_NAVY_BASE_R;
 	public static Sprite SPRITE_NAVY_BASE_R_1;
 	public static Sprite SPRITE_NAVY_BASE_R_2;
 	public static Sprite SPRITE_NAVY_BASE_R_3;
@@ -354,6 +353,7 @@ public class SpriteSheet {
 		SPRITE_NAVY_BASE_G_2 = new Sprite("base_green_2", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_G_3 = new Sprite("base_green_3", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_G_4 = new Sprite("base_green_4", ENTITY_NAVY_BASE);
+		SPRITE_NAVY_BASE_R = new Sprite("base_red", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_R_1 = new Sprite("base_red_1", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_R_2 = new Sprite("base_red_2", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_R_3 = new Sprite("base_red_3", ENTITY_NAVY_BASE);
@@ -392,7 +392,6 @@ public class SpriteSheet {
 		SPRITE_POINTS_BACKGROUND = new Sprite("points_bg", GUI_POINTS_BACKGROUND);
 		SPRITE_SHIPS_BACKGROUND = new Sprite("ship_bg", GUI_SHIP_BACKGROUND);
 		SPRITE_SHIPCRAFT = new Sprite("shipcraft", GUI_SHIPCRAFT);
-		SPRITE_AIRSTRIKE = new Sprite("airstrike", GUI_AIRSTRIKE);
 		
 		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);
@@ -404,8 +403,7 @@ public class SpriteSheet {
 		SPRITE_OCEAN_4 = new Sprite("ocean4", BACK_OCEAN_4);
 		
 		//Blank tile (for level editor)
-		SPRITE_BLANK = new Sprite("blank", -1);
-		
+		SPRITE_BLANK = new Sprite("blank", -1);		
 		SPRITE_DOT_GREEN = new Sprite("greendot", DOT_GREEN);
 		SPRITE_DOT_RED = new Sprite("reddot", DOT_RED);
 		SPRITE_DOT_BLUE = new Sprite("bluedot", DOT_BLUE);
