@@ -410,9 +410,9 @@ public class ClientStart extends JFrame {
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 				
 				
-				Sprite countMissiles = new Sprite(0);
+				Sprite countMissiles = new Sprite(store.missiles);
 				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT.width - 15, 5, SpriteSheet.SPRITE_SLOT_NUM);
-				drawGUISprite(FRAME_WIDTH - (SpriteSheet.SPRITE_SLOT.width/2 - SpriteSheet.SPRITE_MISSILE.width/2) - 15 - countMissiles.width, (SpriteSheet.SPRITE_SLOT.height/2 - SpriteSheet.SPRITE_MISSILE.height/2) + 5, SpriteSheet.SPRITE_MISSILE);
+				drawGUISprite(FRAME_WIDTH - (SpriteSheet.SPRITE_SLOT.width/2 - SpriteSheet.SPRITE_AIRSTRIKE.width/2) - 15 - countMissiles.width, (SpriteSheet.SPRITE_SLOT.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2) + 5, SpriteSheet.SPRITE_AIRSTRIKE);
 				drawGUISprite(FRAME_WIDTH - (SpriteSheet.SPRITE_SLOT_NUM.width/2) - (countMissiles.width/2) - 14, SpriteSheet.SPRITE_SLOT_NUM.height - countMissiles.height - 2, countMissiles);
 				
 				
