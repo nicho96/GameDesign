@@ -465,11 +465,10 @@ public class ClientStart extends JFrame {
 			if(StoreHandler.isOpen){
 				int storeIndex = 0;
 				for(StoreItem item: store.costs){
-					Entity e = item.entity;
 					int leftX =  FRAME_WIDTH - 100 + 99 * (storeIndex % 1);
 					int leftY = (storeIndex / 1) * 99 + SpriteSheet.SPRITE_BACKGROUND_TOP.height + SpriteSheet.SPRITE_POINTS_BACKGROUND.height;
-					int x = (100 -e.sprites[e.current].width) / 2 + leftX;
-					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
+					int x = (100 - item.itemSprite .width) / 2 + leftX;
+					int y = (100 - item.itemSprite.height) / 2 + leftY;
 					
 					if(store.position == storeIndex){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
