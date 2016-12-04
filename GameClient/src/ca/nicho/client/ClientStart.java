@@ -127,7 +127,7 @@ public class ClientStart extends JFrame {
 			this.setLayout(null);
 			this.add(log);
 			log.setSize(log.width, log.height);
-			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-5);
+			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-20);
 			log.field.addFocusListener(new FocusListener() {
 				
 				@Override
@@ -404,9 +404,10 @@ public class ClientStart extends JFrame {
 			
 			if(ClientStart.MAIN_GUI_SHOWN){
 				mapX = 6;
-				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
-				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height - 20, SpriteSheet.SPRITE_BACKGROUND);
+				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 35);
+				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height + 10, SpriteSheet.SPRITE_BACKGROUND);
 				drawGUISprite(0, 0, SpriteSheet.SPRITE_BACKGROUND_TOP);
+				drawGUISprite(this.getWidth()/2 - SpriteSheet.SPRITE_SHIPCRAFT.width/2, SpriteSheet.SPRITE_BACKGROUND_TOP.height/2 - SpriteSheet.SPRITE_SHIPCRAFT.height/2 - 10, SpriteSheet.SPRITE_SHIPCRAFT);
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 				
 				//Draw the ships on the map
