@@ -46,12 +46,9 @@ public abstract class Entity {
 		
 		if(healthTick == 0 && origHealth > 0){
 			ret = this.heal(1);
-			if(health > origHealth / 2){
-				this.isDead = false; 
-			}
 		}
 		healthTick = (healthTick + 1) % 10;
-		return true;
+		return ret;
 	}
 	
 	private int spriteTick = 1;
@@ -86,11 +83,13 @@ public abstract class Entity {
 	
 	public boolean heal(int amount){
 		health += amount;
+		if(health > this.origHealth / 2 && this.isDead){
+			this.isDead = false;
+			return true;
+		}
 		if(health > origHealth){
 			health = origHealth;
 			return false;
-		}else if(health > this.origHealth / 2){
-			this.isDead = false;
 		}
 		return true;
 	}

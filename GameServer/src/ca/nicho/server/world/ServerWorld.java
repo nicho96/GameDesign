@@ -135,8 +135,11 @@ public class ServerWorld extends World{
 					if(!(e instanceof EntityPlayer)){
 						ServerStart.sendGlobalPacket(new KillEntityPacket(set.getKey()));
 						this.killEntity(set.getKey());
+					}else{
+						ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 					}
 				}else{
+					if(e instanceof EntityPlayer)
 					ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 				}
 			}
