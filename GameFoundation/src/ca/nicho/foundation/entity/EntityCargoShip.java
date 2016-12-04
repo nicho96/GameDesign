@@ -8,7 +8,7 @@ public class EntityCargoShip extends EntityPlayer{
 	
 	public EntityCargoShip(float x, float y, int ID){
 		super(x, y, 250, sprites, ID);
-		this.inventory = new Entity[5];
+		this.capacity = 5;
 		this.speedFactor = 1;
 	}
 	

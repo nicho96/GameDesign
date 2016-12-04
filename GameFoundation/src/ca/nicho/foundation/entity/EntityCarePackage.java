@@ -10,7 +10,7 @@ public class EntityCarePackage extends Entity {
 	private static final Sprite[] sprites = {SpriteSheet.SPRITE_PACKAGE_1, SpriteSheet.SPRITE_PACKAGE_2, SpriteSheet.SPRITE_PACKAGE_3, SpriteSheet.SPRITE_PACKAGE_4, SpriteSheet.SPRITE_PACKAGE_5};
 	
 	public EntityCarePackage(float x, float y, int ID){
-		super(x, y, 100, sprites, ID);
+		super(x, y, -1, sprites, ID);
 	}
 	
 	private int tickCount = 0;

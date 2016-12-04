@@ -31,7 +31,7 @@ public class EntityMissile extends Entity{
 		
 		for(Map.Entry<Integer, Entity> ent2 : Game.world.entities.entrySet()){
 			Entity e2 = ent2.getValue();
-			if(this == e2 || e2.owner == this.owner)
+			if(this == e2 || e2.owner == this.owner || (e2.origHealth < 0 && !(e2 instanceof EntityCarePackage)))
 				continue;
 			//May want to consider changing to a stand-alone algorithm, this is for convenience
 			Rectangle r1 = new Rectangle((int)locX, (int)locY, (int)sprites[current].width, (int)sprites[current].height);

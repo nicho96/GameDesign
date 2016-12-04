@@ -15,6 +15,7 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PurchasePacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
@@ -105,6 +106,9 @@ public class ServerGameSocket implements Runnable{
 				break;	
 			case Packet.PACKET_CONNECT:
 				this.ready = true;
+				int player = (this == ServerStart.con1) ? 1 : 2;
+				ServerStart.sendGlobalPacket(new LogPacket("Player " + player + " Connected"));
+				ServerGame.tryStartGame();
 				break;
 			case Packet.PACKET_SPAWN_ENTITY:
 				SpawnEntityPacket packet = new SpawnEntityPacket(data);

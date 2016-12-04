@@ -6,6 +6,7 @@ import ca.nicho.foundation.Game;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.PointPacket;
+import ca.nicho.foundation.packet.StartGamePacket;
 import ca.nicho.server.world.ServerWorld;
 
 public class ServerGame extends Game {
@@ -51,6 +52,15 @@ public class ServerGame extends Game {
 			}else if(ent.owner == 2 && !ent.isDead){
 				ServerGame.p2Points += ent.points;
 			}
+		}
+	}
+	
+	public static void tryStartGame(){
+		System.out.println("TRYING");
+		if(ServerStart.con1 != null && ServerStart.con2 != null && !Game.started && ServerStart.con1.ready && ServerStart.con2.ready){
+			ServerStart.sendGlobalPacket(new StartGamePacket());
+			Game.started = true;
+			System.out.println("SUCCEEDING");
 		}
 	}
 	

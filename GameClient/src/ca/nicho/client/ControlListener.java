@@ -154,8 +154,7 @@ public class ControlListener implements KeyListener {
 			if(StoreHandler.isOpen){
 				StoreItem item = ClientStart.store.getCurrentStoreItem();
 				if(Game.points - item.cost > 0){
-					ClientStart.con.sendPacket(new PurchasePacket(item.cost));
-					Game.world.getPlayer().inventory[0] = item.entity;
+					Game.world.getPlayer().addItem(item.entity);
 				}
 			}else if(ClientStart.map.isOpen){
 				ClientStart.map.sendAirstrike();

@@ -11,8 +11,7 @@ public class EntityBattleship extends EntityPlayer {
 	
 	public EntityBattleship(float x, float y, int id) {
 		super(x, y, 500, sprites, id);
-		this.inventory = new Entity[2];
-		this.inventory[0] = new EntityRadar(-1, -1, -1);
+		this.capacity = 2;
 		this.speedFactor = 1.4f;
 		
 	}

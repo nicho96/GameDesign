@@ -2,6 +2,8 @@ package ca.nicho.client.store;
 
 import java.util.ArrayList;
 
+import ca.nicho.client.AudioHandler;
+import ca.nicho.client.ClientStart;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.entity.Entity;
@@ -10,6 +12,7 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWindmill;
+import ca.nicho.foundation.packet.PurchasePacket;
 
 public class StoreHandler {
 	
@@ -47,6 +50,21 @@ public class StoreHandler {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Will only buy if player has inventory space and can afford
+	 */
+	public void buy(){
+		StoreItem item = getCurrentStoreItem();
+		if(item.cost < Game.points && Game.world.getPlayer().addItem(item.entity)){
+			Game.points -= item.cost;
+			ClientStart.con.sendPacket(new PurchasePacket(item.cost));
+			StoreHandler.isOpen = false;
+			AudioHandler.PURCHASE.play();
+		}else{
+			AudioHandler.DENIED.play();
+		}
 	}
 	
 	public class StoreItem {

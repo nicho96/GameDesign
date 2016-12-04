@@ -152,7 +152,7 @@ public class ServerWorld extends World{
 	
 	int crateCooldown = 0;
 	private void spawnCrates(){
-		crateCooldown = (crateCooldown + 1) % 50;
+		crateCooldown = (crateCooldown + 1) % 500;
 		if(crateCooldown == 0){
 			int x = (int)(Math.random() * MAP_WIDTH);
 			int y = (int)(Math.random() * MAP_HEIGHT);
@@ -170,9 +170,9 @@ public class ServerWorld extends World{
 		int p1Count = 0;
 		int p2Count = 0;
 		for(EntityNavyBase base : bases){
-			if(base.owner == 1 || !base.isDead)
+			if(base.owner == 1 && !base.isDead)
 				p1Count ++;
-			else if(base.owner == 2 || !base.isDead)
+			else if(base.owner == 2 && !base.isDead)
 				p2Count ++;
 		}
 		
