@@ -31,6 +31,7 @@ public class EntityTurret extends Entity {
 						float dx = (float)Math.sin(rad);
 						float dy = (float)Math.cos(rad);
 						EntityMissile missile = new EntityMissile(this.locX, this.locY, Game.world.entId++, dx, dy);
+						missile.owner = this.owner;
 						Game.world.spawnEntity(missile);
 						break;
 					}

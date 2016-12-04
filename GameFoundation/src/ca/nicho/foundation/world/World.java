@@ -113,7 +113,6 @@ public class World implements Runnable{
 					break;
 			}
 			if(ent != null){
-				System.out.println("Entity Packet Recieved: " + ent.isDead);
 				ent.owner = packet.owner;
 				ent.health = packet.health;
 				ent.isDead = packet.isDead;

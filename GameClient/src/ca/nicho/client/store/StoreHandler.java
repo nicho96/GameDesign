@@ -1,19 +1,20 @@
 package ca.nicho.client.store;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import ca.nicho.client.AudioHandler;
 import ca.nicho.client.ClientStart;
-import ca.nicho.client.LogHandler;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityMissile;
+import ca.nicho.foundation.entity.EntityNavyBase;
+import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWindmill;
-import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.PurchasePacket;
 
 public class StoreHandler {
@@ -80,6 +81,24 @@ public class StoreHandler {
 			this.cost = cost;
 		}
 		
+	}
+	
+	public void openStore(){
+		EntityPlayer p = Game.world.getPlayer();
+		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+			Entity e = set.getValue();
+			if(e instanceof EntityNavyBase){
+				float dx = e.locX - p.locX;
+				float dy = e.locY - p.locY;
+				double distance = Math.sqrt(dx*dx + dy*dy);
+				if(distance < 200 && e.owner == p.owner){
+					StoreHandler.isOpen = true;
+					return;
+				}
+			}else{
+				AudioHandler.DENIED.play();
+			}
+		}
 	}
 	
 }

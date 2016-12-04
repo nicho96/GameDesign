@@ -17,6 +17,7 @@ public abstract class Entity {
 	public byte owner = -1;
 	public int origHealth;
 	public int health;
+	public boolean healed;
 	
 	public Entity(float x, float y, int health, Sprite sprite, int id){
 		this(x, y, health, new Sprite[1], id);

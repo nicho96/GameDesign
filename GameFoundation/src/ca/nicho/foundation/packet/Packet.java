@@ -12,6 +12,7 @@ public abstract class Packet {
 	public static final int PACKET_LOG = 7;
 	public static final int PACKET_SPAWN_MISSILE = 8;
 	public static final int PACKET_GAME_START = 9;
+	public static final int PACKET_HEAL = 10;
 	
 	public int packetType;
 	public byte[] data;

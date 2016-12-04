@@ -173,7 +173,10 @@ public class GamePadListener {
 		wrapped[10] = new ComponentWrapper(BACK){
 			public void action() {
 				if(BACK.getPollData() > 0 && reset){
-					StoreHandler.isOpen = !StoreHandler.isOpen;
+					if(StoreHandler.isOpen)
+						StoreHandler.isOpen = false;
+					else
+						ClientStart.store.openStore();
 					ClientStart.map.isOpen = false;
 				}
 			}

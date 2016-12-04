@@ -139,7 +139,6 @@ public class ServerWorld extends World{
 						ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 					}
 				}else{
-					if(e instanceof EntityPlayer)
 					ServerStart.sendGlobalPacket(new EntityPacket(set.getValue()));
 				}
 			}

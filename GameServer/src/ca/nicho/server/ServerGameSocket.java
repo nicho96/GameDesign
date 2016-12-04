@@ -15,6 +15,7 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
+import ca.nicho.foundation.packet.HealPacket;
 import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PurchasePacket;
@@ -126,6 +127,12 @@ public class ServerGameSocket implements Runnable{
 				EntityMissile missileEnt = new EntityMissile(missilePacket.x, missilePacket.y, Game.world.entId++, missilePacket.dx, missilePacket.dy);
 				missileEnt.owner = missilePacket.owner;
 				Game.world.spawnEntity(missileEnt);
+				break;
+			case Packet.PACKET_HEAL:
+				HealPacket healPacket = new HealPacket(data);
+				Entity e = Game.world.entities.get(healPacket.id);
+				if(e != null)
+					e.heal(healPacket.amount);
 				break;
 		}
 	}	
