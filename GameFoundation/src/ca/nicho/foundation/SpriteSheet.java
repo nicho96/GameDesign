@@ -88,11 +88,23 @@ public class SpriteSheet {
 	public static Sprite SPRITE_MEDIC_2;
 	public static Sprite SPRITE_MEDIC_3;
 	public static Sprite SPRITE_MEDIC_4;
+	public static Sprite SPRITE_MEDIC_1_DEAD;
+	public static Sprite SPRITE_MEDIC_2_DEAD;
+	public static Sprite SPRITE_MEDIC_3_DEAD;
+	public static Sprite SPRITE_MEDIC_4_DEAD;
+	public static Sprite SPRITE_MEDIC_1_HEAL;
+	public static Sprite SPRITE_MEDIC_2_HEAL;
+	public static Sprite SPRITE_MEDIC_3_HEAL;
+	public static Sprite SPRITE_MEDIC_4_HEAL;
 	public static Sprite SPRITE_CARGO_1;
 	public static Sprite SPRITE_CARGO_2;
 	public static Sprite SPRITE_CARGO_3;
 	public static Sprite SPRITE_CARGO_4;
 	public static Sprite SPRITE_CARGO_5;	
+	public static Sprite SPRITE_CARGO_1_DEAD;
+	public static Sprite SPRITE_CARGO_2_DEAD;
+	public static Sprite SPRITE_CARGO_3_DEAD;
+	public static Sprite SPRITE_CARGO_4_DEAD;
 
 	public static Sprite SPRITE_BATTLE_1;
 	public static Sprite SPRITE_BATTLE_2;
@@ -237,13 +249,25 @@ public class SpriteSheet {
 		SPRITE_MEDIC_2 = new Sprite("medic_2", ENTITY_MEDIC);
 		SPRITE_MEDIC_3 = new Sprite("medic_3", ENTITY_MEDIC);
 		SPRITE_MEDIC_4 = new Sprite("medic_4", ENTITY_MEDIC);
+		SPRITE_MEDIC_1_DEAD = new Sprite("medic_dead_1", ENTITY_MEDIC);
+		SPRITE_MEDIC_2_DEAD = new Sprite("medic_dead_2", ENTITY_MEDIC);
+		SPRITE_MEDIC_3_DEAD = new Sprite("medic_dead_3", ENTITY_MEDIC);
+		SPRITE_MEDIC_4_DEAD = new Sprite("medic_dead_4", ENTITY_MEDIC);
+		SPRITE_MEDIC_1_HEAL = new Sprite("medic_heal_1", ENTITY_MEDIC);
+		SPRITE_MEDIC_2_HEAL = new Sprite("medic_heal_2", ENTITY_MEDIC);
+		SPRITE_MEDIC_3_HEAL = new Sprite("medic_heal_3", ENTITY_MEDIC);
+		SPRITE_MEDIC_4_HEAL = new Sprite("medic_heal_4", ENTITY_MEDIC);
 		
 		SPRITE_CARGO_1 = new Sprite("cargo_1", ENTITY_CARGO);
 		SPRITE_CARGO_2 = new Sprite("cargo_2", ENTITY_CARGO);
 		SPRITE_CARGO_3 = new Sprite("cargo_3", ENTITY_CARGO);
 		SPRITE_CARGO_4 = new Sprite("cargo_4", ENTITY_CARGO);
 		SPRITE_CARGO_5 = new Sprite("cargo_5", ENTITY_CARGO);
-
+		SPRITE_CARGO_1_DEAD = new Sprite("cargo_dead_1", ENTITY_CARGO);
+		SPRITE_CARGO_2_DEAD = new Sprite("cargo_dead_2", ENTITY_CARGO);
+		SPRITE_CARGO_3_DEAD = new Sprite("cargo_dead_3", ENTITY_CARGO);
+		SPRITE_CARGO_4_DEAD = new Sprite("cargo_dead_4", ENTITY_CARGO);
+		
 		SPRITE_BATTLE_1 = new Sprite("special1", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_2 = new Sprite("special2", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
