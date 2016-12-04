@@ -83,6 +83,8 @@ public abstract class Entity {
 		if(health > origHealth){
 			health = origHealth;
 			return false;
+		}else if(health > this.origHealth / 2){
+			this.isDead = false;
 		}
 		return true;
 	}
