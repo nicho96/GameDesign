@@ -13,9 +13,7 @@ public class EntityPlayer extends Entity {
 	public float velocity = 200; //px/s
 	
 	public double delta = 0;
-	
-	public Sprite[] sprites;
-	
+		
 	public ArrayList<Entity> inventory = new ArrayList<Entity>();
 	public int position = 0;
 	public int capacity;

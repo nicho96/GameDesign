@@ -8,9 +8,7 @@ import java.util.Scanner;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.EntityNavyBase;
-import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
-import ca.nicho.foundation.packet.StartGamePacket;
 import ca.nicho.foundation.tile.Tile;
 import ca.nicho.server.world.ServerWorld;
 
