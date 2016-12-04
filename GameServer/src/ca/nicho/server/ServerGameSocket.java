@@ -78,7 +78,7 @@ public class ServerGameSocket implements Runnable{
 		//Spawn the user into the world
 		this.sendIntitalWorldState(); //Send the world
 		this.sendInitialEntities(); //Send the remaining entities
-		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, owner)); //Send final connection packet
+		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, owner, Game.started)); //Send final connection packet
 		while(true){
 			try{
 				if(socket != null)

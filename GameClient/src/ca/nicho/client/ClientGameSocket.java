@@ -70,8 +70,9 @@ public class ClientGameSocket implements Runnable {
 				Game.ships[1] = packetCon.ship2ID;
 				Game.ships[2] = packetCon.ship3ID;
 				Game.ownerID = packetCon.owner;
+				Game.started = packetCon.started;
 				System.out.println("Owner ID: " + Game.ownerID + " - Ship IDs: " + packetCon.ship1ID + " " + packetCon.ship2ID + " " + packetCon.ship3ID);
-				this.sendPacket(new ConnectPacket(0, 0, 0, packetCon.owner)); //Returning the received ID is not necessary (yet)
+				this.sendPacket(new ConnectPacket(0, 0, 0, packetCon.owner, false)); //Returning the received ID is not necessary (yet)
 				break;
 			case Packet.PACKET_TILE:
 				TilePacket packetTile = new TilePacket(data);
