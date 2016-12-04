@@ -50,50 +50,60 @@ public class ClientGameSocket implements Runnable {
 	/**
 	 * Reads the packet data, and parses it out, instantiating the appropriate packet object
 	 */
+	private boolean inSync = true;
 	public void readPacket() throws IOException{
-		int type = in.readInt();
-		int length = in.readInt();
-		if(length < 0 || length > 100){
-			System.out.println("Corrupt packet received");
-			return;
-		}
-		byte[] data = new byte[length];
-		in.read(data);
-		switch(type){
-			case Packet.PACKET_ENTITY:
-				Game.world.entityUpdatePacketRecieved(new EntityPacket(data));
-				break;	
-			case Packet.PACKET_CONNECT:
-				ConnectPacket packetCon = new ConnectPacket(data);
-				Game.ships = new int[3];
-				Game.ships[0] = packetCon.ship1ID;
-				Game.ships[1] = packetCon.ship2ID;
-				Game.ships[2] = packetCon.ship3ID;
-				Game.ownerID = packetCon.owner;
-				Game.started = packetCon.started;
-				System.out.println("Owner ID: " + Game.ownerID + " - Ship IDs: " + packetCon.ship1ID + " " + packetCon.ship2ID + " " + packetCon.ship3ID);
-				this.sendPacket(new ConnectPacket(0, 0, 0, packetCon.owner, false)); //Returning the received ID is not necessary (yet)
-				break;
-			case Packet.PACKET_TILE:
-				TilePacket packetTile = new TilePacket(data);
-				Game.world.setTileByPos(packetTile.pos, Tile.getTileByID(packetTile.type));
-				break;
-			case Packet.PACKET_KILL_ENTITY:
-				KillEntityPacket packetKill = new KillEntityPacket(data);
-				Game.world.killEntity(packetKill.id);
-				break;
-			case Packet.PACKET_POINTS:
-				PointPacket packetPoints = new PointPacket(data);
-				Game.points = packetPoints.points;
-				break;
-			case Packet.PACKET_LOG:
-				LogPacket packetLog = new LogPacket(data);
-				ClientStart.log.addToLog(packetLog.message, "#6A1B9A");
-				break;
-			case Packet.PACKET_GAME_START:
-				Game.started = true;
-				ClientStart.log.addToLog("The Game is now Starting!", "AE5F67");
-				break;
+		if(inSync){
+			int type = in.readInt();
+			int length = in.readInt();
+			if(length < 0 || length > 100){
+				System.out.println("Corrupt packet received - " + type + " " + length);
+				inSync = false;
+				return;
+			}
+			byte[] data = new byte[length];
+			in.read(data);
+			switch(type){
+				case Packet.PACKET_ENTITY:
+					Game.world.entityUpdatePacketRecieved(new EntityPacket(data));
+					break;	
+				case Packet.PACKET_CONNECT:
+					ConnectPacket packetCon = new ConnectPacket(data);
+					Game.ships = new int[3];
+					Game.ships[0] = packetCon.ship1ID;
+					Game.ships[1] = packetCon.ship2ID;
+					Game.ships[2] = packetCon.ship3ID;
+					Game.ownerID = packetCon.owner;
+					Game.started = packetCon.started;
+					System.out.println("Owner ID: " + Game.ownerID + " - Ship IDs: " + packetCon.ship1ID + " " + packetCon.ship2ID + " " + packetCon.ship3ID);
+					this.sendPacket(new ConnectPacket(0, 0, 0, packetCon.owner, false)); //Returning the received ID is not necessary (yet)
+					break;
+				case Packet.PACKET_TILE:
+					TilePacket packetTile = new TilePacket(data);
+					Game.world.setTileByPos(packetTile.pos, Tile.getTileByID(packetTile.type));
+					break;
+				case Packet.PACKET_KILL_ENTITY:
+					KillEntityPacket packetKill = new KillEntityPacket(data);
+					Game.world.killEntity(packetKill.id);
+					break;
+				case Packet.PACKET_POINTS:
+					PointPacket packetPoints = new PointPacket(data);
+					Game.points = packetPoints.points;
+					break;
+				case Packet.PACKET_LOG:
+					LogPacket packetLog = new LogPacket(data);
+					ClientStart.log.addToLog(packetLog.message, "#6A1B9A");
+					break;
+				case Packet.PACKET_GAME_START:
+					Game.started = true;
+					ClientStart.log.addToLog("The Game is now Starting!", "AE5F67");
+					break;
+			}
+		}else{
+			int data = in.readInt();
+			System.out.println("Syncing Streams: " + data);
+			if(data == Packet.SYNC_RECOVERY_VALUE){
+				this.inSync = true;
+			}
 		}
 	}	
 	

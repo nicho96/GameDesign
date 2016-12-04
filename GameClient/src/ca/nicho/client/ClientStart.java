@@ -480,8 +480,8 @@ public class ClientStart extends JFrame {
 					else if(store.canAfford(storeIndex))
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
 					
-					this.drawGUISprite(x, y, e.sprites[e.current]);
-					this.drawGUISprite(leftX + 7, leftY + 7, item.sprite);
+					this.drawGUISprite(x, y, item.itemSprite);
+					this.drawGUISprite(leftX + 7, leftY + 7, item.costSprite);
 					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical screen
 					storeIndex ++;
 				}

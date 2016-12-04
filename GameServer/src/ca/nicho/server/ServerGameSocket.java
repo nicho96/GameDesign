@@ -25,7 +25,7 @@ import ca.nicho.foundation.packet.TilePacket;
 import ca.nicho.foundation.tile.Tile;
 
 public class ServerGameSocket implements Runnable{
-
+	
 	public boolean ready = false;
 	public Socket socket;
 	public DataInputStream in;
@@ -129,10 +129,7 @@ public class ServerGameSocket implements Runnable{
 				Game.world.spawnEntity(missileEnt);
 				break;
 			case Packet.PACKET_HEAL:
-				HealPacket healPacket = new HealPacket(data);
-				Entity e = Game.world.entities.get(healPacket.id);
-				if(e != null)
-					e.heal(healPacket.amount);
+				this.sendPacket(new HealPacket());
 				break;
 		}
 	}	
@@ -155,14 +152,18 @@ public class ServerGameSocket implements Runnable{
 	public synchronized void sendPacket(Packet packet){
 		if(socket == null)
 			return;
-		try{
-			out.writeInt(packet.packetType);
-			byte[] data = packet.getPacketData();
-			out.writeInt(data.length);
-			out.write(data);
-		}catch(IOException e){
-			e.printStackTrace();
-			this.nullifyStreams();
+		synchronized(this){
+			try{
+				if(packet.packetType == Packet.PACKET_HEAL)
+					out.writeInt(Packet.SYNC_RECOVERY_VALUE);
+				out.writeInt(packet.packetType);
+				byte[] data = packet.getPacketData();
+				out.writeInt(data.length);
+				out.write(data);
+			}catch(IOException e){
+				e.printStackTrace();
+				this.nullifyStreams();
+			}
 		}
 	}
 	

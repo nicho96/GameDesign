@@ -7,6 +7,7 @@ import ca.nicho.client.AudioHandler;
 import ca.nicho.client.ClientStart;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityMissile;
@@ -25,11 +26,11 @@ public class StoreHandler {
 	
 	public StoreHandler(){
 		
-		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), 100));
-		costs.add(new StoreItem(new EntityMissile(-1, -1, -1), new Sprite(125), 125));
-		costs.add(new StoreItem(new EntityCarePackage(-1, -1, -1), new Sprite(150), 150));
-		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), 250));
-		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), 250));
+		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), SpriteSheet.SPRITE_RADAR_1, 100));
+		costs.add(new StoreItem(new EntityCarePackage(-1, -1, -1), new Sprite(150), SpriteSheet.SPRITE_PACKAGE_1, 150));
+		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_WINDMILL_1, 250));
+		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_TURRET_1, 250));
+		costs.add(new StoreItem(new EntityNavyBase(-1, -1, -1), new Sprite(1000), SpriteSheet.SPRITE_NAVY_BASE_R_1, 1000));
 		
 	}
 	
@@ -72,12 +73,14 @@ public class StoreHandler {
 	public class StoreItem {
 		
 		public Entity entity;
-		public Sprite sprite;
+		public Sprite costSprite;
+		public Sprite itemSprite;
 		public int cost;
 		
-		public StoreItem(Entity entity, Sprite sprite, int cost){
+		public StoreItem(Entity entity, Sprite costSprite, Sprite itemSprite, int cost){
 			this.entity = entity;
-			this.sprite = sprite;
+			this.costSprite = costSprite;
+			this.itemSprite = itemSprite;
 			this.cost = cost;
 		}
 		
@@ -85,6 +88,7 @@ public class StoreHandler {
 	
 	public void openStore(){
 		EntityPlayer p = Game.world.getPlayer();
+		boolean opened = false;
 		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
 			Entity e = set.getValue();
 			if(e instanceof EntityNavyBase){
@@ -93,11 +97,13 @@ public class StoreHandler {
 				double distance = Math.sqrt(dx*dx + dy*dy);
 				if(distance < 200 && e.owner == p.owner){
 					StoreHandler.isOpen = true;
+					opened = true;
 					return;
 				}
-			}else{
-				AudioHandler.DENIED.play();
 			}
+		}
+		if(!opened){
+			AudioHandler.DENIED.play();
 		}
 	}
 	
