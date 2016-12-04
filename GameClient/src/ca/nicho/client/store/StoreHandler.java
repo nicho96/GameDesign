@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ca.nicho.client.AudioHandler;
 import ca.nicho.client.ClientStart;
+import ca.nicho.client.LogHandler;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.entity.Entity;
@@ -45,8 +46,6 @@ public class StoreHandler {
 				if(item.cost - Game.points > 0){
 					return true;
 				}else{
-
-					new LogPacket("you are broke.");
 					return false;
 				}
 			}

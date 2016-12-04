@@ -58,7 +58,6 @@ public class ClientStart extends JFrame {
 	public static int PORT = 1024;
 	
 	public static Sprite CURRENT_BACKGROUND_SPRITE;
-	public static Sprite SPRITE_POINTS;
 	
 	public static void main(String[] s){
 		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
@@ -411,17 +410,17 @@ public class ClientStart extends JFrame {
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 				
 				//Draw the ships on the map
-				drawGUISprite(150, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
+				drawGUISprite(15, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
 				for(int i = 0; i < Game.ships.length; i++){
 					Entity e = Game.world.entities.get(Game.ships[i]);
 					
 					if(e == player){
-						int x = i * 82 + 190;
+						int x = i * 82 + 55;
 						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height - 5, e.sprites[e.current]);
 						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_GREEN);
 						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
 					}else if (e != null){
-						int x = i * 82 + 190;
+						int x = i * 82 + 55;
 						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height, e.sprites[e.current]);
 						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_BLUE);
 						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
@@ -466,6 +465,8 @@ public class ClientStart extends JFrame {
 					
 					if(store.position == storeIndex){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
+						
+						
 					}
 					else if(!store.canAfford(storeIndex)){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_DISABLED);
@@ -499,8 +500,7 @@ public class ClientStart extends JFrame {
 				Sprite bg = SpriteSheet.SPRITE_POINTS_BACKGROUND;
 				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
 				
-				SPRITE_POINTS = new Sprite(Game.points);
-				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, SPRITE_POINTS);
+				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
 			}			
 		
 		}

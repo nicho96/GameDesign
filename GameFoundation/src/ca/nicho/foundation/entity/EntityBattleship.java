@@ -13,7 +13,6 @@ public class EntityBattleship extends EntityPlayer {
 		super(x, y, 500, sprites_ALIVE, id);
 		this.capacity = 2;
 		this.speedFactor = 1.4f;
-		
 	}
 	
 	@Override
