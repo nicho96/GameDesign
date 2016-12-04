@@ -151,6 +151,7 @@ public class GamePadListener {
 			public void action() {
 				if(LEFT_TRIGGER.getPollData() > 0 && reset){
 					Game.current = (Game.current + 1) % Game.ships.length;
+					StoreHandler.isOpen = false;
 				}
 			}
 		};
