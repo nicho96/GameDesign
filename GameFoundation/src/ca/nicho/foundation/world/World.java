@@ -114,6 +114,7 @@ public class World implements Runnable{
 			if(ent != null){
 				ent.owner = packet.owner;
 				ent.health = packet.health;
+				ent.isDead = packet.isDead;
 				spawnEntity(ent);
 			}else{
 				System.out.println("World: Tried to spawn a null entity (packet malformed?) " + packet.type);

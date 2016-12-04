@@ -46,6 +46,9 @@ public abstract class Entity {
 		
 		if(healthTick == 0 && origHealth > 0){
 			ret = this.heal(1);
+			if(health > origHealth / 2){
+				this.isDead = false; 
+			}
 		}
 		healthTick = (healthTick + 1) % 10;
 		return true;
@@ -69,7 +72,7 @@ public abstract class Entity {
 	public void damage(int amount){
 		if(cooldownTick == 0){
 			health -= amount;
-			if(health < 0 && origHealth > 0)
+			if(health <= 0 && origHealth > 0)
 				this.isDead = true;
 			Game.world.entityDamaged(this);
 			cooldownTick = 30;

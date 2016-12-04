@@ -112,7 +112,7 @@ public class ServerGameSocket implements Runnable{
 				break;
 			case Packet.PACKET_SPAWN_ENTITY:
 				SpawnEntityPacket packet = new SpawnEntityPacket(data);
-				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y, packet.health, packet.owner));
+				Game.world.entityUpdatePacketRecieved(new EntityPacket(packet.entityType, Game.world.entId++, packet.x, packet.y, packet.health, packet.owner, false));
 				break;
 			case Packet.PACKET_PURCHASE:
 				PurchasePacket purchasePacket = new PurchasePacket(data);
