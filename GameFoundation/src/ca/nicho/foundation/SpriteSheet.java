@@ -105,6 +105,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_CARGO_2_DEAD;
 	public static Sprite SPRITE_CARGO_3_DEAD;
 	public static Sprite SPRITE_CARGO_4_DEAD;
+	public static Sprite SPRITE_CARGO_5_DEAD;
 
 	public static Sprite SPRITE_BATTLE_1;
 	public static Sprite SPRITE_BATTLE_2;
@@ -276,6 +277,7 @@ public class SpriteSheet {
 		SPRITE_CARGO_2_DEAD = new Sprite("cargo_dead_2", ENTITY_CARGO);
 		SPRITE_CARGO_3_DEAD = new Sprite("cargo_dead_3", ENTITY_CARGO);
 		SPRITE_CARGO_4_DEAD = new Sprite("cargo_dead_4", ENTITY_CARGO);
+		SPRITE_CARGO_5_DEAD = new Sprite("cargo_dead_5", ENTITY_CARGO);
 		
 		SPRITE_BATTLE_1 = new Sprite("special1", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_2 = new Sprite("special2", ENTITY_BATTLESHIP);

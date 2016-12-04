@@ -48,7 +48,7 @@ public abstract class Entity {
 			ret = this.heal(1);
 		}
 		healthTick = (healthTick + 1) % 10;
-		return ret;
+		return true;
 	}
 	
 	private int spriteTick = 1;
@@ -73,6 +73,9 @@ public abstract class Entity {
 				this.isDead = true;
 			Game.world.entityDamaged(this);
 			cooldownTick = 30;
+			if(health < 0){
+				health = 0;
+			}
 		}
 	}
 	

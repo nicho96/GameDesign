@@ -391,7 +391,6 @@ public class ClientStart extends JFrame {
 						else
 							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_RED);
 					}
-				
 					drawEntity(set.getValue());
 	
 				}
