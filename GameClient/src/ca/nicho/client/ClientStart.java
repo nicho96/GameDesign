@@ -349,7 +349,7 @@ public class ClientStart extends JFrame {
 				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_SHIPCRAFT.width) / 2, 100, SpriteSheet.SPRITE_SHIPCRAFT);
 				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2, 210, SpriteSheet.SPRITE_HOST);
 				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_ENTER.width) / 2, 320, SpriteSheet.SPRITE_ENTER);
-			}
+							}
 			
 			//Set the current player for this update
 			player = Game.world.getPlayer();
@@ -409,6 +409,14 @@ public class ClientStart extends JFrame {
 				drawGUISprite(this.getWidth()/2 - SpriteSheet.SPRITE_SHIPCRAFT.width/2, SpriteSheet.SPRITE_BACKGROUND_TOP.height/2 - SpriteSheet.SPRITE_SHIPCRAFT.height/2 - 10, SpriteSheet.SPRITE_SHIPCRAFT);
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 				
+				
+				Sprite countMissiles = new Sprite(0);
+				drawGUISprite(this.getWidth() - SpriteSheet.SPRITE_SLOT.width - 15 - countMissiles.width, 5, SpriteSheet.SPRITE_SLOT);
+				drawGUISprite(this.getWidth() - (SpriteSheet.SPRITE_SLOT.width/2 - SpriteSheet.SPRITE_MISSILE.width/2) - 15 - countMissiles.width, (SpriteSheet.SPRITE_SLOT.height/2 - SpriteSheet.SPRITE_MISSILE.height/2) + 5, SpriteSheet.SPRITE_MISSILE);
+				drawGUISprite(this.getWidth() - SpriteSheet.SPRITE_SLOT.width - 15, 5, countMissiles);
+				
+				
+				
 				//Draw the ships on the map
 				drawGUISprite(15, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
 				for(int i = 0; i < Game.ships.length; i++){
@@ -465,8 +473,6 @@ public class ClientStart extends JFrame {
 					
 					if(store.position == storeIndex){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
-						
-						
 					}
 					else if(!store.canAfford(storeIndex)){
 						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_DISABLED);
