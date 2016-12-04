@@ -103,20 +103,36 @@ public class GamePadListener {
 		wrapped[4] = new ComponentWrapper(A){
 			public void action() {
 				if(reset){
-				if(A.getPollData() > 0){
-						if(ClientStart.map.isOpen){
-							ClientStart.map.sendAirstrike();
-						}else if(StoreHandler.isOpen){
-							ClientStart.store.buy();
-						}else{
-							EntityPlayer p = Game.world.getPlayer();
-							Entity item = p.getCurrent();
-							if(item != null){
-								ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().health, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
-								p.clearCurrent();
+					if(A.getPollData() > 0){
+						if(ClientStart.con != null){
+							if(ClientStart.map.isOpen){
+								ClientStart.map.sendAirstrike();
+							}else if(StoreHandler.isOpen){
+								ClientStart.store.buy();
+							}else{
+								EntityPlayer p = Game.world.getPlayer();
+								Entity item = p.getCurrent();
+								if(item != null){
+									ClientStart.con.sendPacket(new SpawnEntityPacket(Game.world.getPlayer().locX, Game.world.getPlayer().locY, Game.world.getPlayer().health, Game.world.getPlayer().getCurrent().sprites[0].type, Game.ownerID));
+									p.clearCurrent();
+								}
 							}
+						}else{	
+							AudioHandler.PANDEMIC.play();
+							String[] split = ClientStart.host_port.split(":");
+							if(split.length == 2){
+								ClientStart.HOST = split[0];
+								ClientStart.PORT = Integer.parseInt(split[1]);
+							}else if(split.length == 1){
+								ClientStart.HOST = split[0];
+								ClientStart.PORT = 1024; //Default port
+							}else{
+								ClientStart.HOST = "localhost"; //Default host
+								ClientStart.PORT = 1024; //Default port
+							}
+							ClientStart.con = new ClientGameSocket(ClientStart.window);
 						}
-					}		
+					}
 				}
 			}
 		};
@@ -214,9 +230,6 @@ public class GamePadListener {
 		if(analog != null){
 			analog.poll();
 			
-			if(!Game.started) //Don't allow user input until game starts
-				return;
-			
 			//For things that need to be wrapped, execute their code
 			for(ComponentWrapper cw : wrapped){
 				if(cw != null){
@@ -224,6 +237,8 @@ public class GamePadListener {
 				}
 			}
 			
+			if(!Game.started) //Don't allow user input until game starts
+				return;
 			
 			if(Game.world.getPlayer() != null){
 				float x = LEFT_THUMB_X.getPollData();

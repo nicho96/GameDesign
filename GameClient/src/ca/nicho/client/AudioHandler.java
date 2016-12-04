@@ -24,7 +24,7 @@ public final class AudioHandler {
 		System.out.println("AudioHandler: Loading and encoding audio files");
 		try{
 			PANDEMIC = loadClip("pandemic.mp3");
-			DENIED = loadClip("denied.mp3");
+			DENIED = loadClip("denied.wav");
 			PURCHASE = loadClip("purchase.mp3");
 			SHOT = loadClip("shot.mp3", true);
 		}catch(Exception e){

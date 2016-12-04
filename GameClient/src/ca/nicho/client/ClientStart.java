@@ -159,8 +159,14 @@ public class ClientStart extends JFrame {
 			g.drawImage(screen, 0, 0, null);
 			if(con == null){
 				g.setFont(new Font("Verdana", Font.BOLD, 25));
-				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 10, 95);
+				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 25, 270);
 				return;
+			}
+			
+			
+			if(!Game.started && con != null){
+				g.setFont(new Font("Verdana", Font.BOLD, 25));
+				g.drawString("Waiting for players to connect", 450, 70);
 			}
 
 			
@@ -332,8 +338,9 @@ public class ClientStart extends JFrame {
 					}
 				}
 				
-				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2, 50, SpriteSheet.SPRITE_HOST);
-				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_ENTER.width) / 2, 150, SpriteSheet.SPRITE_ENTER);
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_SHIPCRAFT.width) / 2, 100, SpriteSheet.SPRITE_SHIPCRAFT);
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2, 210, SpriteSheet.SPRITE_HOST);
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_ENTER.width) / 2, 320, SpriteSheet.SPRITE_ENTER);
 			}
 			
 			//Set the current player for this update
