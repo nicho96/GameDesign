@@ -170,6 +170,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_TURRET_6;
 	public static Sprite SPRITE_TURRET_7;
 	public static Sprite SPRITE_TURRET_8;
+	public static Sprite SPRITE_TURRET_1_FIRE;
+	public static Sprite SPRITE_TURRET_2_FIRE;
 
 	public static Sprite SPRITE_NAVY_BASE_R_1;
 	public static Sprite SPRITE_NAVY_BASE_R_2;
@@ -338,6 +340,8 @@ public class SpriteSheet {
 		SPRITE_TURRET_6 = new Sprite("turret_6", ENTITY_TURRET);
 		SPRITE_TURRET_7 = new Sprite("turret_7", ENTITY_TURRET);
 		SPRITE_TURRET_8 = new Sprite("turret_8", ENTITY_TURRET);
+		SPRITE_TURRET_1_FIRE = new Sprite("turret_fire_1", ENTITY_TURRET);
+		SPRITE_TURRET_2_FIRE = new Sprite("turret_fire_2", ENTITY_TURRET);
 
 		SPRITE_NAVY_BASE_G_1 = new Sprite("base_green_1", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_G_2 = new Sprite("base_green_2", ENTITY_NAVY_BASE);
