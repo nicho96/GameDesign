@@ -304,6 +304,14 @@ public class ClientStart extends JFrame {
 			pixels[x + y * FRAME_WIDTH] = color;
 		}
 		
+		public void drawOverlay(){
+			for(int x = 0; x < FRAME_WIDTH; x += 2){
+				for(int y = 0; y < FRAME_HEIGHT; y += 2){
+					drawPixel(x, y, 0);
+				}
+			}
+		}
+		
 		public void updateOceanTile(){
 			if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_1){
 				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_2;
@@ -471,7 +479,13 @@ public class ClientStart extends JFrame {
 				}
 			}
 			
+			float crossx = angX * 80;
+			float crossy = angY * 80;
+			if(Math.sqrt(crossx * crossx + crossy * crossy) > 75)
+				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10), SpriteSheet.SPRITE_CROSSHAIR);
+			
 			if(map.isOpen){
+				this.drawOverlay();
 				int mapOffX = (FRAME_WIDTH -  SpriteSheet.SPRITE_MAP_LARGE.width) / 2;
 				int mapOffY = (FRAME_HEIGHT -  SpriteSheet.SPRITE_MAP_LARGE.height) / 2;
 				int crossOffX = mapOffX + (int)map.targetX - SpriteSheet.SPRITE_CROSSHAIR.width / 2;
@@ -485,13 +499,8 @@ public class ClientStart extends JFrame {
 				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
 				
 				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
-			}
-			
-			float crossx = angX * 80;
-			float crossy = angY * 80;
-			if(Math.sqrt(crossx * crossx + crossy * crossy) > 75)
-				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10), SpriteSheet.SPRITE_CROSSHAIR);
-			
+			}			
+		
 		}
 		
 		public int rate;
