@@ -1,5 +1,8 @@
 package ca.nicho.foundation.entity;
 
+import java.util.Map;
+
+import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
 
@@ -15,14 +18,65 @@ public class EntityMedicShip extends EntityPlayer{
 		this.speedFactor = 1.5f;
 	}
 	
+	private int healTick = 0;
+	private boolean healing;
+	
 	@Override
 	public boolean clientTick(){
+
+		if(!isDead){
+			healTick = (healTick + 1) % 30;
+			if(healTick == 0){
+				healing = false;
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					Entity e = set.getValue();
+					if(e.origHealth > 0 && e.owner == e.owner && e != this && e.health < e.origHealth){
+						float dx = e.locX - locX;
+						float dy = e.locY - locY;
+						double distance = Math.sqrt(dx*dx + dy*dy);
+						
+						if(distance < 60){
+							healing = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+
 		if(isDead){
 			super.sprites = sprites_DEAD;
+		}else if(healing){
+			super.sprites = sprites_HEAL;
 		}else{
 			super.sprites = sprites_ALIVE;
 		}
+		
 		return super.clientTick();
+	}
+	
+	@Override
+	public boolean tick(){
+		if(!isDead){
+			healTick = (healTick + 1) % 30;
+			
+			if(healTick == 0){
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					Entity e = set.getValue();
+					
+					float dx = e.locX - locX;
+					float dy = e.locY - locY;
+					double distance = Math.sqrt(dx*dx + dy*dy);
+					
+					if(distance < 100 && e.owner == owner && e != this && e.health < e.origHealth){
+						e.heal(20);
+						break;
+					}
+				}
+			}
+			
+		}
+		return super.tick();
 	}
 	
 	
