@@ -54,6 +54,7 @@ public class SpriteSheet {
 	public static final int GUI_BACKGROUND_TOP = 412;
 	public static final int GUI_SHIP_BACKGROUND = 413;
 	public static final int GUI_SHIPCRAFT = 414;
+	public static final int GUI_SLOT_NUM = 415;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -205,6 +206,7 @@ public class SpriteSheet {
 	public static Sprite SPRITE_HOST;
 	public static Sprite SPRITE_ENTER;
 	public static Sprite SPRITE_SLOT;
+	public static Sprite SPRITE_SLOT_NUM;
 	public static Sprite SPRITE_SELECTED;
 	public static Sprite SPRITE_MAP_LARGE;
 	public static Sprite SPRITE_CROSSHAIR;
@@ -376,6 +378,7 @@ public class SpriteSheet {
 		SPRITE_HOST = new Sprite("host", GUI_HOST);
 		SPRITE_ENTER = new Sprite("enter", GUI_ENTER);
 		SPRITE_SLOT = new Sprite("slot", GUI_SLOT);
+		SPRITE_SLOT_NUM = new Sprite("slot_num", GUI_SLOT_NUM);
 		SPRITE_SELECTED = new Sprite("selected", GUI_SELECTED);
 		SPRITE_MAP_LARGE = new Sprite("largemap", GUI_LARGE_MAP);
 		SPRITE_CROSSHAIR = new Sprite("crosshair", GUI_CROSSHAIR);
