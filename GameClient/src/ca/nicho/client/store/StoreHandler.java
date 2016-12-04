@@ -24,6 +24,8 @@ public class StoreHandler {
 	public int position = 0;
 	public ArrayList<StoreItem> costs = new ArrayList<StoreItem>();
 	
+	public int missiles = 0;
+	
 	public StoreHandler(){
 		
 		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), SpriteSheet.SPRITE_RADAR_1, 100));
@@ -31,6 +33,7 @@ public class StoreHandler {
 		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_WINDMILL_1, 250));
 		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_TURRET_1, 250));
 		costs.add(new StoreItem(new EntityNavyBase(-1, -1, -1), new Sprite(1000), SpriteSheet.SPRITE_NAVY_BASE_R_1, 1000));
+		costs.add(new StoreItem(null, new Sprite(750), SpriteSheet.SPRITE_AIRSTRIKE, 750));
 		
 	}
 	
@@ -60,7 +63,12 @@ public class StoreHandler {
 	 */
 	public void buy(){
 		StoreItem item = getCurrentStoreItem();
-		if(item.cost < Game.points && Game.world.getPlayer().addItem(item.entity)){
+		if(item.entity == null && item.cost < Game.points){
+			this.missiles ++;
+			Game.points -= item.cost;
+			StoreHandler.isOpen = false;
+			AudioHandler.PURCHASE.play();
+		}else if(item.cost < Game.points && Game.world.getPlayer().addItem(item.entity)){
 			Game.points -= item.cost;
 			ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 			StoreHandler.isOpen = false;
