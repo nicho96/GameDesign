@@ -15,19 +15,4 @@ public class EntityBattleship extends EntityPlayer {
 		this.speedFactor = 1.4f;
 		
 	}
-	
-	
-	int cooldownTick = 0;
-	@Override
-	public void damage(int amount){
-		if(cooldownTick == 0){
-			health -= amount;
-			if(health < 0 && origHealth > 0){
-				this.isDead = true;
-				sprites = EntityBattleship.sprites_DEAD;
-			}
-			Game.world.entityDamaged(this);
-			cooldownTick = 30;
-		}
-	}
 }

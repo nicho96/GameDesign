@@ -162,7 +162,14 @@ public class SpriteSheet {
 	public static Sprite SPRITE_WINDMILL_2;
 	public static Sprite SPRITE_WINDMILL_3;
 	
-	public static Sprite SPRITE_TURRET;
+	public static Sprite SPRITE_TURRET_1;
+	public static Sprite SPRITE_TURRET_2;
+	public static Sprite SPRITE_TURRET_3;
+	public static Sprite SPRITE_TURRET_4;
+	public static Sprite SPRITE_TURRET_5;
+	public static Sprite SPRITE_TURRET_6;
+	public static Sprite SPRITE_TURRET_7;
+	public static Sprite SPRITE_TURRET_8;
 
 	public static Sprite SPRITE_NAVY_BASE_R_1;
 	public static Sprite SPRITE_NAVY_BASE_R_2;
@@ -323,7 +330,14 @@ public class SpriteSheet {
 		SPRITE_WINDMILL_2 = new Sprite("windmill_2", ENTITY_WINDMILL);
 		SPRITE_WINDMILL_3 = new Sprite("windmill_3", ENTITY_WINDMILL);
 		
-		SPRITE_TURRET = new Sprite("turret", ENTITY_TURRET);
+		SPRITE_TURRET_1 = new Sprite("turret_1", ENTITY_TURRET);
+		SPRITE_TURRET_2 = new Sprite("turret_2", ENTITY_TURRET);
+		SPRITE_TURRET_3 = new Sprite("turret_3", ENTITY_TURRET);
+		SPRITE_TURRET_4 = new Sprite("turret_4", ENTITY_TURRET);
+		SPRITE_TURRET_5 = new Sprite("turret_5", ENTITY_TURRET);
+		SPRITE_TURRET_6 = new Sprite("turret_6", ENTITY_TURRET);
+		SPRITE_TURRET_7 = new Sprite("turret_7", ENTITY_TURRET);
+		SPRITE_TURRET_8 = new Sprite("turret_8", ENTITY_TURRET);
 
 		SPRITE_NAVY_BASE_G_1 = new Sprite("base_green_1", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_G_2 = new Sprite("base_green_2", ENTITY_NAVY_BASE);

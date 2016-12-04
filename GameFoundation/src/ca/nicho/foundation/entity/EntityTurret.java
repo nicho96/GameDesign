@@ -8,7 +8,7 @@ import ca.nicho.foundation.SpriteSheet;
 
 public class EntityTurret extends Entity {
 
-	private static Sprite[] sprites = {SpriteSheet.SPRITE_TURRET};
+	private static Sprite[] sprites = {SpriteSheet.SPRITE_TURRET_1, SpriteSheet.SPRITE_TURRET_2, SpriteSheet.SPRITE_TURRET_3, SpriteSheet.SPRITE_TURRET_4, SpriteSheet.SPRITE_TURRET_5, SpriteSheet.SPRITE_TURRET_6, SpriteSheet.SPRITE_TURRET_7, SpriteSheet.SPRITE_TURRET_8,};
 	
 	public EntityTurret(float x, float y, int id) {
 		super(x, y, 100, sprites, id);
