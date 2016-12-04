@@ -17,7 +17,7 @@ public class EntityCarePackage extends Entity {
 	
 	@Override
 	public boolean tick(){
-		tickCount = (tickCount + 1) % 5;
+		//tickCount = (tickCount + 1) % 5;
 		if(tickCount != 0)
 			return false;
 		Game.world.checkEntityCollision(this);

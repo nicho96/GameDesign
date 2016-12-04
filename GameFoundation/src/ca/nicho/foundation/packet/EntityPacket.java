@@ -2,7 +2,6 @@ package ca.nicho.foundation.packet;
 
 import java.nio.ByteBuffer;
 
-import ca.nicho.foundation.Game;
 import ca.nicho.foundation.entity.Entity;
 
 public class EntityPacket extends Packet {
@@ -13,6 +12,7 @@ public class EntityPacket extends Packet {
 	public float y;
 	public int health;
 	public byte owner;
+	public boolean isDead;
 	
 	/**
 	 * Constructor used to create a packet for sending
@@ -26,6 +26,7 @@ public class EntityPacket extends Packet {
 		this.y = ent.locY;
 		this.health = ent.health;
 		this.owner = ent.owner;
+		this.isDead = ent.isDead;
 	}
 	
 	/**
@@ -41,9 +42,10 @@ public class EntityPacket extends Packet {
 		y = buffer.getFloat();
 		health = buffer.getInt();
 		owner = buffer.get();
+		this.isDead = buffer.get() == 1;
 	}
 	
-	public EntityPacket(int type, int id, float x, float y, int health, byte owner){
+	public EntityPacket(int type, int id, float x, float y, int health, byte owner, boolean isDead){
 		super(Packet.PACKET_ENTITY);
 		this.type = type;
 		this.id = id;
@@ -51,17 +53,19 @@ public class EntityPacket extends Packet {
 		this.y = y;
 		this.health = health;
 		this.owner = owner;
+		this.isDead = isDead;
 	}
 	
 	@Override
 	public byte[] getPacketData() {
-		ByteBuffer buffer = ByteBuffer.allocate(21); // 4 * 5 + 1 byte primitives
+		ByteBuffer buffer = ByteBuffer.allocate(22); // 4 * 5 + 1 + 1 byte primitives
 		buffer.putInt(type);
 		buffer.putInt(id);
 		buffer.putFloat(x);
 		buffer.putFloat(y);
 		buffer.putInt(health);
 		buffer.put(owner);
+		buffer.put((byte) ((isDead) ? 1 : 0));
 		return buffer.array();
 	}
 
