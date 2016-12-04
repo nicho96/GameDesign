@@ -47,7 +47,7 @@ public class StoreHandler {
 	
 	public boolean canAfford(int entityType){
 		for(StoreItem item : costs){
-			if(item.entity.sprites[0].type == entityType){
+			if(item.itemSprite.type == entityType){
 				if(item.cost - Game.points > 0){
 					return true;
 				}else{
