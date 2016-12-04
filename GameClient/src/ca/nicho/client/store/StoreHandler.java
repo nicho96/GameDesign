@@ -12,12 +12,12 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWindmill;
+import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.PurchasePacket;
 
 public class StoreHandler {
 	
 	public static boolean isOpen = false;
-	
 	public int position = 0;
 	public ArrayList<StoreItem> costs = new ArrayList<StoreItem>();
 	
@@ -45,6 +45,8 @@ public class StoreHandler {
 				if(item.cost - Game.points > 0){
 					return true;
 				}else{
+
+					new LogPacket("you are broke.");
 					return false;
 				}
 			}

@@ -58,6 +58,7 @@ public class ClientStart extends JFrame {
 	public static int PORT = 1024;
 	
 	public static Sprite CURRENT_BACKGROUND_SPRITE;
+	public static Sprite SPRITE_POINTS;
 	
 	public static void main(String[] s){
 		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
@@ -498,7 +499,8 @@ public class ClientStart extends JFrame {
 				Sprite bg = SpriteSheet.SPRITE_POINTS_BACKGROUND;
 				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
 				
-				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
+				SPRITE_POINTS = new Sprite(Game.points);
+				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, SPRITE_POINTS);
 			}			
 		
 		}
