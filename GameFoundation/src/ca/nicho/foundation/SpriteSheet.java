@@ -97,6 +97,11 @@ public class SpriteSheet {
 	public static Sprite SPRITE_BATTLE_2;
 	public static Sprite SPRITE_BATTLE_3;
 	public static Sprite SPRITE_BATTLE_4;
+
+	public static Sprite SPRITE_BATTLE_1_DEAD;
+	public static Sprite SPRITE_BATTLE_2_DEAD;
+	public static Sprite SPRITE_BATTLE_3_DEAD;
+	public static Sprite SPRITE_BATTLE_4_DEAD;
 	
 	//public static Sprite SPRITE_CARGO;
 	public static Sprite SPRITE_RADAR_ICON;
@@ -242,6 +247,10 @@ public class SpriteSheet {
 		SPRITE_BATTLE_2 = new Sprite("special2", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_3 = new Sprite("special3", ENTITY_BATTLESHIP);
 		SPRITE_BATTLE_4 = new Sprite("special4", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_1_DEAD = new Sprite("special_dead_1", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_2_DEAD = new Sprite("special_dead_2", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_3_DEAD = new Sprite("special_dead_3", ENTITY_BATTLESHIP);
+		SPRITE_BATTLE_4_DEAD = new Sprite("special_dead_4", ENTITY_BATTLESHIP);
 		
 		SPRITE_RADAR_ICON = new Sprite("radar", ENTITY_RADAR);
 		SPRITE_RADAR_1 = new Sprite("radar_1", ENTITY_RADAR);

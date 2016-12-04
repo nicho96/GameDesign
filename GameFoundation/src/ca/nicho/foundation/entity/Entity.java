@@ -86,5 +86,5 @@ public abstract class Entity {
 		}
 		return true;
 	}
-	
+
 }
