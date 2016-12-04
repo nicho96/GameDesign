@@ -1,0 +1,532 @@
+package ca.nicho.client;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import ca.nicho.client.store.StoreHandler;
+import ca.nicho.client.store.StoreHandler.StoreItem;
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityPlayer;
+import ca.nicho.foundation.entity.EntityRadar;
+import ca.nicho.foundation.log.LogHandler;
+import ca.nicho.foundation.tile.Tile;
+import ca.nicho.foundation.world.World;
+
+public class ClientStart extends JFrame {
+	
+	public static int tickDelta = 0; //This delta value will control player velocities, no matter the frame rate
+	public static boolean DEBUG = false;
+	
+	public static int FRAME_WIDTH = 1000;
+	public static int FRAME_HEIGHT = 600;
+	
+	public static String host_port = "";
+		
+	public static SpriteSheet sheet;
+	public static StoreHandler store;
+	public static OverviewMapHandler map;
+	public static ClientStart window;
+	public static ClientGameSocket con;
+	
+	public static boolean MAIN_GUI_SHOWN = false;
+	
+	public static float angX = 1;
+	public static float angY = 0;
+	
+	public static LogHandler log;
+	
+	public static ControlListener listener;
+	
+	public Screen mainPanel;
+	
+	public static String HOST = "localhost";
+	public static int PORT = 1024;
+	
+	public static Sprite CURRENT_BACKGROUND_SPRITE;
+	
+	public static void main(String[] s){
+		SpriteSheet.initSprites(); //Load media (sprites, audio, etc) prior to any other content
+		Tile.initTiles();
+		GamePadListener.init();
+		new AudioHandler();
+		Game.initWorld();
+		
+		store = new StoreHandler();
+		map = new OverviewMapHandler();
+		log = LogHandler.getLogInstance();
+
+		new Thread(Game.world).start();
+		window = new ClientStart();
+		window.setVisible(true);
+	}
+	
+	public static GraphicsEnvironment gfxEnv;
+	public static GraphicsDevice gfxDev;
+	
+	public ClientStart(){
+		this.setUndecorated(true);
+		gfxEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		gfxDev = gfxEnv.getScreenDevices()[0];//TODO Change back to use default screen
+		mainPanel = new Screen();	
+		listener = new ControlListener();
+		this.addKeyListener(listener);
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationByPlatform(true);
+		this.setResizable(false);
+		this.pack();
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		gfxDev.setFullScreenWindow(this);
+		ClientStart.setGUIVisible(false);
+	}
+	
+	private class Screen extends JPanel implements Runnable {
+		
+		public boolean running = true;
+
+		public int playerXRender;
+		public int playerYRender;
+		
+		public BufferedImage screen, guiScreen;
+		public int[] pixels;
+		
+		public int stretchHeight;
+		public int stretchWidth;
+		public int xOff;
+		public int yOff;
+		
+		public Screen(){
+			FRAME_WIDTH = ((int)gfxDev.getDefaultConfiguration().getBounds().getWidth()) / Tile.TILE_DIM * Tile.TILE_DIM; //Will round to nearest tile
+			FRAME_HEIGHT = ((int)gfxDev.getDefaultConfiguration().getBounds().getHeight()) / Tile.TILE_DIM * Tile.TILE_DIM;
+			this.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+			this.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+			screen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
+			guiScreen = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	
+			this.setBackground(Color.black);
+			pixels = ((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
+			playerXRender = (FRAME_WIDTH - SpriteSheet.SPRITE_PLAYER.width) / 2;
+			playerYRender = (FRAME_HEIGHT - SpriteSheet.SPRITE_PLAYER.height) / 2;
+			
+			//log initialization
+			this.setLayout(null);
+			this.add(log);
+			log.setSize(log.width, log.height);
+			log.setLocation((this.getWidth()/2) - (SpriteSheet.SPRITE_LOG_LG.width/2), FRAME_HEIGHT-SpriteSheet.SPRITE_LOG_LG.height-5);
+			log.field.addFocusListener(new FocusListener() {
+				
+				@Override
+				public void focusLost(FocusEvent e) {
+					// TODO Auto-generated method stub
+					log.field.addKeyListener(listener);
+					log.addKeyListener(listener);
+				}
+				
+				@Override
+				public void focusGained(FocusEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+
+			new Thread(this).start();
+			
+			
+		}		
+		
+		@Override
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			updateScreen(g);
+			g.setColor(Color.white);
+			
+			//g.drawImage(screen, xOff / 2, yOff / 2, stretchWidth + xOff, stretchHeight + yOff, null);	
+			g.drawImage(screen, 0, 0, null);
+			if(con == null){
+				g.setFont(new Font("Verdana", Font.BOLD, 25));
+				g.drawString(host_port, (this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2 + 10, 95);
+				return;
+			}
+
+			
+			if(DEBUG){
+				g.setColor(Color.white);
+				g.drawString("FPS: " + rate, 10, 20);
+				if(player != null){
+					g.drawString("LOCATION: " + player.locX + " " + player.locY, 10, 35);
+					g.drawString("ENTITIES: " + Game.world.entities.size(), 10, 50);
+				}
+				if(Game.ships != null){
+					String ships = "";
+					for(int i : Game.ships)
+						ships += i + " ";
+					g.drawString("SHIPS: " + ships , 10, 65);
+				}
+				g.drawString("PLAYER ID: " + Game.ownerID, 10, 80);
+				for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
+					if(ent.getValue() == player){
+						g.setColor(Color.green);
+						g.drawString(ent.getKey() + "", playerXRender, playerYRender - 10);
+					}else{
+						int deltaX = (int)(ent.getValue().locX - player.locX);
+						int deltaY = (int)(ent.getValue().locY - player.locY);
+						int x = deltaX + playerXRender;
+						int y = deltaY + playerYRender;
+						if(Game.isIDPlayer(ent.getValue().id))
+							g.setColor(Color.blue);
+						else
+							g.setColor(Color.white);
+						
+						g.drawString(ent.getKey() + " | " + ent.getValue().owner + " | " + ent.getValue().health, x, y);
+						
+						if(ent instanceof EntityRadar){
+							g.drawString(((EntityRadar)ent).count + "", x + 50, y);
+						}
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Draw an entity to the screen
+		 * @param ent the entity to be drawn
+		 */
+		public void drawEntity(Entity ent){
+			int ind = 0;
+			if(ent == null || ent.sprites[ent.current] == null)
+				return; //Prevent crashes if sprite is not loaded
+			if(ent == player)
+				drawPlayerSprite(); //Special case when drawing player sprite
+			else
+				drawSprite((int)ent.locX, (int)ent.locY, ent.sprites[ent.current]);
+		}
+		
+		/**
+		 * Draw a tile to the screen
+		 * @param pos the tile's position in the map array
+		 * @param tile the tile to be drawn
+		 */
+		public void drawTile(int pos, Tile tile){
+			if(tile.sprites[tile.current] != null){
+				int x = pos % World.MAP_WIDTH;
+				int y = pos / World.MAP_WIDTH;
+				drawSprite(x * Tile.TILE_DIM, y * Tile.TILE_DIM, tile.sprites[tile.current]);
+			}
+		}
+		
+		/**
+		 * Draw a sprite to the screen by position
+		 * @param x1
+		 * @param y1
+		 * @param sprite the sprite to be drawn
+		 */
+		public void drawSprite(int x1, int y1, Sprite sprite){
+			int ind = 0;
+			int deltaX = x1 - (int)player.locX;
+			int deltaY = y1 - (int)player.locY;
+			x1 = deltaX + playerXRender;
+			y1 = deltaY + playerYRender;
+			for(int i = 0; i < sprite.height; i++){
+				for(int o = 0; o < sprite.width; o++){
+					int x2 = x1 + o;
+					int y2 = y1 + i;
+					drawPixel(x2, y2, sprite.data[ind]);
+					ind ++;
+				}
+			}
+		}
+		
+		public void drawGUISprite(int x1, int y1, Sprite sprite){
+			int ind = 0;
+			for(int i = 0; i < sprite.height; i++){
+				for(int o = 0; o < sprite.width; o++){
+					int x = x1 + o;
+					int y = y1 + i;
+					drawPixel(x, y, sprite.data[ind]);
+					ind ++;
+				}
+			}
+		}
+		
+		/**
+		 * Draw the player sprite. Needs a special method for this since it is
+		 * always centered in the screen
+		 */
+		public void drawPlayerSprite(){
+			if(player != null){
+				int x1 = playerXRender;
+				int y1 = playerYRender;
+				int ind = 0;
+				for(int i = 0; i < player.sprites[player.current].height; i++){
+					for(int o = 0; o < player.sprites[player.current].width; o++){
+						int x2 = x1 + o;
+						int y2 = y1 + i;
+						drawPixel(x2, y2, player.sprites[player.current].data[ind]);
+						ind ++;
+					}
+				}
+			}
+		}
+				
+		/**
+		 * Draw a pixel to the screen based on x and y positions
+		 * @param x
+		 * @param y
+		 * @param color the color integer for this location
+		 */
+		public void drawPixel(int x, int y, int color){
+			
+			//Don't render pixel if it is the invisible color #FF00FF or off screen
+			if(color == SpriteSheet.INVISIBLE_COLOR || x >= FRAME_WIDTH || x < 0 || y >= FRAME_HEIGHT || y < 0){
+				return;
+			}
+			pixels[x + y * FRAME_WIDTH] = color;
+		}
+		
+		public void updateOceanTile(){
+			if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_1){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_2;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_2){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_3;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_3){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_4;
+			}else if(CURRENT_BACKGROUND_SPRITE == SpriteSheet.SPRITE_OCEAN_4 || CURRENT_BACKGROUND_SPRITE == null){
+				CURRENT_BACKGROUND_SPRITE = SpriteSheet.SPRITE_OCEAN_1;
+			}
+		}
+		
+		public EntityPlayer player;
+		public int backTick = 0;
+		/**
+		 * Called whenever there is a frame update. It will handle all necessary rendering
+		 */
+		public void updateScreen(Graphics g){
+
+			//Update ocean tile if need be
+			if(backTick == 0){
+				updateOceanTile();
+			}
+			backTick = (backTick + 1) % 30; //Loop at every 50 ticks
+			
+			//Draw main menu
+			if(con == null){
+				//Draw background without player locations
+				for(int x = 0; x < FRAME_WIDTH / 50 + 1; x++){
+					for(int y = 0; y < FRAME_HEIGHT / 50 + 1; y++){
+						this.drawGUISprite(x * 50, y * 50, CURRENT_BACKGROUND_SPRITE);
+					}
+				}
+				
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_HOST.width) / 2, 50, SpriteSheet.SPRITE_HOST);
+				this.drawGUISprite((this.getWidth() - SpriteSheet.SPRITE_ENTER.width) / 2, 150, SpriteSheet.SPRITE_ENTER);
+			}
+			
+			//Set the current player for this update
+			player = Game.world.getPlayer();
+			
+			//Second check. If it is still null, don't render
+			if(player == null)
+				return;
+		
+		
+			//Draw background tiles
+			for(int x = 0; x < FRAME_WIDTH / 50 + 1; x++){
+				for(int y = 0; y < FRAME_HEIGHT / 50 + 1; y++){
+					this.drawGUISprite(x * 50 - (int)player.locX % 50, y * 50 - (int)player.locY % 50, CURRENT_BACKGROUND_SPRITE);
+				}
+			}
+			
+			
+			if(Game.world != null){
+				//Render entities
+				
+				//Render tiles (now optimized to increase FPS!)
+				for(int posX = (int)(player.locX - FRAME_WIDTH / 2) / Tile.TILE_DIM ; posX < (int)(player.locX + FRAME_WIDTH / 2) / Tile.TILE_DIM + 1; posX++){
+					for(int posY = (int)(player.locY - FRAME_HEIGHT / 2) / Tile.TILE_DIM ; posY < (int)(player.locY + FRAME_HEIGHT / 2) / Tile.TILE_DIM + 1; posY++){
+						int ind = posY * World.MAP_WIDTH + posX;
+						if(ind < Game.world.map.length && ind >= 0){
+							Tile tile = Game.world.map[ind];
+							if(tile != null){
+								drawTile(posY * World.MAP_WIDTH + posX, tile);
+							}
+						}
+					}
+				}
+				
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					if(set.getValue().origHealth > 0){
+						drawSprite((int)set.getValue().locX, (int)set.getValue().locY - 10, new Sprite(set.getValue().health / (float)set.getValue().origHealth, true));
+						if(set.getValue().owner == Game.ownerID)
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_GREEN);
+						else
+							drawSprite((int)set.getValue().locX - 8, (int)set.getValue().locY - 10, SpriteSheet.SPRITE_DOT_RED);
+					}
+				
+					drawEntity(set.getValue());
+	
+				}
+				
+			}
+			
+			//Load overlays last
+			int mapX = 0;
+			int mapY = 0;
+			
+			if(ClientStart.MAIN_GUI_SHOWN){
+				mapX = 6;
+				mapY = (this.getHeight() - SpriteSheet.SPRITE_MAP_SMALL.height - 65);
+				drawGUISprite(0, this.getHeight() - SpriteSheet.SPRITE_BACKGROUND.height - 20, SpriteSheet.SPRITE_BACKGROUND);
+				drawGUISprite(0, 0, SpriteSheet.SPRITE_BACKGROUND_TOP);
+				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
+				
+				//Draw the ships on the map
+				drawGUISprite(150, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
+				for(int i = 0; i < Game.ships.length; i++){
+					Entity e = Game.world.entities.get(Game.ships[i]);
+					
+					if(e == player){
+						int x = i * 82 + 190;
+						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height - 5, e.sprites[e.current]);
+						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_GREEN);
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_GREEN);
+					}else if (e != null){
+						int x = i * 82 + 190;
+						this.drawGUISprite(x-e.sprites[e.current].width/2, SpriteSheet.SPRITE_SHIPS_BACKGROUND.height - e.sprites[e.current].height, e.sprites[e.current]);
+						this.drawGUISprite(x, 20 + SpriteSheet.SPRITE_SHIPS_BACKGROUND.height, SpriteSheet.SPRITE_DOT_BLUE);
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_BLUE);	
+					}
+					
+				}
+				
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
+					Entity e = set.getValue();
+					if(e.detected){
+						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
+					}
+				}
+				
+				if(!map.isOpen && !StoreHandler.isOpen){
+					for(int i = 0; i < player.inventory.length; i++){
+						Entity e = player.inventory[i];
+						int guiX = FRAME_WIDTH - 150 - i * 99;
+						int guiY = FRAME_HEIGHT - 150;
+						if(player.position == i)
+							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
+						else
+							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
+						if(e != null){
+							drawGUISprite(guiX + 20, log.getY() + 20, e.sprites[e.current]);
+						}
+					}
+				}
+				this.drawGUISprite(log.getX(), log.getY(), SpriteSheet.SPRITE_LOG_LG);	
+			}
+
+		//	this.drawGUISprite(log.getX(), log.getY() + log.height - 41, SpriteSheet.SPRITE_LOG_SM);	
+			//Load store overlays
+			if(StoreHandler.isOpen){
+				int storeIndex = 0;
+				for(StoreItem item: store.costs){
+					Entity e = item.entity;
+					int leftX =  FRAME_WIDTH - 100 + 99 * (storeIndex % 1);
+					int leftY = (storeIndex / 1) * 99 + SpriteSheet.SPRITE_BACKGROUND_TOP.height + SpriteSheet.SPRITE_POINTS_BACKGROUND.height;
+					int x = (100 -e.sprites[e.current].width) / 2 + leftX;
+					int y = (100 - e.sprites[e.current].height) / 2 + leftY;
+					
+					if(store.position == storeIndex){
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SELECTED);
+					}
+					else if(!store.canAfford(storeIndex)){
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_DISABLED);
+					}
+					else if(store.canAfford(storeIndex))
+						this.drawGUISprite(leftX, leftY, SpriteSheet.SPRITE_SLOT);
+					
+					this.drawGUISprite(x, y, e.sprites[e.current]);
+					this.drawGUISprite(leftX + 7, leftY + 7, item.sprite);
+					//g.drawString(set.getValue() + "", leftX + 5, leftY + 5); -> Needs to find a way to right the text onto the physical screen
+					storeIndex ++;
+				}
+			}
+			
+			if(map.isOpen){
+				int mapOffX = (FRAME_WIDTH -  SpriteSheet.SPRITE_MAP_LARGE.width) / 2;
+				int mapOffY = (FRAME_HEIGHT -  SpriteSheet.SPRITE_MAP_LARGE.height) / 2;
+				int crossOffX = mapOffX + (int)map.targetX - SpriteSheet.SPRITE_CROSSHAIR.width / 2;
+				int crossOffY = mapOffY + (int)map.targetY - SpriteSheet.SPRITE_CROSSHAIR.height / 2;
+				this.drawGUISprite(mapOffX, mapOffY, SpriteSheet.SPRITE_MAP_LARGE);
+				this.drawGUISprite(crossOffX, crossOffY, SpriteSheet.SPRITE_CROSSHAIR);
+			}
+			
+			if (Game.points >= 0){
+				Sprite bg = SpriteSheet.SPRITE_POINTS_BACKGROUND;
+				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
+				
+				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
+			}
+			
+			float crossx = angX * 80;
+			float crossy = angY * 80;
+			if(Math.sqrt(crossx * crossx + crossy * crossy) > 75)
+				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10), SpriteSheet.SPRITE_CROSSHAIR);
+			
+		}
+		
+		public int rate;
+		
+		@Override
+		public void run(){
+			
+			long last = System.currentTimeMillis();
+			
+			while(running){
+				long current = System.currentTimeMillis();
+				tickDelta = (int)(current - last);
+				if(tickDelta >= 10){
+					
+					//Poll the controller
+					GamePadListener.tick();
+					rate = (int)(1000f / (current - last));
+					last = current;
+					
+					//Update game screen
+					if(listener != null){
+						listener.tick();
+					}
+					this.repaint();
+					tickDelta = 0;
+				}
+				/*try { //A gross way to manage the clock cycle, in theory this reduces CPU usage, but is harder to control
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
+			}
+			
+		}
+		
+	}
+	
+	public static void setGUIVisible(boolean vis){
+		ClientStart.MAIN_GUI_SHOWN = vis;
+		log.setVisible(vis);
+	}
+	
+}

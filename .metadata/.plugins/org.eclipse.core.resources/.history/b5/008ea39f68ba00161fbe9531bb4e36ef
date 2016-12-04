@@ -1,0 +1,16 @@
+package ca.nicho.foundation.packet;
+
+public class HealPacket  extends Packet {
+
+	public int id;
+	public int heal;
+	
+	public HealPacket() {
+		super(Packet.PACKET_HEAL);
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		return null;
+	}
+}

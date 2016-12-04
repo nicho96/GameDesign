@@ -1,0 +1,10 @@
+package ca.nicho.foundation.packet;
+
+public class HealPacket  extends Packet {
+
+	public HealPacket() {
+		super();
+	}
+
+	
+}

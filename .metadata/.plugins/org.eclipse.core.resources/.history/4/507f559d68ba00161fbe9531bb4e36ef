@@ -1,0 +1,14 @@
+package ca.nicho.foundation.packet;
+
+public class HealPacket  extends Packet {
+
+	public HealPacket() {
+		super(Packet.PACKET_HEAL);
+	}
+
+	@Override
+	public byte[] getPacketData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

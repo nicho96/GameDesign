@@ -1,0 +1,54 @@
+package ca.nicho.foundation.entity;
+
+import java.util.Map;
+
+import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.SpriteSheet;
+
+public class EntityMedicShip extends EntityPlayer{
+
+	private static final Sprite[] sprites_ALIVE = {SpriteSheet.SPRITE_MEDIC_1, SpriteSheet.SPRITE_MEDIC_2, SpriteSheet.SPRITE_MEDIC_3, SpriteSheet.SPRITE_MEDIC_4};
+	private static final Sprite[] sprites_DEAD = {SpriteSheet.SPRITE_MEDIC_1_DEAD, SpriteSheet.SPRITE_MEDIC_2_DEAD, SpriteSheet.SPRITE_MEDIC_3_DEAD, SpriteSheet.SPRITE_MEDIC_4_DEAD};
+	private static final Sprite[] sprites_HEAL = {SpriteSheet.SPRITE_MEDIC_1_HEAL, SpriteSheet.SPRITE_MEDIC_2_HEAL, SpriteSheet.SPRITE_MEDIC_3_HEAL, SpriteSheet.SPRITE_MEDIC_4_HEAL};
+	
+	public EntityMedicShip(float x, float y, int ID){
+		super(x, y, 150, sprites_ALIVE, ID);
+		this.capacity = 0;
+		this.speedFactor = 1.5f;
+	}
+	
+	private int healTick = 0;
+	
+	@Override
+	public boolean clientTick(){
+		if(isDead){
+			super.sprites = sprites_DEAD;
+		}else{
+			super.sprites = sprites_ALIVE;
+		}
+
+		return super.clientTick();
+	}
+	
+	@Override
+	public boolean tick(){
+		if(!isDead){
+			healTick = (healTick + 1) % 30;
+			
+			if(healTick == 0){
+				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
+					Entity e = set.getValue();
+					if(e.owner == Game.ownerID && e != this){
+						e.heal(20);
+					}
+				}
+				healTick = 0;
+			}
+			
+		}
+		return super.tick();
+	}
+	
+	
+}

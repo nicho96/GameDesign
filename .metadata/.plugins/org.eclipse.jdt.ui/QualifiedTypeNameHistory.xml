@@ -27,7 +27,6 @@
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityEnemy"/>
 <fullyQualifiedTypeName name="ca.nicho.server.Game"/>
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityBattleship"/>
-<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="java.nio.MappedByteBuffer"/>
 <fullyQualifiedTypeName name="ca.nicho.client.world.World"/>
 <fullyQualifiedTypeName name="ca.nicho.client.tile.Tile"/>
@@ -36,7 +35,6 @@
 <fullyQualifiedTypeName name="ca.nicho.client.Game"/>
 <fullyQualifiedTypeName name="ca.nicho.client.entity.EntityMedicShip"/>
 <fullyQualifiedTypeName name="ca.nicho.client.SpriteSheet"/>
-<fullyQualifiedTypeName name="ca.nicho.foundation.tile.Tile"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.packet.LogPacket"/>
 <fullyQualifiedTypeName name="ca.nicho.client.ClientGameSocket"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.entity.Entity"/>
@@ -47,9 +45,12 @@
 <fullyQualifiedTypeName name="ca.nicho.client.ClientStart"/>
 <fullyQualifiedTypeName name="net.java.games.input.Component.Identifier.Key"/>
 <fullyQualifiedTypeName name="net.java.games.input.Component.Identifier.Button"/>
-<fullyQualifiedTypeName name="ca.nicho.foundation.SpriteSheet"/>
-<fullyQualifiedTypeName name="ca.nicho.foundation.Game"/>
 <fullyQualifiedTypeName name="ca.nicho.foundation.entity.EntityWindmill"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.tile.Tile"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.Game"/>
+<fullyQualifiedTypeName name="java.awt.image.DataBuffer"/>
+<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="ca.nicho.foundation.SpriteSheet"/>
 </qualifiedTypeNameHistroy>
