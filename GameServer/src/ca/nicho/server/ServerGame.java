@@ -35,10 +35,10 @@ public class ServerGame extends Game {
 			updateEntityPoints();
 			p1Points++;
 			if(ServerStart.con1 != null)
-				ServerStart.con1.sendPacket(new PointPacket(p1Points));
+				ServerStart.con1.queue.add(new PointPacket(p1Points));
 			p2Points++;
 			if(ServerStart.con2 != null)
-				ServerStart.con2.sendPacket(new PointPacket(p2Points));
+				ServerStart.con2.queue.add(new PointPacket(p2Points));
 		}
 		pointTicks = (pointTicks + 1) % 25;
 	}

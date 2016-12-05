@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.entity.Entity;
@@ -25,16 +26,20 @@ import ca.nicho.foundation.packet.TilePacket;
 import ca.nicho.foundation.tile.Tile;
 
 public class ServerGameSocket implements Runnable{
-	
+		
 	public boolean ready = false;
 	public Socket socket;
 	public DataInputStream in;
 	public DataOutputStream out;
 	public byte player;
 	
+	public LinkedBlockingQueue<Packet> queue;
+	
 	public ServerGameSocket(Socket socket, byte player){
+		queue = new LinkedBlockingQueue<Packet>();
 		this.player = player;
 		this.setSocket(socket);
+		new Thread(new PacketSendClock()).start();
 	}
 	
 	public void setSocket(Socket socket){
@@ -152,22 +157,34 @@ public class ServerGameSocket implements Runnable{
 	public synchronized void sendPacket(Packet packet){
 		if(socket == null)
 			return;
-		synchronized(this){
+		synchronized(out){
 			try{
 				if(packet.packetType == Packet.PACKET_HEAL)
 					out.writeByte(Packet.SYNC_RECOVERY_VALUE);
-				out.writeInt(packet.packetType);
-				byte[] data = packet.getPacketData();
-				out.writeInt(data.length);
-				out.write(data);
+				else{
+					out.writeInt(packet.packetType);
+					byte[] data = packet.getPacketData();
+					out.writeInt(data.length);
+					out.write(data);
+				}
 			}catch(IOException e){
 				e.printStackTrace();
 				this.nullifyStreams();
 			}
 		}
 	}
-	
-	
-	
+
+	private class PacketSendClock implements Runnable {
+		
+		public void run(){
+			while(true){
+				while(!queue.isEmpty()){
+					Packet p = queue.poll();
+					sendPacket(p);
+				}
+			}
+		}
+		
+	}
 	
 }
