@@ -94,7 +94,7 @@ public class ClientStart extends JFrame {
 		this.setLocationByPlatform(true);
 		this.setResizable(false);
 		this.pack();
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gfxDev.setFullScreenWindow(this);
 		ClientStart.setGUIVisible(true);
 	}
@@ -415,7 +415,7 @@ public class ClientStart extends JFrame {
 				Sprite countMissiles = new Sprite(store.missiles);
 				//drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - 15, 5, SpriteSheet.SPRITE_SLOT_NUM);
 				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width/2 - SpriteSheet.SPRITE_AIRSTRIKE.width/2 - 12, SpriteSheet.SPRITE_BACKGROUND_TOP.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2  , SpriteSheet.SPRITE_AIRSTRIKE);
-				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - countMissiles.width - 12, SpriteSheet.SPRITE_BACKGROUND_TOP.height - countMissiles.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2, countMissiles);
+				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - 4, SpriteSheet.SPRITE_AIRSTRIKE.height - countMissiles.height/2 + 2, countMissiles);
 				
 				//Draw the ships on the map
 				drawGUISprite(15, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
@@ -452,11 +452,11 @@ public class ClientStart extends JFrame {
 						int guiX = FRAME_WIDTH - 150 - i * 99;
 						int guiY = FRAME_HEIGHT - 150;
 						if(player.position == i)
-							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
+							drawGUISprite(guiX, log.getY()+log.height/2 - SpriteSheet.SPRITE_SLOT.height, SpriteSheet.SPRITE_SELECTED);
 						else
-							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
+							drawGUISprite(guiX, log.getY()+log.height/2 - SpriteSheet.SPRITE_SLOT.height, SpriteSheet.SPRITE_SLOT);
 						if(item != null){
-							drawGUISprite(guiX + 20, log.getY() + 20, item.itemSprite);
+							drawGUISprite(guiX + 20, log.getY() + SpriteSheet.SPRITE_SLOT.height/2 - item.itemSprite.height/2, item.itemSprite);
 						}
 					}
 				}
@@ -512,19 +512,16 @@ public class ClientStart extends JFrame {
 			}
 			
 			if(CONTROL_OVERLAY_SHOWN){
-				//Draw control scheme sprite here
+				this.drawGUISprite(FRAME_WIDTH/2 - SpriteSheet.SPRITE_GAMEPAD.width/2, FRAME_HEIGHT/2 - SpriteSheet.SPRITE_GAMEPAD.height/2, SpriteSheet.SPRITE_GAMEPAD);
 			}
 			
 			if(Game.ended){
 				if(Game.winner == Game.ownerID){
-					//Render win sprite here
+					this.drawGUISprite(FRAME_WIDTH/2 - SpriteSheet.SPRITE_WIN.width/2, SpriteSheet.SPRITE_BACKGROUND_TOP.height, SpriteSheet.SPRITE_WIN);
 				}else{
-					//Render loss sprite here
-					System.out.println("Something would render");
+					this.drawGUISprite(FRAME_WIDTH/2 - SpriteSheet.SPRITE_LOSE.width/2, SpriteSheet.SPRITE_BACKGROUND_TOP.height, SpriteSheet.SPRITE_LOSE);
 				}
 			}
-			
-		
 		}
 		
 		public int rate;

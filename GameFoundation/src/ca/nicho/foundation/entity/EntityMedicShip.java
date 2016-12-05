@@ -15,7 +15,7 @@ public class EntityMedicShip extends EntityPlayer{
 	public EntityMedicShip(float x, float y, int ID){
 		super(x, y, 250, sprites_ALIVE, ID);
 		this.capacity = 0;
-		this.speedFactor = 1.5f;
+		this.speedFactor = 1.6f;
 		this.name = "Medic Ship";
 	}
 	

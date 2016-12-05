@@ -33,7 +33,7 @@ public class StoreHandler {
 		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_WINDMILL_1, 250));
 		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_TURRET, 250));
 		costs.add(new StoreItem(new EntityNavyBase(-1, -1, -1), new Sprite(1000), SpriteSheet.SPRITE_NAVY_BASE_R, 1000));
-		costs.add(new StoreItem(null, new Sprite(750), SpriteSheet.SPRITE_AIRSTRIKE, 750));
+		costs.add(new StoreItem(null, new Sprite(750), SpriteSheet.SPRITE_AIRSTRIKE_ICON, 750));
 		
 	}
 	
