@@ -411,7 +411,7 @@ public class SpriteSheet {
 		SPRITE_POINTS_BACKGROUND = new Sprite("points_bg", GUI_POINTS_BACKGROUND);
 		SPRITE_SHIPS_BACKGROUND = new Sprite("ship_bg", GUI_SHIP_BACKGROUND);
 		SPRITE_SHIPCRAFT = new Sprite("shipcraft", GUI_SHIPCRAFT);
-		SPRITE_AIRSTRIKE = new Sprite("airstrike", GUI_AIRSTRIKE);
+		SPRITE_AIRSTRIKE = new Sprite("airstrike1", GUI_AIRSTRIKE);
 		
 		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);

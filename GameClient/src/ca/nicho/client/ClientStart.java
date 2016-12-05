@@ -410,9 +410,9 @@ public class ClientStart extends JFrame {
 				drawGUISprite(mapX, mapY, SpriteSheet.SPRITE_MAP_SMALL);
 				
 				Sprite countMissiles = new Sprite(store.missiles);
-				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - 15, 5, SpriteSheet.SPRITE_SLOT_NUM);
-				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width/2 - SpriteSheet.SPRITE_AIRSTRIKE.width/2 - 12, SpriteSheet.SPRITE_SLOT_NUM.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2, SpriteSheet.SPRITE_AIRSTRIKE);
-				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width/2 - countMissiles.width/2, SpriteSheet.SPRITE_SLOT_NUM.height - countMissiles.height - 4, countMissiles);
+				//drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - 15, 5, SpriteSheet.SPRITE_SLOT_NUM);
+				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width/2 - SpriteSheet.SPRITE_AIRSTRIKE.width/2 - 12, SpriteSheet.SPRITE_BACKGROUND_TOP.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2  , SpriteSheet.SPRITE_AIRSTRIKE);
+				drawGUISprite(FRAME_WIDTH - SpriteSheet.SPRITE_SLOT_NUM.width - countMissiles.width - 12, SpriteSheet.SPRITE_BACKGROUND_TOP.height - countMissiles.height/2 - SpriteSheet.SPRITE_AIRSTRIKE.height/2, countMissiles);
 				
 				//Draw the ships on the map
 				drawGUISprite(15, 15, SpriteSheet.SPRITE_SHIPS_BACKGROUND);	
