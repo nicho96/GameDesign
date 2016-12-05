@@ -12,7 +12,8 @@ public class EntityTurret extends Entity {
 	private static Sprite[] sprites_FIRE = {SpriteSheet.SPRITE_TURRET_1_FIRE, SpriteSheet.SPRITE_TURRET_1_FIRE, SpriteSheet.SPRITE_TURRET_2_FIRE, SpriteSheet.SPRITE_TURRET_1_FIRE,SpriteSheet.SPRITE_TURRET_2_FIRE, SpriteSheet.SPRITE_TURRET_1_FIRE, SpriteSheet.SPRITE_TURRET_1_FIRE, SpriteSheet.SPRITE_TURRET_2_FIRE};
 	public boolean shotsFired; 
 	public EntityTurret(float x, float y, int id) {
-		super(x, y, 100, sprites, id);
+		super(x, y, 200, sprites, id);
+		this.name = "Turret";
 	}
 	
 	private int shotTick = 0;

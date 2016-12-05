@@ -11,6 +11,7 @@ public class EntityCarePackage extends Entity {
 	
 	public EntityCarePackage(float x, float y, int ID){
 		super(x, y, -1, sprites, ID);
+		this.name = "Explosive Crate";
 	}
 	
 	private int tickCount = 0;

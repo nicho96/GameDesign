@@ -10,6 +10,7 @@ public class EntityNavyBase extends Entity {
 	
 	public EntityNavyBase(float x, float y, int id) {
 		super(x, y, 300, spritesRed, id);
+		this.name = "Base";
 	}
 }
 

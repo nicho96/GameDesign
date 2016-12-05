@@ -13,6 +13,7 @@ public class EntityRadar extends Entity {
 	private static final Sprite icon = SpriteSheet.SPRITE_RADAR_ICON;
 	public EntityRadar(float x, float y, int ID){
 		super(x, y, 100, sprites, ID);
+		this.name = "Radar";
 	}
 
 	public Sprite getIcon(){return icon;}

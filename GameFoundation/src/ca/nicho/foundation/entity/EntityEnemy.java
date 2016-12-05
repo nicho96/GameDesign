@@ -6,6 +6,7 @@ public class EntityEnemy extends Entity {
 
 	public EntityEnemy(float x, float y, int id) {
 		super(x, y, 100, SpriteSheet.SPRITE_ENEMY, id);
+		
 	}
 
 	@Override

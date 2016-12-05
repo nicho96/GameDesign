@@ -136,6 +136,9 @@ public class ServerGameSocket implements Runnable{
 				System.out.println("Attempting reconnection with player");
 				this.sendPacket(new HealPacket());
 				break;
+			default:
+				System.out.println("Bad Packet Received: " + length + " " + type);
+				break;
 		}
 	}	
 	

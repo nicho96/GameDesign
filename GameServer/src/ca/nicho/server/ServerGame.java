@@ -3,13 +3,14 @@ package ca.nicho.server;
 import java.util.ArrayList;
 
 import ca.nicho.foundation.Game;
+import ca.nicho.foundation.Logger;
 import ca.nicho.foundation.entity.EntityWindmill;
 import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.PointPacket;
 import ca.nicho.foundation.packet.StartGamePacket;
 import ca.nicho.server.world.ServerWorld;
 
-public class ServerGame extends Game {
+public class ServerGame extends Game implements Logger {
 
 	public static int p1Points = 250;
 	public static int p2Points = 250;
@@ -27,6 +28,7 @@ public class ServerGame extends Game {
 	public static void initWorld(){
 		if(Game.world == null)
 			Game.world = new ServerWorld();
+		Game.logger = new ServerGame();
 	}
 	
 	public static int pointTicks = 0;
@@ -60,6 +62,24 @@ public class ServerGame extends Game {
 			Game.started = true;
 			System.out.println("SUCCEEDING");
 		}
+	}
+
+	@Override
+	public void sendMessage(String msg, int owner) {
+		if(owner == 1){
+			if(ServerStart.con1 != null){
+				ServerStart.con1.queue.add(new LogPacket(msg));
+			}
+		}else if(owner == 2){
+			if(ServerStart.con2 != null){
+				ServerStart.con2.queue.add(new LogPacket(msg));
+			}
+		}
+	}
+
+	@Override
+	public void sendGlobalMessage(String msg) {
+		ServerStart.sendGlobalPacket(new LogPacket(msg));
 	}
 	
 }

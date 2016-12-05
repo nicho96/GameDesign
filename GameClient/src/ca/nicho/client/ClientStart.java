@@ -70,6 +70,7 @@ public class ClientStart extends JFrame {
 		store = new StoreHandler();
 		map = new OverviewMapHandler();
 		log = LogHandler.getLogInstance();
+		Game.logger = log;
 
 		new Thread(Game.world).start();
 		window = new ClientStart();
