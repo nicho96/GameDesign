@@ -14,6 +14,8 @@ public class EntityMissile extends Entity{
 	public float dx;
 	public float dy;
 	
+
+	
 	public EntityMissile(float x, float y, int id) {
 		super(x, y, -1, SpriteSheet.SPRITE_MISSILE, id);
 	}

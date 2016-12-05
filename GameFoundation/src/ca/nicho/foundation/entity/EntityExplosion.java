@@ -8,7 +8,7 @@ import ca.nicho.foundation.SpriteSheet;
 
 public class EntityExplosion extends Entity {
 
-	private static Sprite[] sprites = {SpriteSheet.SPRITE_EXPLOSION};
+	private static Sprite[] sprites = {SpriteSheet.SPRITE_EXPLOSION_1, SpriteSheet.SPRITE_EXPLOSION_2, SpriteSheet.SPRITE_EXPLOSION_3, SpriteSheet.SPRITE_EXPLOSION_4, SpriteSheet.SPRITE_EXPLOSION_5, SpriteSheet.SPRITE_EXPLOSION_6, SpriteSheet.SPRITE_EXPLOSION_7};
 	
 	public EntityExplosion(float x, float y, int id) {
 		super(x, y, -1, sprites, id);

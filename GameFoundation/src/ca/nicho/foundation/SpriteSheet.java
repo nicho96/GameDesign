@@ -139,8 +139,15 @@ public class SpriteSheet {
 	public static Sprite SPRITE_WAVE_7;
 	public static Sprite SPRITE_WAVE_8;
 	public static Sprite SPRITE_WAVE_9;
-		
+
 	public static Sprite SPRITE_EXPLOSION;
+	public static Sprite SPRITE_EXPLOSION_1;
+	public static Sprite SPRITE_EXPLOSION_2;
+	public static Sprite SPRITE_EXPLOSION_3;
+	public static Sprite SPRITE_EXPLOSION_4;
+	public static Sprite SPRITE_EXPLOSION_5;
+	public static Sprite SPRITE_EXPLOSION_6;
+	public static Sprite SPRITE_EXPLOSION_7;
 	
 	public static Sprite SPRITE_AIRSTRIKE;
 	
@@ -364,7 +371,14 @@ public class SpriteSheet {
 		SPRITE_NAVY_BASE_R_3 = new Sprite("base_red_3", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_R_4 = new Sprite("base_red_4", ENTITY_NAVY_BASE);
 
-		SPRITE_EXPLOSION = new Sprite("explosion", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION = new Sprite("explosion_", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_1 = new Sprite("explosion_1", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_2 = new Sprite("explosion_2", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_3 = new Sprite("explosion_3", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_4 = new Sprite("explosion_4", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_5 = new Sprite("explosion_5", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_6 = new Sprite("explosion_6", ENTITY_EXPLOSION);
+		SPRITE_EXPLOSION_7 = new Sprite("explosion_7", ENTITY_EXPLOSION);
 		
 		/*SPRITE_STONE_1 = new Sprite("rock1", TILE_STONE);
 		SPRITE_STONE_2 = new Sprite("rock2", TILE_STONE);
