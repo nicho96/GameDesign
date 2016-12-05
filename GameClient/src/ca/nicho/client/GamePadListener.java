@@ -202,6 +202,11 @@ public class GamePadListener {
 						if(!StoreHandler.isOpen && !ClientStart.map.isOpen){
 							EntityPlayer p = Game.world.getPlayer();
 							p.position = (p.position + 1) % p.capacity;
+						}else if(StoreHandler.isOpen){
+							ClientStart.store.position += 1;
+							if(ClientStart.store.position > ClientStart.store.costs.size() - 1){
+								ClientStart.store.position = ClientStart.store.costs.size() - 1;
+							}
 						}
 					}
 					else if(dVal == 0.5f){ //RIGHT
@@ -210,18 +215,25 @@ public class GamePadListener {
 							p.position--;
 							if(p.position < 0)
 								p.position = p.capacity - 1;
+						}else if(StoreHandler.isOpen){
+							ClientStart.store.position -= 1;
+							if(ClientStart.store.position < 0)
+								ClientStart.store.position = 0;
 						}
 					}
 					else if(dVal == 0.75f){ //DOWN
 						if(StoreHandler.isOpen){
-							ClientStart.store.position = (ClientStart.store.position + 1) % ClientStart.store.costs.size();
+							ClientStart.store.position = ClientStart.store.position + 2;
+							if(ClientStart.store.position > ClientStart.store.costs.size() - 1){
+								ClientStart.store.position = ClientStart.store.costs.size() - 1;
+							}
 						}
 					}
 					else if(dVal == 0.25f){ //UP
 						if(StoreHandler.isOpen){
-							ClientStart.store.position--;
+							ClientStart.store.position -= 2;
 							if(ClientStart.store.position < 0)
-								ClientStart.store.position = ClientStart.store.costs.size() - 1;
+								ClientStart.store.position = 0;
 						}
 					}
 				}
