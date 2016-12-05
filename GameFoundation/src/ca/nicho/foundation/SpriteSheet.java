@@ -166,7 +166,8 @@ public class SpriteSheet {
 	public static Sprite SPRITE_WINDMILL_1;
 	public static Sprite SPRITE_WINDMILL_2;
 	public static Sprite SPRITE_WINDMILL_3;
-	
+
+	public static Sprite SPRITE_TURRET;
 	public static Sprite SPRITE_TURRET_1;
 	public static Sprite SPRITE_TURRET_2;
 	public static Sprite SPRITE_TURRET_3;
@@ -340,7 +341,8 @@ public class SpriteSheet {
 		SPRITE_WINDMILL_1 = new Sprite("windmill_1", ENTITY_WINDMILL);
 		SPRITE_WINDMILL_2 = new Sprite("windmill_2", ENTITY_WINDMILL);
 		SPRITE_WINDMILL_3 = new Sprite("windmill_3", ENTITY_WINDMILL);
-		
+
+		SPRITE_TURRET = new Sprite("turret", ENTITY_TURRET);
 		SPRITE_TURRET_1 = new Sprite("turret_1", ENTITY_TURRET);
 		SPRITE_TURRET_2 = new Sprite("turret_2", ENTITY_TURRET);
 		SPRITE_TURRET_3 = new Sprite("turret_3", ENTITY_TURRET);

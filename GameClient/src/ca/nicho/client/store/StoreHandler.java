@@ -28,11 +28,11 @@ public class StoreHandler {
 	
 	public StoreHandler(){
 		
-		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), SpriteSheet.SPRITE_RADAR_1, 100));
-		costs.add(new StoreItem(new EntityCarePackage(-1, -1, -1), new Sprite(150), SpriteSheet.SPRITE_PACKAGE_1, 150));
+		costs.add(new StoreItem(new EntityRadar(-1, -1, -1), new Sprite(100), SpriteSheet.SPRITE_RADAR_ICON, 100));
+		costs.add(new StoreItem(new EntityCarePackage(-1, -1, -1), new Sprite(150), SpriteSheet.SPRITE_PACKAGE_ICON, 150));
 		costs.add(new StoreItem(new EntityWindmill(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_WINDMILL_1, 250));
-		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_TURRET_1, 250));
-		costs.add(new StoreItem(new EntityNavyBase(-1, -1, -1), new Sprite(1000), SpriteSheet.SPRITE_NAVY_BASE_R_1, 1000));
+		costs.add(new StoreItem(new EntityTurret(-1, -1, -1), new Sprite(250), SpriteSheet.SPRITE_TURRET, 250));
+		costs.add(new StoreItem(new EntityNavyBase(-1, -1, -1), new Sprite(1000), SpriteSheet.SPRITE_NAVY_BASE_R, 1000));
 		costs.add(new StoreItem(null, new Sprite(750), SpriteSheet.SPRITE_AIRSTRIKE, 750));
 		
 	}
