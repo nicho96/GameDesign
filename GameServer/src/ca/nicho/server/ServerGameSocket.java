@@ -16,7 +16,6 @@ import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.ConnectPacket;
 import ca.nicho.foundation.packet.EntityPacket;
-import ca.nicho.foundation.packet.HealPacket;
 import ca.nicho.foundation.packet.LogPacket;
 import ca.nicho.foundation.packet.Packet;
 import ca.nicho.foundation.packet.PurchasePacket;
@@ -132,10 +131,6 @@ public class ServerGameSocket implements Runnable{
 				missileEnt.owner = missilePacket.owner;
 				Game.world.spawnEntity(missileEnt);
 				break;
-			case Packet.PACKET_HEAL:
-				System.out.println("Attempting reconnection with player");
-				this.sendPacket(new HealPacket());
-				break;
 			default:
 				System.out.println("Bad Packet Received: " + length + " " + type);
 				break;
@@ -161,14 +156,10 @@ public class ServerGameSocket implements Runnable{
 		if(socket == null)
 			return;
 		try{
-			if(packet.packetType == Packet.PACKET_HEAL)
-				out.writeByte(Packet.SYNC_RECOVERY_VALUE);
-			else{
-				out.writeInt(packet.packetType);
-				byte[] data = packet.getPacketData();
-				out.writeInt(data.length);
-				out.write(data);
-			}
+			out.writeInt(packet.packetType);
+			byte[] data = packet.getPacketData();
+			out.writeInt(data.length);
+			out.write(data);
 		}catch(IOException e){
 			e.printStackTrace();
 			queue.clear();

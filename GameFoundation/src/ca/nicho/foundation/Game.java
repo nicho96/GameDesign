@@ -8,6 +8,9 @@ public class Game {
 	public static int current;
 	public static int points;
 	
+	public static int winner = 0;
+	public static boolean ended = false;
+	
 	public static boolean started = false;
 	
 	public static Logger logger;
