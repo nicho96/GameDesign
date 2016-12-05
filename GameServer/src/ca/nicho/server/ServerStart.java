@@ -83,9 +83,9 @@ public class ServerStart {
 	 */
 	public static synchronized void sendGlobalPacket(Packet packet){
 		if(ServerStart.con1 != null && con1.ready && con1.socket != null)
-			ServerStart.con1.sendPacket(packet);
+			ServerStart.con1.queue.add(packet);
 		if(ServerStart.con2 != null && con2.ready && con2.socket != null)
-			ServerStart.con2.sendPacket(packet);
+			ServerStart.con2.queue.add(packet);
 	}
 	
 }
