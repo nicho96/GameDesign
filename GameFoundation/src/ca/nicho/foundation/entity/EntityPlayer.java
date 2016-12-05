@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
+import ca.nicho.foundation.StoreItem;
 import ca.nicho.foundation.tile.Tile;
 
 public class EntityPlayer extends Entity {
@@ -14,7 +15,7 @@ public class EntityPlayer extends Entity {
 	
 	public double delta = 0;
 		
-	public ArrayList<Entity> inventory = new ArrayList<Entity>();
+	public ArrayList<StoreItem> inventory = new ArrayList<StoreItem>();
 	public int position = 0;
 	public int capacity;
 	
@@ -28,7 +29,7 @@ public class EntityPlayer extends Entity {
 	}
 	
 	public Entity getCurrent(){
-		return (inventory.size() > 0 && position < inventory.size()) ? inventory.get(position) : null;
+		return (inventory.size() > 0 && position < inventory.size()) ? inventory.get(position).entity : null;
 	}
 	
 	public void clearCurrent(){
@@ -110,7 +111,7 @@ public class EntityPlayer extends Entity {
 		}
 	}
 	
-	public boolean addItem(Entity e){
+	public boolean addItem(StoreItem e){
 		if(inventory.size() < capacity){
 			inventory.add(e);
 			return true;

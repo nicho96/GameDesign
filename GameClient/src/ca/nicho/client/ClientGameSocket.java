@@ -107,7 +107,7 @@ public class ClientGameSocket implements Runnable {
 		}
 	}	
 	
-	public synchronized void sendPacket(Packet packet){
+	public void sendPacket(Packet packet){
 		try{
 			out.writeInt(packet.packetType);
 			byte[] data = packet.getPacketData();

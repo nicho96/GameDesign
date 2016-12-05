@@ -1,5 +1,7 @@
 package ca.nicho.client;
 
+import javax.sound.sampled.Clip;
+
 import ca.nicho.client.store.StoreHandler;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.entity.Entity;
@@ -118,6 +120,7 @@ public class GamePadListener {
 								}
 							}
 						}else{	
+							AudioHandler.PANDEMIC.clip.loop(Clip.LOOP_CONTINUOUSLY);
 							AudioHandler.PANDEMIC.play();
 							String[] split = ClientStart.host_port.split(":");
 							if(split.length == 2){
@@ -162,7 +165,7 @@ public class GamePadListener {
 				if(RIGHT_TRIGGER.getPollData() > 0 && reset){
 					if(ClientStart.map.isOpen)
 						ClientStart.map.sendAirstrike();
-					else if(!StoreHandler.isOpen){
+					else {
 						EntityPlayer p = Game.world.getPlayer();
 						ClientStart.con.sendPacket(new SpawnMissilePacket(p.locX, p.locY, ClientStart.angX, ClientStart.angY, Game.ownerID));
 						AudioHandler.SHOT.play();
@@ -201,7 +204,9 @@ public class GamePadListener {
 					if(dVal == 1f){ //LEFT
 						if(!StoreHandler.isOpen && !ClientStart.map.isOpen){
 							EntityPlayer p = Game.world.getPlayer();
-							p.position = (p.position + 1) % p.capacity;
+							if(p.capacity > 0){
+								p.position = (p.position + 1) % p.capacity;
+							}
 						}else if(StoreHandler.isOpen){
 							ClientStart.store.position += 1;
 							if(ClientStart.store.position > ClientStart.store.costs.size() - 1){

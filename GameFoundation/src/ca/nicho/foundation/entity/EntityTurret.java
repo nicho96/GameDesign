@@ -22,7 +22,7 @@ public class EntityTurret extends Entity {
 		if(shotTick == 0){
 			for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
 				Entity ent = set.getValue();
-				if(ent.owner != this.owner && !ent.isDead){
+				if(ent.owner != this.owner && ent.owner != 0 && !ent.isDead && ent.origHealth > 0){
 					float x = this.locX - ent.locX;
 					float y = this.locY - ent.locY;
 					double distance = Math.sqrt(x*x + y*y);

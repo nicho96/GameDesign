@@ -14,6 +14,7 @@ public abstract class Entity {
 	public int id;
 	public boolean isDead = false;
 	public boolean detected = false;
+	public Entity detector;
 	public byte owner = -1;
 	public int origHealth;
 	public int health;
@@ -43,6 +44,11 @@ public abstract class Entity {
 			cooldownTick--;
 		}
 		
+		if(detector == null || detector.isDead){
+			detector = null;
+			detected = false;
+		}
+		
 		boolean ret = false;
 		
 		if(healthTick == 0 && origHealth > 0){
@@ -50,6 +56,8 @@ public abstract class Entity {
 		}
 		healthTick = (healthTick + 1) % 10;
 		return ret;
+		
+		
 	}
 	
 	private int spriteTick = 1;

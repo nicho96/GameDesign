@@ -17,11 +17,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ca.nicho.client.store.StoreHandler;
-import ca.nicho.client.store.StoreHandler.StoreItem;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.StoreItem;
 import ca.nicho.foundation.entity.Entity;
+import ca.nicho.foundation.entity.EntityCarePackage;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
 import ca.nicho.foundation.tile.Tile;
@@ -436,21 +437,24 @@ public class ClientStart extends JFrame {
 				for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()) {
 					Entity e = set.getValue();
 					if(e.detected){
-						drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
+						if(e instanceof EntityCarePackage)
+							drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_YELLOW_DOT);
+						else
+							drawGUISprite(mapX + 30 + (int)(e.locX / (World.MAP_WIDTH * Tile.TILE_DIM) * 250), mapY +31+ (int)(e.locY / (World.MAP_HEIGHT * Tile.TILE_DIM) * 250), SpriteSheet.SPRITE_DOT_RED);
 					}
 				}
 				
 				if(!map.isOpen && !StoreHandler.isOpen){
 					for(int i = 0; i < player.capacity; i++){
- 						Entity e = (i < player.inventory.size()) ? player.inventory.get(i) : null;
+ 						StoreItem item = (i < player.inventory.size()) ? player.inventory.get(i) : null;
 						int guiX = FRAME_WIDTH - 150 - i * 99;
 						int guiY = FRAME_HEIGHT - 150;
 						if(player.position == i)
 							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SELECTED);
 						else
 							drawGUISprite(guiX, log.getY()+log.height/2-60, SpriteSheet.SPRITE_SLOT);
-						if(e != null){
-							drawGUISprite(guiX + 20, log.getY() + 20, e.sprites[e.current]);
+						if(item != null){
+							drawGUISprite(guiX + 20, log.getY() + 20, item.itemSprite);
 						}
 					}
 				}
@@ -486,7 +490,7 @@ public class ClientStart extends JFrame {
 			float crossx = angX * 80;
 			float crossy = angY * 80;
 			if(Math.sqrt(crossx * crossx + crossy * crossy) > 75)
-				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10), SpriteSheet.SPRITE_CROSSHAIR);
+				this.drawSprite((int)(player.locX + crossx + player.sprites[0].width / 2 - 10) - (SpriteSheet.SPRITE_CROSSHAIR.width / 2), (int)(player.locY + crossy + player.sprites[0].height / 2 - 10) - (SpriteSheet.SPRITE_CROSSHAIR.height / 2), SpriteSheet.SPRITE_CROSSHAIR);
 			
 			if(map.isOpen){
 				this.drawOverlay();
