@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.packet.ConnectPacket;
+import ca.nicho.foundation.packet.EndGamePacket;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
 import ca.nicho.foundation.packet.LogPacket;
@@ -96,6 +97,11 @@ public class ClientGameSocket implements Runnable {
 				case Packet.PACKET_GAME_START:
 					Game.started = true;
 					ClientStart.log.addToLog("The Game is now Starting!", "AE5F67");
+					break;
+				case Packet.PACKET_END_GAME:
+					EndGamePacket endPacket = new EndGamePacket(data);
+					Game.ended = true;
+					Game.winner = endPacket.winnerID;
 					break;
 			}
 		}else{

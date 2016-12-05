@@ -174,9 +174,9 @@ public class GamePadListener {
 			}
 		};
 		
-		wrapped[10] = new ComponentWrapper(BACK){
+		wrapped[10] = new ComponentWrapper(X){
 			public void action() {
-				if(BACK.getPollData() > 0 && reset){
+				if(X.getPollData() > 0 && reset){
 					if(StoreHandler.isOpen)
 						StoreHandler.isOpen = false;
 					else
@@ -186,11 +186,21 @@ public class GamePadListener {
 			}
 		};
 		
-		wrapped[11] = new ComponentWrapper(START){
+		wrapped[11] = new ComponentWrapper(B){
 			public void action() {
-				if(START.getPollData() > 0 && reset){
+				if(B.getPollData() > 0 && reset){
 					ClientStart.map.isOpen = !ClientStart.map.isOpen;
 					StoreHandler.isOpen = false;
+				}
+			}
+		};
+		
+		wrapped[12] = new ComponentWrapper(START){
+			public void action(){
+				if(reset){
+					if(START.getPollData() > 0){
+						ClientStart.CONTROL_OVERLAY_SHOWN = !ClientStart.CONTROL_OVERLAY_SHOWN;
+					}
 				}
 			}
 		};

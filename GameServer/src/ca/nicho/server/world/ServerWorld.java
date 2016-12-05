@@ -16,6 +16,7 @@ import ca.nicho.foundation.entity.EntityTrail;
 import ca.nicho.foundation.entity.EntityTurret;
 import ca.nicho.foundation.entity.EntityWave;
 import ca.nicho.foundation.entity.EntityWindmill;
+import ca.nicho.foundation.packet.EndGamePacket;
 import ca.nicho.foundation.packet.EntityPacket;
 import ca.nicho.foundation.packet.KillEntityPacket;
 import ca.nicho.foundation.packet.LogPacket;
@@ -165,9 +166,8 @@ public class ServerWorld extends World{
 		}
 	}
 	
-	private boolean isWon = false;
 	private void checkWin(){
-		if(isWon)
+		if(Game.ended)
 			return;
 		int p1Count = 0;
 		int p2Count = 0;
@@ -178,15 +178,24 @@ public class ServerWorld extends World{
 				p2Count ++;
 		}
 		
-		isWon = true;
+		boolean isWon = true;
+		int winnerID = 0;
 		if(p1Count == 0 && p2Count == 0){
 			ServerStart.sendGlobalPacket(new LogPacket("The game has been tied!"));
 		}else if(p1Count == 0){
+			winnerID = 2;
 			ServerStart.sendGlobalPacket(new LogPacket("Player 2 has won!"));
 		}else if(p2Count == 0){
+			winnerID = 1;
 			ServerStart.sendGlobalPacket(new LogPacket("Player 1 has won!"));
 		}else{
 			isWon = false;
+		}
+		
+		if(isWon){
+			Game.winner = winnerID;
+			Game.ended = true;
+			ServerStart.sendGlobalPacket(new EndGamePacket(winnerID));
 		}
 	}
 	

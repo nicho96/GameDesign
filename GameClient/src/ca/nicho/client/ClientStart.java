@@ -44,6 +44,7 @@ public class ClientStart extends JFrame {
 	public static ClientStart window;
 	public static ClientGameSocket con;
 	
+	public static boolean CONTROL_OVERLAY_SHOWN = true;
 	public static boolean MAIN_GUI_SHOWN = false;
 	
 	public static float angX = 1;
@@ -508,7 +509,21 @@ public class ClientStart extends JFrame {
 				this.drawGUISprite(FRAME_WIDTH - 100, SpriteSheet.SPRITE_BACKGROUND_TOP.height, bg);
 				
 				this.drawGUISprite(FRAME_WIDTH - 80, SpriteSheet.SPRITE_BACKGROUND_TOP.height + 20, new Sprite(Game.points));
-			}			
+			}
+			
+			if(CONTROL_OVERLAY_SHOWN){
+				//Draw control scheme sprite here
+			}
+			
+			if(Game.ended){
+				if(Game.winner == Game.ownerID){
+					//Render win sprite here
+				}else{
+					//Render loss sprite here
+					System.out.println("Something would render");
+				}
+			}
+			
 		
 		}
 		
