@@ -99,7 +99,7 @@ public abstract class Entity {
 	}
 	
 	public void sendMessage(String message){
-		if(messageTick == 0){
+		if(messageTick == 0 && !name.equals("")){
 			Game.logger.sendMessage(message, this.owner);
 			messageTick = 300;
 		}
