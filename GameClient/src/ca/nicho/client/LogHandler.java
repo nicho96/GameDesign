@@ -34,9 +34,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import ca.nicho.foundation.Logger;
 import ca.nicho.foundation.SpriteSheet;
 
-public class LogHandler extends JPanel{
+public class LogHandler extends JPanel implements Logger{
 	
 	private static TransparentTextArea textPane;
 	private static JScrollPane scroll;
@@ -232,7 +233,18 @@ public class LogHandler extends JPanel{
 	          super.setThumbBounds(x, y, width, height);
 	          scrollbar.repaint();
 	        }
-	    }    
+	    }
+
+
+	@Override
+	public void sendMessage(String msg, int owner) {
+		this.addToLog(msg, "#67A1B9A");
+	}
+	
+	@Override
+	public void sendGlobalMessage(String msg) {
+		
+	}    
 }
 class RequestFocusListener implements AncestorListener
 {

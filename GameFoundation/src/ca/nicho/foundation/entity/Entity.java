@@ -14,10 +14,12 @@ public abstract class Entity {
 	public int id;
 	public boolean isDead = false;
 	public boolean detected = false;
+	public Entity detector;
 	public byte owner = -1;
 	public int origHealth;
 	public int health;
 	public boolean healed;
+	public String name = "";
 	
 	public Entity(float x, float y, int health, Sprite sprite, int id){
 		this(x, y, health, new Sprite[1], id);
@@ -38,9 +40,20 @@ public abstract class Entity {
 	 * @return true if there is a reason to update the clients with updated information about this entity
 	 */
 	public int healthTick;
+	public int messageTick = 0;
 	public boolean tick(){
 		if(cooldownTick > 0){
 			cooldownTick--;
+		}
+		
+		if(detector == null || detector.isDead){
+			detector = null;
+			detected = false;
+		}
+		
+		messageTick --;
+		if(messageTick < 0){
+			messageTick = 0;
 		}
 		
 		boolean ret = false;
@@ -50,6 +63,8 @@ public abstract class Entity {
 		}
 		healthTick = (healthTick + 1) % 10;
 		return ret;
+		
+		
 	}
 	
 	private int spriteTick = 1;
@@ -75,8 +90,18 @@ public abstract class Entity {
 			Game.world.entityDamaged(this);
 			cooldownTick = 30;
 			if(health < 0){
+				sendMessage("Your " + name + " has been destroyed!");
 				health = 0;
+			}else{
+				sendMessage("Your " + name + " is under attack!");
 			}
+		}
+	}
+	
+	public void sendMessage(String message){
+		if(messageTick == 0){
+			Game.logger.sendMessage(message, this.owner);
+			messageTick = 300;
 		}
 	}
 	

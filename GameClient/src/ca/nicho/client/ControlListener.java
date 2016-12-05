@@ -3,13 +3,14 @@ package ca.nicho.client;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.sound.sampled.Clip;
+
 import ca.nicho.client.store.StoreHandler;
-import ca.nicho.client.store.StoreHandler.StoreItem;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.StoreItem;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.packet.EntityPacket;
-import ca.nicho.foundation.packet.PurchasePacket;
 import ca.nicho.foundation.packet.SpawnEntityPacket;
 
 public class ControlListener implements KeyListener {
@@ -32,6 +33,7 @@ public class ControlListener implements KeyListener {
 				if(ClientStart.host_port.length() > 0)
 					ClientStart.host_port = ClientStart.host_port.substring(0, ClientStart.host_port.length() - 1);
 			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				AudioHandler.PANDEMIC.clip.loop(Clip.LOOP_CONTINUOUSLY);
 				AudioHandler.PANDEMIC.play();
 				String[] split = ClientStart.host_port.split(":");
 				if(split.length == 2){
@@ -154,7 +156,7 @@ public class ControlListener implements KeyListener {
 			if(StoreHandler.isOpen){
 				StoreItem item = ClientStart.store.getCurrentStoreItem();
 				if(Game.points - item.cost > 0){
-					Game.world.getPlayer().addItem(item.entity);
+					Game.world.getPlayer().addItem(item);
 				}
 			}else if(ClientStart.map.isOpen){
 				ClientStart.map.sendAirstrike();

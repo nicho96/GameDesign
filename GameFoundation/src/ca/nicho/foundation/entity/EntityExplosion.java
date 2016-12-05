@@ -27,11 +27,11 @@ public class EntityExplosion extends Entity {
 		for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
 			Entity e = ent.getValue();
 			
-			float dx = e.locX - locX;
-			float dy = e.locY - locY;
+			float dx = e.locX - (locX + sprites[0].width);
+			float dy = e.locY - (locY + sprites[0].height);
 			double distance = Math.sqrt(dx*dx + dy*dy);
 			
-			if(distance < 200){
+			if(distance < 80){
 				e.damage(100);
 			}
 			

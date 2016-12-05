@@ -8,9 +8,9 @@ import ca.nicho.client.ClientStart;
 import ca.nicho.foundation.Game;
 import ca.nicho.foundation.Sprite;
 import ca.nicho.foundation.SpriteSheet;
+import ca.nicho.foundation.StoreItem;
 import ca.nicho.foundation.entity.Entity;
 import ca.nicho.foundation.entity.EntityCarePackage;
-import ca.nicho.foundation.entity.EntityMissile;
 import ca.nicho.foundation.entity.EntityNavyBase;
 import ca.nicho.foundation.entity.EntityPlayer;
 import ca.nicho.foundation.entity.EntityRadar;
@@ -69,7 +69,7 @@ public class StoreHandler {
 			ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 			StoreHandler.isOpen = false;
 			AudioHandler.PURCHASE.play();
-		}else if(item.cost < Game.points && Game.world.getPlayer().addItem(item.entity)){
+		}else if(item.cost < Game.points && Game.world.getPlayer().addItem(item)){
 			Game.points -= item.cost;
 			ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 			StoreHandler.isOpen = false;
@@ -77,22 +77,6 @@ public class StoreHandler {
 		}else{
 			AudioHandler.DENIED.play();
 		}
-	}
-	
-	public class StoreItem {
-		
-		public Entity entity;
-		public Sprite costSprite;
-		public Sprite itemSprite;
-		public int cost;
-		
-		public StoreItem(Entity entity, Sprite costSprite, Sprite itemSprite, int cost){
-			this.entity = entity;
-			this.costSprite = costSprite;
-			this.itemSprite = itemSprite;
-			this.cost = cost;
-		}
-		
 	}
 	
 	public void openStore(){

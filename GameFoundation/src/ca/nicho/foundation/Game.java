@@ -10,6 +10,8 @@ public class Game {
 	
 	public static boolean started = false;
 	
+	public static Logger logger;
+	
 	public static byte ownerID;
 	
 	public static World world;

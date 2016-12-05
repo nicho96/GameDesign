@@ -13,6 +13,7 @@ public class EntityRadar extends Entity {
 	private static final Sprite icon = SpriteSheet.SPRITE_RADAR_ICON;
 	public EntityRadar(float x, float y, int ID){
 		super(x, y, 100, sprites, ID);
+		this.name = "Radar";
 	}
 
 	public Sprite getIcon(){return icon;}
@@ -30,16 +31,18 @@ public class EntityRadar extends Entity {
 		count = 0;
 		for(Map.Entry<Integer, Entity> set : Game.world.entities.entrySet()){
 			Entity e = set.getValue();
-			if(e != this && e.owner != Game.ownerID){
-				float dx = e.locX - locX;
-				float dy = e.locY - locY;
-				double distance = Math.sqrt(dx*dx + dy*dy);
+			if(e != this && e.owner != Game.ownerID && !(e instanceof EntityWave) && !(e instanceof EntityMissile)){
+				if(e.detector == this || e.detector == null){
+					float dx = e.locX - locX;
+					float dy = e.locY - locY;
+					double distance = Math.sqrt(dx*dx + dy*dy);
 				
-				if(distance < 600){
-					e.detected = true;
-					count += 1;
-				}else{
-					e.detected = false;
+					if(distance < 800){
+						e.detected = true;
+						count += 1;
+					}else{
+						e.detected = false;
+					}
 				}
 			}
 		}

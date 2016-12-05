@@ -84,7 +84,7 @@ public class ServerGameSocket implements Runnable{
 		//Spawn the user into the world
 		this.sendIntitalWorldState(); //Send the world
 		this.sendInitialEntities(); //Send the remaining entities
-		this.sendPacket(new ConnectPacket(ship1.id, ship2.id, ship3.id, owner, Game.started)); //Send final connection packet
+		queue.add(new ConnectPacket(ship1.id, ship2.id, ship3.id, owner, Game.started)); //Send final connection packet
 		while(true){
 			try{
 				if(socket != null)
@@ -136,6 +136,9 @@ public class ServerGameSocket implements Runnable{
 				System.out.println("Attempting reconnection with player");
 				this.sendPacket(new HealPacket());
 				break;
+			default:
+				System.out.println("Bad Packet Received: " + length + " " + type);
+				break;
 		}
 	}	
 	
@@ -143,34 +146,33 @@ public class ServerGameSocket implements Runnable{
 		for(int pos = 0; pos < Game.world.map.length; pos++){
 			Tile t = Game.world.map[pos];
 			if(t != null){
-				sendPacket(new TilePacket(pos, t));
+				queue.add(new TilePacket(pos, t));
 			}
 		}
 	}
 	
 	public void sendInitialEntities(){
 		for(Map.Entry<Integer, Entity> ent : Game.world.entities.entrySet()){
-			sendPacket(new EntityPacket(ent.getValue()));
+			queue.add(new EntityPacket(ent.getValue()));
 		}
 	}
 	
 	public synchronized void sendPacket(Packet packet){
 		if(socket == null)
 			return;
-		synchronized(out){
-			try{
-				if(packet.packetType == Packet.PACKET_HEAL)
-					out.writeByte(Packet.SYNC_RECOVERY_VALUE);
-				else{
-					out.writeInt(packet.packetType);
-					byte[] data = packet.getPacketData();
-					out.writeInt(data.length);
-					out.write(data);
-				}
-			}catch(IOException e){
-				e.printStackTrace();
-				this.nullifyStreams();
+		try{
+			if(packet.packetType == Packet.PACKET_HEAL)
+				out.writeByte(Packet.SYNC_RECOVERY_VALUE);
+			else{
+				out.writeInt(packet.packetType);
+				byte[] data = packet.getPacketData();
+				out.writeInt(data.length);
+				out.write(data);
 			}
+		}catch(IOException e){
+			e.printStackTrace();
+			queue.clear();
+			this.nullifyStreams();
 		}
 	}
 
