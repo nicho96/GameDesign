@@ -66,6 +66,7 @@ public class StoreHandler {
 		if(item.entity == null && item.cost < Game.points){
 			this.missiles ++;
 			Game.points -= item.cost;
+			ClientStart.con.sendPacket(new PurchasePacket(item.cost));
 			StoreHandler.isOpen = false;
 			AudioHandler.PURCHASE.play();
 		}else if(item.cost < Game.points && Game.world.getPlayer().addItem(item.entity)){

@@ -99,7 +99,7 @@ public class ClientGameSocket implements Runnable {
 					break;
 			}
 		}else{
-			int data = in.readInt();
+			int data = in.readByte();
 			System.out.println("Syncing Streams: " + data);
 			if(data == Packet.SYNC_RECOVERY_VALUE){
 				this.inSync = true;

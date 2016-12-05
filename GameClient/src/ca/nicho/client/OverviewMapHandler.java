@@ -34,11 +34,15 @@ public class OverviewMapHandler {
 	}
 	
 	public void sendAirstrike(){
-		
-		for(int x = -Tile.TILE_DIM * 8; x <= Tile.TILE_DIM * 8; x += Tile.TILE_DIM * 2){
-			for(int y = -Tile.TILE_DIM * 8; y <= Tile.TILE_DIM * 8; y += Tile.TILE_DIM * 2){
-				ClientStart.con.sendPacket(new SpawnEntityPacket(ClientStart.map.getMapPositionX() + x, ClientStart.map.getMapPositionY() + y, 5, SpriteSheet.ENTITY_EXPLOSION, Game.ownerID));
+		if(ClientStart.store.missiles > 0){
+			for(int x = -Tile.TILE_DIM * 8; x <= Tile.TILE_DIM * 8; x += Tile.TILE_DIM * 2){
+				for(int y = -Tile.TILE_DIM * 8; y <= Tile.TILE_DIM * 8; y += Tile.TILE_DIM * 2){
+					ClientStart.con.sendPacket(new SpawnEntityPacket(ClientStart.map.getMapPositionX() + x, ClientStart.map.getMapPositionY() + y, 5, SpriteSheet.ENTITY_EXPLOSION, Game.ownerID));
+				}
 			}
+			ClientStart.store.missiles--;
+		}else{
+			AudioHandler.DENIED.play();
 		}
 	}
 	

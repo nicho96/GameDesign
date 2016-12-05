@@ -100,7 +100,6 @@ public class ServerGameSocket implements Runnable{
 		int length = in.readInt();
 		byte[] data = new byte[length];
 		in.read(data);
-			
 		switch(type){
 			case Packet.PACKET_ENTITY:
 				Game.world.entityUpdatePacketRecieved(new EntityPacket(data));
@@ -129,6 +128,7 @@ public class ServerGameSocket implements Runnable{
 				Game.world.spawnEntity(missileEnt);
 				break;
 			case Packet.PACKET_HEAL:
+				System.out.println("Attempting reconnection with player");
 				this.sendPacket(new HealPacket());
 				break;
 		}
@@ -155,7 +155,7 @@ public class ServerGameSocket implements Runnable{
 		synchronized(this){
 			try{
 				if(packet.packetType == Packet.PACKET_HEAL)
-					out.writeInt(Packet.SYNC_RECOVERY_VALUE);
+					out.writeByte(Packet.SYNC_RECOVERY_VALUE);
 				out.writeInt(packet.packetType);
 				byte[] data = packet.getPacketData();
 				out.writeInt(data.length);

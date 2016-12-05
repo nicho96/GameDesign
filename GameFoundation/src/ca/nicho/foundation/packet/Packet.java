@@ -2,7 +2,7 @@ package ca.nicho.foundation.packet;
 
 public abstract class Packet {
 	
-	public static final int SYNC_RECOVERY_VALUE = 1234567;
+	public static final byte SYNC_RECOVERY_VALUE = -128;
 	
 	public static final int PACKET_ENTITY = 0;
 	public static final int PACKET_CONNECT = 1;
