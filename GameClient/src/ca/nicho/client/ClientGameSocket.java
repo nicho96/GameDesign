@@ -100,7 +100,7 @@ public class ClientGameSocket implements Runnable {
 			}
 		}else{
 			int data = in.readByte();
-			System.out.println("Syncing Streams: " + data);
+			//System.out.println("Syncing Streams: " + data);
 			if(data == Packet.SYNC_RECOVERY_VALUE){
 				this.inSync = true;
 			}
