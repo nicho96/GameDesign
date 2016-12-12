@@ -57,6 +57,9 @@ public class SpriteSheet {
 	public static final int GUI_SLOT_NUM = 415;
 	public static final int GUI_AIRSTRIKE = 416;
 	public static final int GUI_YELLOW_DOT = 417;
+	public static final int GUI_GAMEPAD = 418;
+	public static final int GUI_WIN = 419;
+	public static final int GUI_LOSE = 420;
 		
 	//Reserver 500+ for generic sprites
 	public static final int BACK_OCEAN_1 = 500;
@@ -149,8 +152,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_EXPLOSION_5;
 	public static Sprite SPRITE_EXPLOSION_6;
 	public static Sprite SPRITE_EXPLOSION_7;
-	
+
 	public static Sprite SPRITE_AIRSTRIKE;
+	public static Sprite SPRITE_AIRSTRIKE_ICON;
 	
 	public static Sprite SPRITE_TRAIL_1;
 	public static Sprite SPRITE_TRAIL_2;
@@ -232,6 +236,9 @@ public class SpriteSheet {
 	public static Sprite SPRITE_SHIPS_BACKGROUND;
 	public static Sprite SPRITE_SHIPCRAFT;
 	public static Sprite SPRITE_YELLOW_DOT;
+	public static Sprite SPRITE_GAMEPAD;
+	public static Sprite SPRITE_WIN;
+	public static Sprite SPRITE_LOSE;
 	
 	//Ocean
 	public static Sprite SPRITE_OCEAN_1;
@@ -373,6 +380,7 @@ public class SpriteSheet {
 		SPRITE_NAVY_BASE_R_3 = new Sprite("base_red_3", ENTITY_NAVY_BASE);
 		SPRITE_NAVY_BASE_R_4 = new Sprite("base_red_4", ENTITY_NAVY_BASE);
 
+		
 		SPRITE_EXPLOSION = new Sprite("explosion_", ENTITY_EXPLOSION);
 		SPRITE_EXPLOSION_1 = new Sprite("explosion_1", ENTITY_EXPLOSION);
 		SPRITE_EXPLOSION_2 = new Sprite("explosion_2", ENTITY_EXPLOSION);
@@ -414,7 +422,11 @@ public class SpriteSheet {
 		SPRITE_SHIPS_BACKGROUND = new Sprite("ship_bg", GUI_SHIP_BACKGROUND);
 		SPRITE_SHIPCRAFT = new Sprite("shipcraft", GUI_SHIPCRAFT);
 		SPRITE_AIRSTRIKE = new Sprite("airstrike1", GUI_AIRSTRIKE);
+		SPRITE_AIRSTRIKE_ICON = new Sprite("airstrike", GUI_AIRSTRIKE);
 		SPRITE_YELLOW_DOT = new Sprite("yellowdot", GUI_YELLOW_DOT);
+		SPRITE_GAMEPAD = new Sprite("gamepad", GUI_GAMEPAD);
+		SPRITE_WIN = new Sprite("game_won", GUI_WIN);
+		SPRITE_LOSE = new Sprite("game_lost", GUI_LOSE);
 		
 		SPRITE_LOG_LG = new Sprite("mesh1", GUI_LOG);
 		SPRITE_LOG_SM = new Sprite("mesh_sm", GUI_LOG_BOX);

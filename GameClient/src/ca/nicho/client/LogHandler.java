@@ -115,7 +115,7 @@ public class LogHandler extends JPanel implements Logger{
         //pane.add(field, BorderLayout.SOUTH);
         
         width = SpriteSheet.SPRITE_LOG_LG.width;
-        height = SpriteSheet.SPRITE_LOG_LG.height + 30; //+30 for seperation
+        height = SpriteSheet.SPRITE_LOG_LG.height; //+30 for seperation
 	    pane.setSize(width, SpriteSheet.SPRITE_LOG_LG.height);
 	}
 	public static synchronized LogHandler getLogInstance() {
